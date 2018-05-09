@@ -45,7 +45,7 @@
 }
 .top-header .header-avator-con .user-dropdown-menu-con {
   position: absolute;
-  right: 0;
+  right: 14px;
   top: 0;
   width: 150px;
   height: 100%;

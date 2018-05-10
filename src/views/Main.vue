@@ -67,6 +67,17 @@
     background:transparent;
     border:none;
 }
+.main-search{
+    padding-top: 14px;
+    .ivu-input-icon-normal+.ivu-input{
+        padding-right: 7px;
+        padding-left: 32px;
+    }
+    .ivu-input-icon{
+        right: initial;
+        left: 0;
+    }
+}
 </style>
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
@@ -131,24 +142,43 @@
                 </shrinkable-menu>
             </scroll-bar>
         </div>
-        <div class="main-header-con" :style="{paddingLeft: !sidebarPage?'0':(shrink?'60px':'200px')}">
+        <div class="main-header-con" :style="{paddingLeft: !sidebarPage?'0':(this.shrink?'60px':'200px')}">
             <div class="main-header">
                 <div class="navicon-con" v-if="sidebarPage">
                     <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
                 </div>
-                <div class="header-middle-con">
+                <div v-if="isHome" class="header-middle-con" :style="{left: sidebarPage?'60px':'0'}">
                     <div class="main-breadcrumb">
                         <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
                     </div>
                 </div>
+                <div v-else class="main-search">
+                    <Row>
+                        <Col span="2">&nbsp;</Col>
+                        <Col span="22">
+                            <Row>
+                                <Col :lg="4" :md="8">
+                                    <Select v-model="productType" style="width:200px">
+                                        <Option v-for="item in productList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                    </Select>
+                                </Col>
+                                <Col :lg="13":md="2">&nbsp;</Col>
+                                <Col :lg="7" :md="14" style="text-align:right;">  
+                                    <Input v-model="value4" icon="ios-search" placeholder="输入产品名称搜索..." style="width: 220px"></Input>
+                                    <Button type="primary" icon="plus">创建新产品</Button>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </div>
             </div>
-            <div class="tags-con">
+            <div v-if="tagsShow" class="tags-con">
                 <tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened>
             </div>
         </div>
-        <div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
+        <div class="single-page-con" :style="{left: !sidebarPage?'0':(this.shrink?'60px':'200px')}">
             <div class="single-page">
                 <keep-alive :include="cachePage">
                     <router-view></router-view>
@@ -182,7 +212,11 @@
         },
         data () {
             return {
+                productType:'',
+                productList: this.mockProductListData(),
+                isHome:false,
                 sidebarPage:false,
+                tagsShow:false,
                 shrink: true,
                 userName: '',
                 isFullScreen: false,
@@ -216,6 +250,16 @@
             }
         },
         methods: {
+            mockProductListData () {
+                let data = [];
+                for (let i = 0; i < 10; i++) {
+                    data.push({
+                        value: '个人产品' +(i+1),
+                        label: '个人产品' +(i+1)
+                    });
+                }
+                return data;
+            },
             init () {
                 let pathArr = util.setCurrentPath(this, this.$route.name);
                 this.$store.commit('updateMenulist');

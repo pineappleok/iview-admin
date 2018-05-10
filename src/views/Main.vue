@@ -185,7 +185,7 @@
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
                 </div>
-                <div v-if="isHome" class="header-middle-con" :style="{left: sidebarPage?'60px':'0'}">
+                <div v-if="!isHome" class="header-middle-con" :style="{left: sidebarPage?'60px':'0'}">
                     <div class="main-breadcrumb">
                         <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
                     </div>
@@ -242,7 +242,7 @@
         <div class="single-page-con" :style="{left: !sidebarPage?'0':(this.shrink?'60px':'200px')}">
             <div class="single-page">
                 <keep-alive :include="cachePage">
-                    <router-view></router-view>
+                    <router-view :home="isHome" @childChange="isHomeChange"></router-view>
                 </keep-alive>
             </div>
         </div>
@@ -278,7 +278,7 @@
                 productList: this.mockProductListData(),
                 industryList:this.mockIndustryListData(),
                 connectionList:this.mockConnectionListData(),
-                isHome:false,
+                isHome:true,
                 sidebarPage:false,
                 tagsShow:false,
                 shrink: true,
@@ -319,6 +319,9 @@
             },
             cancel () {
                 this.$Message.info('已取消');
+            },
+            isHomeChange(data){
+                this.isHome=data;
             },
             mockProductListData () {
                 let data = [];

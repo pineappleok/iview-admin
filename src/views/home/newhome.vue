@@ -152,10 +152,16 @@ export default {
             products:this.mockProductsData(),
         };
     },
+    props:{
+        home:Boolean
+    },
     computed: {
         avatorPath () {
             return localStorage.avatorImgPath;
         }
+    },
+    created() {
+        this.emit("childChange",true);
     },
     methods: {
         mockProductsData () {

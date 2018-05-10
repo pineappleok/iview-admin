@@ -78,6 +78,42 @@
         left: 0;
     }
 }
+.modal{
+    .mtb15{
+        margin-top: 15px;
+        margin-bottom: 15px;       
+    }
+    .label{
+        line-height:34px;
+        font-size: 14px;
+        color: rgba(29,36,54,0.80);
+        font-weight: bold;
+        text-align: center;
+    }
+    .check_a{
+        display:inline-block;
+        height:34px;
+        line-height: 34px;
+        padding:0 5px;
+        border-radius:3px;
+        border:1px solid #DDDEE1;
+        margin-right:6px;
+        margin-bottom:5px;
+        font-size:14px;
+        text-align: center;
+        color: rgba(23,35,61,0.80);
+        vertical-align:middle;
+        cursor: pointer;
+        &.checked{
+            border-color:#008CF8;
+            color: #008CF8;
+        }
+        &_icon{
+            padding-right:6px;
+            font-size:20px;
+        }
+    }
+}
 </style>
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
@@ -167,7 +203,32 @@
                                 <Col :lg="13":md="2">&nbsp;</Col>
                                 <Col :lg="7" :md="14" style="text-align:right;">  
                                     <Input v-model="value4" icon="ios-search" placeholder="输入产品名称搜索..." style="width: 220px"></Input>
-                                    <Button type="primary" icon="plus">创建新产品</Button>
+                                    <Button type="primary" icon="plus" @click="ModalCreateProduct = true">创建新产品</Button>
+                                    <Modal v-model="ModalCreateProduct" class="modal"
+                                        title="产品创建"
+                                        @on-ok="ok"
+                                        @on-cancel="cancel">
+                                        <Row class="mtb15">
+                                            <Col class="label" span="5">产品行业</Col>
+                                            <Col span="19">
+                                                <Select placeholder="请选择产品行业..." size="large">
+                                                    <Option v-for="item in industryList" :value="item.value" :key="item.value"></Option>
+                                                </Select>
+                                            </Col>
+                                        </Row> 
+                                        <Row class="mtb15">
+                                            <Col class="label" span="5">产品名称</Col>
+                                            <Col span="19">
+                                                <Input v-model="value" placeholder="请输入产品名称..." size="large"></Input>
+                                            </Col>
+                                        </Row>
+                                        <Row class="mtb15">
+                                            <Col class="label" span="5">连接方式</Col>
+                                            <Col span="19">       
+                                                <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>  
+                                            </Col>
+                                        </Row>
+                                    </Modal>
                                 </Col>
                             </Row>
                         </Col>
@@ -212,8 +273,11 @@
         },
         data () {
             return {
+                ModalCreateProduct:false,
                 productType:'',
                 productList: this.mockProductListData(),
+                industryList:this.mockIndustryListData(),
+                connectionList:this.mockConnectionListData(),
                 isHome:false,
                 sidebarPage:false,
                 tagsShow:false,
@@ -250,12 +314,40 @@
             }
         },
         methods: {
+            ok () {
+                this.$Message.info('已确认');
+            },
+            cancel () {
+                this.$Message.info('已取消');
+            },
             mockProductListData () {
                 let data = [];
                 for (let i = 0; i < 10; i++) {
                     data.push({
                         value: '个人产品' +(i+1),
                         label: '个人产品' +(i+1)
+                    });
+                }
+                return data;
+            },
+            mockIndustryListData () {
+                let data = [];
+                for (let i = 0; i < 10; i++) {
+                    data.push({
+                        value: '产品行业' +(i+1),
+                        label: '产品行业' +(i+1)
+                    });
+                }
+                return data;
+            },
+            mockConnectionListData () {
+                let connectionType=['蓝牙','WiFi','Zigbee','Lore','2G/3G/4G/5G','网关'];
+                let data = [];
+                for (let i = 0; i < connectionType.length; i++) {
+                    data.push({
+                        value: connectionType[i],
+                        label: connectionType[i],
+                        checked:false
                     });
                 }
                 return data;

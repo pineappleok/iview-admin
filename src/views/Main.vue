@@ -114,6 +114,66 @@
         }
     }
 }
+.top_timeline{
+    margin:0 auto;
+    list-style-type: none;
+    text-align: center;
+    li{
+        position: relative;
+        width:160px;
+        height: 54px;
+        float: left;
+        text-align: center;
+        &.active{
+            border-bottom:2px solid #008CF8;
+            & .timeline_text{
+                font-weight:bold;
+                color:#008CF8;
+            }
+            & .timeline_icon{
+                border-color:#008CF8;
+                color:#008CF8;
+            }
+        }
+    }
+}
+.top_timeline .timeline_icon{
+    position: relative;
+    display: inline-block;
+    width:27px;
+    height: 27px;
+    background:#fff;
+    border: 1px solid rgba(23,35,61,0.25);
+    border-radius: 50%;
+    line-height:27px;
+    color: rgba(23,35,61,0.25);
+    ont-family: HelveticaNeue-Medium;
+    font-size: 13px;
+    font-weight:bold;
+}
+.top_timeline li:first-child .timeline_icon{
+}
+.top_timeline .timeline_text{
+    display:inline-block;
+    font-size: 12px;
+    color: rgba(23,35,61,0.25);
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 22px;
+}
+.top_timeline li:after{
+    content:"";
+    position: absolute;
+    top:13px;
+    left: 93px;
+    width:160px;
+    height:0;
+    border-top:1px dashed rgba(23,35,61,0.10);
+    z-index:0;
+}
+.top_timeline li:last-child:after{
+    display:none;
+}
 </style>
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
@@ -125,8 +185,8 @@
                     </Col>
                     <Col span="16" style="text-align:center;">
                         <div class="layout-nav">
-                            <MenuItem name="1" to="home">
-                                产品创建
+                            <MenuItem name="1">
+                                <router-link to="/home" tag="span">产品创建</router-link>
                             </MenuItem>
                             <MenuItem name="2" to="home/set">
                                 运维管理
@@ -186,36 +246,37 @@
                     </Button>
                 </div>
                 <div v-if="!isHome" class="header-middle-con" :style="{left: sidebarPage?'60px':'0'}">
-                    <div class="main-breadcrumb">
-                        <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
-                    </div>                         
                     <Row>
-                        <ul class="timeline">
-                            <li>
-                                <Icon type="ios-arrow-thin-down" size="18px" class="timeline_icon"></Icon>
-                                <br /> 
-                            </li>
-                            <li>
-                                <Icon type="android-settings" size="18px" class="timeline_icon"></Icon>
-                                <br />
-                                <span class="timeline_text">功能设置</span> 
-                            </li>
-                            <li>
-                                <Icon type="android-phone-portrait" size="18px" class="timeline_icon"></Icon>
-                                <br />
-                                <span class="timeline_text">APP界面设置</span>
-                            </li>
-                            <li>
-                                <Icon type="android-wifi" size="18px" class="timeline_icon"></Icon>
-                                <br />
-                                <span class="timeline_text">虚拟设备调试</span> 
-                            </li>
-                            <li>
-                                <Icon type="ios-paperplane-outline" size="18px" class="timeline_icon"></Icon>
-                                <br />
-                                <span class="timeline_text">申请发布</span> 
-                            </li>
-                        </ul>
+                        <Col span="6">
+                            <div class="main-breadcrumb">
+                                <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
+                            </div>
+                        </Col>
+                        <Col span="16">
+                            <ul class="top_timeline">
+                                <li class="active">
+                                    <span class="timeline_icon">1</span>
+                                    <br /> 
+                                    <router-link to="/home" tag="span"><span class="timeline_text">功能设置</span></router-link> 
+                                </li>
+                                <li>
+                                    <span class="timeline_icon">2</span>
+                                    <br />
+                                    <span class="timeline_text">设置APP界面</span> 
+                                </li>
+                                <li>
+                                    <span class="timeline_icon">3</span>
+                                    <br />
+                                    <span class="timeline_text">虚拟设备调试</span>
+                                </li>
+                                <li>
+                                    <span class="timeline_icon">4</span>
+                                    <br />
+                                    <span class="timeline_text">发布产品</span> 
+                                </li>
+                            </ul>
+                        </Col>
+                        <Col span="2" style="text-align:right;"><Button size="large">下一页</Button></Col>
                     </Row>
                 </div>
                 <div v-else class="main-search">
@@ -230,7 +291,7 @@
                                 </Col>
                                 <Col :lg="13":md="2">&nbsp;</Col>
                                 <Col :lg="7" :md="14" style="text-align:right;">  
-                                    <Input v-model="value4" icon="ios-search" placeholder="输入产品名称搜索..." style="width: 220px"></Input>
+                                    <Input v-model="productName" icon="ios-search" placeholder="输入产品名称搜索..." style="width: 220px"></Input>
                                     <Button type="primary" icon="plus" @click="ModalCreateProduct = true">创建新产品</Button>
                                     <Modal v-model="ModalCreateProduct" class="modal"
                                         title="产品创建"
@@ -247,7 +308,7 @@
                                         <Row class="mtb15">
                                             <Col class="label" span="5">产品名称</Col>
                                             <Col span="19">
-                                                <Input v-model="value" placeholder="请输入产品名称..." size="large"></Input>
+                                                <Input v-model="poductNameModal" placeholder="请输入产品名称..." size="large"></Input>
                                             </Col>
                                         </Row>
                                         <Row class="mtb15">
@@ -301,6 +362,8 @@
         },
         data () {
             return {
+                poductNameModal:'',
+                productName:'',
                 ModalCreateProduct:false,
                 productType:'',
                 productList: this.mockProductListData(),
@@ -342,6 +405,12 @@
             }
         },
         methods: {
+            linkToPage (name) {
+                console.log("linkToPage"+name);
+                this.$router.push({
+                    name: name
+                });
+            },
             ok () {
                 this.$Message.info('已确认');
             },
@@ -350,6 +419,8 @@
             },
             isHomeChange(data){
                 this.isHome=data;
+                console.log('isHOmeCHange');
+                console.log(data);
             },
             mockProductListData () {
                 let data = [];
@@ -453,12 +524,12 @@
             },
             lang () {
                 util.setCurrentPath(this, this.$route.name); // 在切换语言时用于刷新面包屑
-            },
+            }/*,
             openedSubmenuArr () {
                 setTimeout(() => {
                     this.scrollBarResize();
                 }, 300);
-            }
+            }*/
         },
         mounted () {
             this.init();

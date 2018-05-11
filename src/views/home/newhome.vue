@@ -32,6 +32,7 @@
         margin:24px auto 0;
         list-style-type: none;
         text-align: center;
+        cursor: pointer;
     }
     .timeline_icon{
         width:27px;
@@ -113,9 +114,11 @@
                             <br /> 
                         </li>
                         <li>
-                            <Icon type="android-settings" size="18px" class="timeline_icon"></Icon>
-                            <br />
-                            <span class="timeline_text">功能设置</span> 
+                            <router-link to="/home/set" tag="span">
+                                <Icon type="android-settings" size="18px" class="timeline_icon"></Icon>
+                                <br />
+                                <span class="timeline_text">功能设置</span> 
+                            </router-link>
                         </li>
                         <li>
                             <Icon type="android-phone-portrait" size="18px" class="timeline_icon"></Icon>
@@ -149,10 +152,10 @@ export default {
     },
     data () {
         return {
-            products:this.mockProductsData(),
+            products:this.mockProductsData()
         };
     },
-    props:{
+    props: {
         home:Boolean
     },
     computed: {
@@ -161,7 +164,7 @@ export default {
         }
     },
     created() {
-        this.emit("childChange",true);
+        this.$emit("childChange",true);
     },
     methods: {
         mockProductsData () {

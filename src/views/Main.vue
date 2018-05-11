@@ -125,10 +125,10 @@
                     </Col>
                     <Col span="16" style="text-align:center;">
                         <div class="layout-nav">
-                            <MenuItem name="1">
+                            <MenuItem name="1" to="home">
                                 产品创建
                             </MenuItem>
-                            <MenuItem name="2">
+                            <MenuItem name="2" to="home/set">
                                 运维管理
                             </MenuItem>
                             <MenuItem name="3">
@@ -188,7 +188,35 @@
                 <div v-if="!isHome" class="header-middle-con" :style="{left: sidebarPage?'60px':'0'}">
                     <div class="main-breadcrumb">
                         <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
-                    </div>
+                    </div>                         
+                    <Row>
+                        <ul class="timeline">
+                            <li>
+                                <Icon type="ios-arrow-thin-down" size="18px" class="timeline_icon"></Icon>
+                                <br /> 
+                            </li>
+                            <li>
+                                <Icon type="android-settings" size="18px" class="timeline_icon"></Icon>
+                                <br />
+                                <span class="timeline_text">功能设置</span> 
+                            </li>
+                            <li>
+                                <Icon type="android-phone-portrait" size="18px" class="timeline_icon"></Icon>
+                                <br />
+                                <span class="timeline_text">APP界面设置</span>
+                            </li>
+                            <li>
+                                <Icon type="android-wifi" size="18px" class="timeline_icon"></Icon>
+                                <br />
+                                <span class="timeline_text">虚拟设备调试</span> 
+                            </li>
+                            <li>
+                                <Icon type="ios-paperplane-outline" size="18px" class="timeline_icon"></Icon>
+                                <br />
+                                <span class="timeline_text">申请发布</span> 
+                            </li>
+                        </ul>
+                    </Row>
                 </div>
                 <div v-else class="main-search">
                     <Row>
@@ -278,7 +306,7 @@
                 productList: this.mockProductListData(),
                 industryList:this.mockIndustryListData(),
                 connectionList:this.mockConnectionListData(),
-                isHome:true,
+                isHome:false,
                 sidebarPage:false,
                 tagsShow:false,
                 shrink: true,

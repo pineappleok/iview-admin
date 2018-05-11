@@ -1,5 +1,5 @@
 <template>
-    <div class="home-main" id="sets">    
+    <div class="home-main">    
         <Row>            
             <Col span="5" class="sets_left">
                 <Row>
@@ -52,11 +52,15 @@ export default {
     },
     data () {
         return {
-            products:this.mockProductsData()
+            products:this.mockProductsData(),
+            transferData:{
+                progressActiveIndex:2,
+                isHome:false
+            }
         };
     },
     props: {
-        home:Boolean
+        home:Object
     },
     computed: {
         avatorPath () {
@@ -65,13 +69,12 @@ export default {
     },
     created() {
         setTimeout(res=>{
-
-        },2000)
+            this.$emit("childChange",this.transferData);
+        },200)
         
     },
     mounted(){
-            this.$emit("childChange",false);
-alert(1)
+alert(11)
     },
     methods: {
         mockProductsData () {
@@ -103,7 +106,11 @@ alert(1)
 };
 </script>
 <style lang="less" scoped>
-    #sets .sets_left{
+    .sets_left{
         background:#fff;
+        height:100%;
+    }
+    .sets_right{
+
     }
 </style>

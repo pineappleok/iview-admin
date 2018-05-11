@@ -171,7 +171,7 @@
         data () {
             return {
                 stage:["功能设置","设置APP界面","虚拟设备调试","发布产品"],
-                progressActiveIndex:2,
+                progressActiveIndex:0,
                 poductNameModal:'',
                 productName:'',
                 ModalCreateProduct:false,
@@ -237,7 +237,8 @@
                 this.$Message.info('已取消');
             },
             isChildChanged(data){
-                this.isHome=data;
+                this.isHome=data.isHome;
+                this.progressActiveIndex=data.progressActiveIndex;
                 console.log('isHOmeCHange');
                 console.log(data);
             },

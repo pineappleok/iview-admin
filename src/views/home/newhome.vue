@@ -79,11 +79,15 @@ export default {
     },
     data () {
         return {
-            products:this.mockProductsData()
+            products:this.mockProductsData(),
+            transferData:{
+                progressActiveIndex:0,
+                isHome:true
+            }
         };
     },
     props: {
-        home:Boolean
+        home:Object
     },
     computed: {
         avatorPath () {
@@ -91,7 +95,13 @@ export default {
         }
     },
     created() {
-        this.$emit("childChange",true);
+        setTimeout(res=>{
+            this.$emit("childChange",this.transferData);
+        },200)
+        
+    },
+    mounted(){
+alert(1)
     },
     methods: {
         mockProductsData () {

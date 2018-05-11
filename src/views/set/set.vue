@@ -1,10 +1,7 @@
-<style lang="less">
-    @import "../../styles/common.less";
-</style>
 <template>
-    <div class="home-main">    
+    <div class="home-main" id="sets">    
         <Row>            
-            <Col span="5">
+            <Col span="5" class="sets_left">
                 <Row>
                     <img class="avator-img" :src="avatorPath" />
                 </Row>
@@ -14,7 +11,7 @@
                     <a href="javascript:void(0)">编辑产品信息</a>
                 </Row>
             </Col>
-            <Col span="19">
+            <Col span="19" class="sets_right">
                 <!-- <Row class="sets">
                     <Col span="8">
                         <span class="expand-key">Job: </span>
@@ -67,7 +64,9 @@ export default {
         }
     },
     created() {
-        this.$emit("childChange",false);
+    },
+    mounted(){
+            this.$emit("childChange",false);
     },
     methods: {
         mockProductsData () {
@@ -98,3 +97,8 @@ export default {
     }
 };
 </script>
+<style lang="less" scoped>
+    #sets .sets_left{
+        background:#fff;
+    }
+</style>

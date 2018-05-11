@@ -1,76 +1,3 @@
-<style lang="less">
-    @import "./home.less";
-    @import "../../styles/common.less";
-    .product-ul{
-        list-style-type: none;
-        margin-left:-19px;
-    }
-    .product-ul li{
-        float: left;
-        width:317px;
-        height:192px;
-        margin:10px;
-    }
-    .product-ul .ivu-card-bordered{
-        width:100%;
-        height: 100%;
-    }
-    .product-ul .name{
-        margin-bottom:10px;
-        font-weight: bold;
-        font-size: 16px;
-        color: #17233D;
-        line-height: 26px;
-    }
-    .product-ul .info{
-        font-size: 12px;
-        color: rgba(23,35,61,0.70);
-        line-height: 2;
-    }
-    .timeline{
-        width:100px;
-        margin:24px auto 0;
-        list-style-type: none;
-        text-align: center;
-        cursor: pointer;
-    }
-    .timeline_icon{
-        width:27px;
-        height: 27px;
-        background:#fff;
-        border: 1px solid rgba(23,35,61,0.15);
-        border-radius: 50%;
-        line-height:27px;
-    }
-    .timeline li:first-child .timeline_icon{
-        position: relative;
-        margin-bottom:18px;
-    }
-    .timeline_text{
-        position: relative;
-        display:inline-block;
-        margin-bottom:18px;
-        font-size: 14px;
-        color: rgba(23,35,61,0.75);
-        letter-spacing: 0;
-        text-align: center;
-        line-height: 22px;
-    }
-    .timeline_text:after,
-    .timeline li:first-child .timeline_icon:after{
-        content:"";
-        position: absolute;
-        top:100%;
-        left: 50%;
-        width:0px;
-        height:18px;
-        border-left:1px solid rgba(23,35,61,0.10);
-        z-index:0;
-    }
-    .timeline li:last-child .timeline_text:after{
-        display:none;
-    }
-</style>
 <template>
     <div class="home-main">    
         <Row>
@@ -195,3 +122,74 @@ export default {
     }
 };
 </script>
+<style lang="less" scoped>
+    .product-ul{
+        list-style-type: none;
+        margin-left:-19px;
+    }
+    .product-ul li{
+        float: left;
+        width:317px;
+        height:192px;
+        margin:10px;
+    }
+    .product-ul .ivu-card-bordered{
+        width:100%;
+        height: 100%;
+    }
+    .product-ul .name{
+        margin-bottom:10px;
+        font-weight: bold;
+        font-size: 16px;
+        color: #17233D;
+        line-height: 26px;
+    }
+    .product-ul .info{
+        font-size: 12px;
+        color: rgba(23,35,61,0.70);
+        line-height: 2;
+    }
+    .timeline{
+        width:100px;
+        margin:24px auto 0;
+        list-style-type: none;
+        text-align: center;
+        cursor: pointer;
+    }
+    .timeline_icon{
+        width:27px;
+        height: 27px;
+        background:#fff;
+        border: 1px solid rgba(23,35,61,0.15);
+        border-radius: 50%;
+        line-height:27px;
+    }
+    .timeline li:first-child .timeline_icon{
+        position: relative;
+        margin-bottom:18px;
+    }
+    .timeline_text{
+        position: relative;
+        display:inline-block;
+        margin-bottom:18px;
+        font-size: 14px;
+        color: rgba(23,35,61,0.75);
+        letter-spacing: 0;
+        text-align: center;
+        line-height: 22px;
+    }
+    .timeline_text:after,
+    .timeline li:first-child .timeline_icon:after{
+        content:"";
+        position: absolute;
+        top:100%;
+        left: 50%;
+        width:0px;
+        height:18px;
+        border-left:1px solid rgba(23,35,61,0.10);
+        z-index:0;
+    }
+    .timeline li:last-child .timeline_text:after{
+        display:none;
+    }
+</style>

@@ -1,179 +1,5 @@
 <style lang="less">
     @import "./main.less";
-.ivu-menu-light{
-    height: 64px;
-    background:linear-gradient(to bottom, #2945CB, #2C83F9);
-}
-.layout-logo{
-    width: 304px;
-    height: 66px;
-    float: left;
-    position: relative;
-    top: 10px;
-    left: 16px;
-    img{
-        width:155px;
-        height: 40px;
-    }
-}
-.layout-nav{
-    text-align: center;
-}
-.ivu-menu-horizontal{
-    .ivu-menu-item,.ivu-menu-submenu{
-        float:none;
-        display:inline-block;
-    } 
-}
-.ivu-menu-light.ivu-menu-horizontal{
-    .ivu-menu-item,.ivu-menu-submenu{
-        color:rgba(255,255,255,0.8);
-    }
-    .ivu-menu-item-active,.ivu-menu-item:hover,.ivu-menu-submenu-active,.ivu-menu-submenu:hover{
-    color:#fff;
-    }
-}
-.top-header .header-avator-con .message-con {
-    display: inline-block;
-    width: 30px;
-    margin-right: 90px;
-    text-align: center;
-    cursor: pointer;
-}
-.top-header .header-avator-con .message-con i {
-  vertical-align: middle;
-}
-.top-header .header-avator-con .user-dropdown-menu-con {
-  position: absolute;
-  right: 14px;
-  top: 0;
-  width: 150px;
-  height: 100%;
-}
-.top-header .header-avator-con .user-dropdown-menu-con .main-user-name {
-  display: inline-block;
-  width: 80px;
-  word-break: keep-all;
-  white-space: nowrap;
-  vertical-align: middle;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: right;
-}
-.top-header .search{
-    display: inline-block;
-}
-.top-header .ivu-btn-primary{
-    background:transparent;
-    border:none;
-}
-.main-search{
-    padding-top: 14px;
-    .ivu-input-icon-normal+.ivu-input{
-        padding-right: 7px;
-        padding-left: 32px;
-    }
-    .ivu-input-icon{
-        right: initial;
-        left: 0;
-    }
-}
-.modal{
-    .mtb15{
-        margin-top: 15px;
-        margin-bottom: 15px;       
-    }
-    .label{
-        line-height:34px;
-        font-size: 14px;
-        color: rgba(29,36,54,0.80);
-        font-weight: bold;
-        text-align: center;
-    }
-    .check_a{
-        display:inline-block;
-        height:34px;
-        line-height: 34px;
-        padding:0 5px;
-        border-radius:3px;
-        border:1px solid #DDDEE1;
-        margin-right:6px;
-        margin-bottom:5px;
-        font-size:14px;
-        text-align: center;
-        color: rgba(23,35,61,0.80);
-        vertical-align:middle;
-        cursor: pointer;
-        &.checked{
-            border-color:#008CF8;
-            color: #008CF8;
-        }
-        &_icon{
-            padding-right:6px;
-            font-size:20px;
-        }
-    }
-}
-.top_timeline{
-    margin:0 auto;
-    list-style-type: none;
-    text-align: center;
-    li{
-        position: relative;
-        width:160px;
-        height: 54px;
-        float: left;
-        text-align: center;
-        &.active{
-            border-bottom:2px solid #008CF8;
-            & .timeline_text{
-                font-weight:bold;
-                color:#008CF8;
-            }
-            & .timeline_icon{
-                border-color:#008CF8;
-                color:#008CF8;
-            }
-        }
-    }
-}
-.top_timeline .timeline_icon{
-    position: relative;
-    display: inline-block;
-    width:27px;
-    height: 27px;
-    background:#fff;
-    border: 1px solid rgba(23,35,61,0.25);
-    border-radius: 50%;
-    line-height:27px;
-    color: rgba(23,35,61,0.25);
-    ont-family: HelveticaNeue-Medium;
-    font-size: 13px;
-    font-weight:bold;
-}
-.top_timeline li:first-child .timeline_icon{
-}
-.top_timeline .timeline_text{
-    display:inline-block;
-    font-size: 12px;
-    color: rgba(23,35,61,0.25);
-    letter-spacing: 0;
-    text-align: center;
-    line-height: 22px;
-}
-.top_timeline li:after{
-    content:"";
-    position: absolute;
-    top:13px;
-    left: 93px;
-    width:160px;
-    height:0;
-    border-top:1px dashed rgba(23,35,61,0.10);
-    z-index:0;
-}
-.top_timeline li:last-child:after{
-    display:none;
-}
 </style>
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
@@ -257,7 +83,7 @@
                                 <li class="active">
                                     <span class="timeline_icon">1</span>
                                     <br /> 
-                                    <router-link to="/home" tag="span"><span class="timeline_text">功能设置</span></router-link> 
+                                    <span class="timeline_text">功能设置</span> 
                                 </li>
                                 <li>
                                     <span class="timeline_icon">2</span>
@@ -544,3 +370,179 @@
         }
     };
 </script>
+<style lang="less" scoped>    
+.ivu-menu-light{
+    height: 64px;
+    background:linear-gradient(to bottom, #2945CB, #2C83F9);
+}
+.layout-logo{
+    width: 304px;
+    height: 66px;
+    float: left;
+    position: relative;
+    top: 10px;
+    left: 16px;
+    img{
+        width:155px;
+        height: 40px;
+    }
+}
+.layout-nav{
+    text-align: center;
+}
+.ivu-menu-horizontal{
+    .ivu-menu-item,.ivu-menu-submenu{
+        float:none;
+        display:inline-block;
+    } 
+}
+.ivu-menu-light.ivu-menu-horizontal{
+    .ivu-menu-item,.ivu-menu-submenu{
+        color:rgba(255,255,255,0.8);
+    }
+    .ivu-menu-item-active,.ivu-menu-item:hover,.ivu-menu-submenu-active,.ivu-menu-submenu:hover{
+    color:#fff;
+    }
+}
+.top-header .header-avator-con .message-con {
+    display: inline-block;
+    width: 30px;
+    margin-right: 90px;
+    text-align: center;
+    cursor: pointer;
+}
+.top-header .header-avator-con .message-con i {
+  vertical-align: middle;
+}
+.top-header .header-avator-con .user-dropdown-menu-con {
+  position: absolute;
+  right: 14px;
+  top: 0;
+  width: 150px;
+  height: 100%;
+}
+.top-header .header-avator-con .user-dropdown-menu-con .main-user-name {
+  display: inline-block;
+  width: 80px;
+  word-break: keep-all;
+  white-space: nowrap;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+}
+.top-header .search{
+    display: inline-block;
+}
+.top-header .ivu-btn-primary{
+    background:transparent;
+    border:none;
+}
+.main-search{
+    padding-top: 14px;
+    .ivu-input-icon-normal+.ivu-input{
+        padding-right: 7px;
+        padding-left: 32px;
+    }
+    .ivu-input-icon{
+        right: initial;
+        left: 0;
+    }
+}
+.modal{
+    .mtb15{
+        margin-top: 15px;
+        margin-bottom: 15px;       
+    }
+    .label{
+        line-height:34px;
+        font-size: 14px;
+        color: rgba(29,36,54,0.80);
+        font-weight: bold;
+        text-align: center;
+    }
+    .check_a{
+        display:inline-block;
+        height:34px;
+        line-height: 34px;
+        padding:0 5px;
+        border-radius:3px;
+        border:1px solid #DDDEE1;
+        margin-right:6px;
+        margin-bottom:5px;
+        font-size:14px;
+        text-align: center;
+        color: rgba(23,35,61,0.80);
+        vertical-align:middle;
+        cursor: pointer;
+        &.checked{
+            border-color:#008CF8;
+            color: #008CF8;
+        }
+        &_icon{
+            padding-right:6px;
+            font-size:20px;
+        }
+    }
+}
+.top_timeline{
+    margin:0 auto;
+    list-style-type: none;
+    text-align: center;
+    li{
+        position: relative;
+        width:160px;
+        height: 54px;
+        float: left;
+        text-align: center;
+        &.active{
+            border-bottom:2px solid #008CF8;
+            & .timeline_text{
+                font-weight:bold;
+                color:#008CF8;
+            }
+            & .timeline_icon{
+                border-color:#008CF8;
+                color:#008CF8;
+            }
+        }
+    }
+}
+.top_timeline .timeline_icon{
+    position: relative;
+    display: inline-block;
+    width:27px;
+    height: 27px;
+    background:#fff;
+    border: 1px solid rgba(23,35,61,0.25);
+    border-radius: 50%;
+    line-height:27px;
+    color: rgba(23,35,61,0.25);
+    ont-family: HelveticaNeue-Medium;
+    font-size: 13px;
+    font-weight:bold;
+}
+.top_timeline li:first-child .timeline_icon{
+}
+.top_timeline .timeline_text{
+    display:inline-block;
+    font-size: 12px;
+    color: rgba(23,35,61,0.25);
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 22px;
+}
+.top_timeline li:after{
+    content:"";
+    position: absolute;
+    top:13px;
+    left: 93px;
+    width:160px;
+    height:0;
+    border-top:1px dashed rgba(23,35,61,0.10);
+    z-index:0;
+}
+.top_timeline li:last-child:after{
+    display:none;
+}
+</style>

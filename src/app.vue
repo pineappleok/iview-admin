@@ -23,7 +23,8 @@
     };
 </script>
 
-<style>
+<style lang="less">  
+@import "styles/common.less";
 html,body{
     width: 100%;
     height: 100%;
@@ -33,5 +34,11 @@ html,body{
 .app-main{
     width: 100%;
     height: 100%;
+}
+.avator-img{
+    display: block;
+    width: 80%;
+    max-width: 100px;
+    height: auto;
 }
 </style>

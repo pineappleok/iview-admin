@@ -64,9 +64,14 @@ export default {
         }
     },
     created() {
+        setTimeout(res=>{
+
+        },2000)
+        
     },
     mounted(){
             this.$emit("childChange",false);
+alert(1)
     },
     methods: {
         mockProductsData () {

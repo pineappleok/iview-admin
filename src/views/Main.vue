@@ -1,6 +1,3 @@
-<style lang="less">
-    @import "./main.less";
-</style>
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
         <div class="top-header">   
@@ -80,25 +77,10 @@
                         </Col>
                         <Col span="16">
                             <ul class="top_timeline">
-                                <li class="active">
-                                    <span class="timeline_icon">1</span>
-                                    <br /> 
-                                    <span class="timeline_text">功能设置</span> 
-                                </li>
-                                <li>
-                                    <span class="timeline_icon">2</span>
+                                <li v-for="(item,index) in progress" :class="{active:index<=progressActiveIndex,current:index==progressActiveIndex}">
+                                    <span class="timeline_icon">{{index+1}}</span>
                                     <br />
-                                    <span class="timeline_text">设置APP界面</span> 
-                                </li>
-                                <li>
-                                    <span class="timeline_icon">3</span>
-                                    <br />
-                                    <span class="timeline_text">虚拟设备调试</span>
-                                </li>
-                                <li>
-                                    <span class="timeline_icon">4</span>
-                                    <br />
-                                    <span class="timeline_text">发布产品</span> 
+                                    <span class="timeline_text">{{item.text}}</span>
                                 </li>
                             </ul>
                         </Col>
@@ -157,7 +139,7 @@
         <div class="single-page-con" :style="{left: !sidebarPage?'0':(this.shrink?'60px':'200px')}">
             <div class="single-page">
                 <keep-alive :include="cachePage">
-                    <router-view :home="isHome" @childChange="isHomeChange"></router-view>
+                    <router-view :home="isHome" @childChange="isChildChanged"></router-view>
                 </keep-alive>
             </div>
         </div>
@@ -188,6 +170,8 @@
         },
         data () {
             return {
+                stage:["功能设置","设置APP界面","虚拟设备调试","发布产品"],
+                progressActiveIndex:2,
                 poductNameModal:'',
                 productName:'',
                 ModalCreateProduct:false,
@@ -205,6 +189,15 @@
             };
         },
         computed: {
+            progress () {                
+                let data = [];
+                for (let i = 0; i < this.stage.length; i++) {
+                    data.push({
+                        text: this.stage[i]
+                    });
+                }
+                return data;
+            },
             menuList () {
                 return this.$store.state.app.menuList;
             },
@@ -243,7 +236,7 @@
             cancel () {
                 this.$Message.info('已取消');
             },
-            isHomeChange(data){
+            isChildChanged(data){
                 this.isHome=data;
                 console.log('isHOmeCHange');
                 console.log(data);
@@ -370,7 +363,8 @@
         }
     };
 </script>
-<style lang="less" scoped>    
+<style lang="less" scoped> 
+@import "./main.less";   
 .ivu-menu-light{
     height: 64px;
     background:linear-gradient(to bottom, #2945CB, #2C83F9);
@@ -496,13 +490,18 @@
         float: left;
         text-align: center;
         &.active{
+            & .timeline_icon{
+                border-color:#008CF8;
+                color:#008CF8;
+            }
+            &:after{
+                border-color:#008CF8;
+            }
+        }
+        &.current{
             border-bottom:2px solid #008CF8;
             & .timeline_text{
                 font-weight:bold;
-                color:#008CF8;
-            }
-            & .timeline_icon{
-                border-color:#008CF8;
                 color:#008CF8;
             }
         }

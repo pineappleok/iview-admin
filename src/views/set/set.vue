@@ -1,62 +1,111 @@
 <template>
-    <div class="home-main">    
-        <Row>            
-            <Col span="5" class="sets_left">
-                <Row>
-                    <img class="avator-img" :src="avatorPath" />
-                </Row>
-                <Row>冷暖白光灯</Row>
-                <Row>产品ID：20180228</Row>
-                <Row>
-                    <a href="javascript:void(0)">编辑产品信息</a>
-                </Row>
-            </Col>
-            <Col span="19" class="sets_right">
-                <!-- <Row class="sets">
-                    <Col span="8">
-                        <span class="expand-key">Job: </span>
-                        <span class="expand-value">{{ row.job }}</span>
-                    </Col>
-                    <Col span="8">
-                        <span class="expand-key">Interest: </span>
-                        <span class="expand-value">{{ row.interest }}</span>
-                    </Col>
-                    <Col span="8">
-                        <span class="expand-key">Birthday: </span>
-                        <span class="expand-value">{{ row.birthday }}</span>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span="8">
-                        <span class="expand-key">Favorite book: </span>
-                        <span class="expand-value">《{{ row.book }}》</span>
-                    </Col>
-                    <Col span="8">
-                        <span class="expand-key">Favorite movie: </span>
-                        <span class="expand-value">{{ row.movie }}</span>
-                    </Col>
-                    <Col span="8">
-                        <span class="expand-key">Favorite music: </span>
-                        <span class="expand-value">{{ row.music }}</span>
-                    </Col>
-                </Row> -->
-            </Col>
-        </Row>
+    <div class="home-main"> 
+        <div class="sets">
+            <div class="product_info">
+                <img class="avator-img" :src="avatorPath" />
+                <h3>冷暖白光灯</h3>
+                <p class="info">产品ID：20180228</p>
+                <a href="javascript:void(0)">编辑产品信息</a>
+            </div>
+            <Table :columns="columns" :data="tableData" class="table"></Table>
+        </div>
     </div>
 </template>
 
 <script>
+import expandRow from './set_table.vue';
 export default {
     name: 'home_set',
     components: {
+        expandRow
     },
     data () {
         return {
-            products:this.mockProductsData(),
             transferData:{
                 progressActiveIndex:2,
                 isHome:false
-            }
+            },
+            columns: [
+                {
+                    type: 'expand',
+                    width: 50,
+                    render: (h, params) => {
+                        return h(expandRow, {
+                            props: {
+                                row: params.row.functionPoint
+                            }
+                        })
+                    }
+                },
+                {
+                    title: 'DPID',
+                    key: 'setId'
+                },
+                {
+                    title: '功能类型',
+                    key: 'setType'
+                },
+                {
+                    title: '名称',
+                    key: 'setName'
+                },
+                {
+                    title: '数据点',
+                    key: 'data'
+                },
+                {
+                    title: '数据类型',
+                    key: 'dataType'
+                },
+                {
+                    title: '读写特性',
+                    key: 'readWrite'
+                },
+                {
+                    title: '上下限',
+                    key: 'maxMin'
+                },
+                {
+                    title: '小数点数',
+                    key: 'decimal'
+                },
+                {
+                    title: '是否传输小数',
+                    key: 'ifDecimal'
+                },
+                {
+                    title: '备注',
+                    key: 'note'
+                },
+                {
+                    title: '操作',
+                    key: 'operate',
+                    width: 150,
+                    align: 'center',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('a', {
+                                style: {
+                                    marginRight: '5px'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.show(params.index)
+                                    }
+                                }
+                            }, '编辑'),
+                            h('a', {
+                                on: {
+                                    click: () => {
+                                        this.remove(params.index)
+                                    }
+                                }
+                            }, '删除')
+                        ]);
+                    }
+                }
+            ],
+            tableData: this.mockSetsData()
         };
     },
     props: {
@@ -71,21 +120,36 @@ export default {
         setTimeout(res=>{
             this.$emit("childChange",this.transferData);
         },200)
-        
     },
     mounted(){
 alert(11)
     },
     methods: {
-        mockProductsData () {
+        mockSetsData () {
             let data = [];
             for (let i = 0; i < 10; i++) {
                 data.push({
-                    productName: '智能冷暖白光灯' +(i+1)+'(CW)',
-                    status: '开发中',
-                    start:this.formatDate(new Date()),
-                    update: this.formatDate(new Date()),
-                    imgSrc:'../images/logo.png'
+                    setId: i+1,
+                    setType: '功能集',
+                    setName: 'GPS功能集',
+                    data: 'smart_1',
+                    dataType: '浮点型',
+                    readWrite: '可读',
+                    maxMin: '12',
+                    decimal: '两位小数',
+                    ifDecimal: '传输',
+                    note: '开发中',
+                    functionPoint:[{
+                        setId: '0'+(i+1),
+                        setType: '功能点',
+                        setName: 'GPS功能集',
+                        data: 'smart_1',
+                        dataType: '浮点型',
+                        readWrite: '可读',
+                        maxMin: '12',
+                        decimal: '两位小数',
+                        ifDecimal: '传输',
+                        note: '开发中'}]
                 });
             }
             return data;
@@ -106,11 +170,41 @@ alert(11)
 };
 </script>
 <style lang="less" scoped>
-    .sets_left{
-        background:#fff;
-        height:100%;
-    }
-    .sets_right{
-
+    .sets{
+        position: relative;
+        margin:20px 40px 20px 200px;
+        .table{
+            width:100%;
+        }
+        .product_info{
+            position: absolute;
+            left:-200px;
+            top:-20px;
+            width:160px;
+            height:100%;
+            box-sizing:border-box;
+            padding:56px 22px;
+            background:#fff;
+            img{
+                width:64px;
+                height:64px;
+            }
+            h3{
+                padding:5px 0;
+                font-size: 14px;
+                color: rgba(23,35,61,0.80);
+                font-weight:bold;
+            }
+            .info{
+                font-size:12px;
+                font-weight: normal;
+                color: rgba(23,35,61,0.55);
+                line-height: 1;
+            }
+            a{
+                display:inline-block;
+                padding-top:24px;
+            }
+        }
     }
 </style>

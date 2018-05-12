@@ -68,7 +68,7 @@
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
                 </div>
-                <div v-if="!isHome" class="header-middle-con" :style="{left: sidebarPage?'60px':'0'}">
+                <div v-if="!childData.isHome" class="header-middle-con" :style="{left: sidebarPage?'60px':'0'}">
                     <Row>
                         <Col span="6">
                             <div class="main-breadcrumb">
@@ -77,7 +77,7 @@
                         </Col>
                         <Col span="16">
                             <ul class="top_timeline">
-                                <li v-for="(item,index) in progress" :class="{active:index<=progressActiveIndex,current:index==progressActiveIndex}">
+                                <li v-for="(item,index) in progress" :class="{active:index<=childData.progressActiveIndex,current:index==childData.progressActiveIndex}">
                                     <span class="timeline_icon">{{index+1}}</span>
                                     <br />
                                     <span class="timeline_text">{{item.text}}</span>
@@ -139,7 +139,7 @@
         <div class="single-page-con" :style="{left: !sidebarPage?'0':(this.shrink?'60px':'200px')}">
             <div class="single-page">
                 <keep-alive :include="cachePage">
-                    <router-view :home="isHome" @childChange="isChildChanged"></router-view>
+                    <router-view :home="childData" @childChange="isChildChanged"></router-view>
                 </keep-alive>
             </div>
         </div>
@@ -171,7 +171,6 @@
         data () {
             return {
                 stage:["功能设置","设置APP界面","虚拟设备调试","发布产品"],
-                progressActiveIndex:0,
                 poductNameModal:'',
                 productName:'',
                 ModalCreateProduct:false,
@@ -179,7 +178,10 @@
                 productList: this.mockProductListData(),
                 industryList:this.mockIndustryListData(),
                 connectionList:this.mockConnectionListData(),
-                isHome:false,
+                childData:{
+                    progressActiveIndex:0,
+                    isHome:false
+                },
                 sidebarPage:false,
                 tagsShow:false,
                 shrink: true,
@@ -224,12 +226,6 @@
             }
         },
         methods: {
-            linkToPage (name) {
-                console.log("linkToPage"+name);
-                this.$router.push({
-                    name: name
-                });
-            },
             ok () {
                 this.$Message.info('已确认');
             },
@@ -237,10 +233,9 @@
                 this.$Message.info('已取消');
             },
             isChildChanged(data){
-                this.isHome=data.isHome;
-                this.progressActiveIndex=data.progressActiveIndex;
+                Object.assign(this.childData,data)
                 console.log('isHOmeCHange');
-                console.log(data);
+                console.log(this.childData);
             },
             mockProductListData () {
                 let data = [];

@@ -84,7 +84,7 @@
     .table{
         width: 100%;
         .expand-value{
-            text-align: center;
+            //text-align: center;
         }
     }
 </style>

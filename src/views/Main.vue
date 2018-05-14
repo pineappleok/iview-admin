@@ -170,20 +170,20 @@
         },
         data () {
             return {
-                stage:["功能设置","设置APP界面","虚拟设备调试","发布产品"],
-                poductNameModal:'',
-                productName:'',
-                ModalCreateProduct:false,
-                productType:'',
+                stage: ['功能设置', '设置APP界面', '虚拟设备调试', '发布产品'],
+                poductNameModal: '',
+                productName: '',
+                ModalCreateProduct: false,
+                productType: '',
                 productList: this.mockProductListData(),
-                industryList:this.mockIndustryListData(),
-                connectionList:this.mockConnectionListData(),
-                childData:{
-                    progressActiveIndex:0,
-                    isHome:false
+                industryList: this.mockIndustryListData(),
+                connectionList: this.mockConnectionListData(),
+                childData: {
+                    progressActiveIndex: 0,
+                    isHome: false
                 },
-                sidebarPage:false,
-                tagsShow:false,
+                sidebarPage: false,
+                tagsShow: false,
                 shrink: true,
                 userName: '',
                 isFullScreen: false,
@@ -191,7 +191,7 @@
             };
         },
         computed: {
-            progress () {                
+            progress () {
                 let data = [];
                 for (let i = 0; i < this.stage.length; i++) {
                     data.push({
@@ -232,8 +232,8 @@
             cancel () {
                 this.$Message.info('已取消');
             },
-            isChildChanged(data){
-                Object.assign(this.childData,data)
+            isChildChanged (data) {
+                Object.assign(this.childData, data);
                 console.log('isHOmeCHange');
                 console.log(this.childData);
             },
@@ -241,8 +241,8 @@
                 let data = [];
                 for (let i = 0; i < 10; i++) {
                     data.push({
-                        value: '个人产品' +(i+1),
-                        label: '个人产品' +(i+1)
+                        value: '个人产品' + (i + 1),
+                        label: '个人产品' + (i + 1)
                     });
                 }
                 return data;
@@ -251,20 +251,20 @@
                 let data = [];
                 for (let i = 0; i < 10; i++) {
                     data.push({
-                        value: '产品行业' +(i+1),
-                        label: '产品行业' +(i+1)
+                        value: '产品行业' + (i + 1),
+                        label: '产品行业' + (i + 1)
                     });
                 }
                 return data;
             },
             mockConnectionListData () {
-                let connectionType=['蓝牙','WiFi','Zigbee','Lore','2G/3G/4G/5G','网关'];
+                let connectionType = ['蓝牙', 'WiFi', 'Zigbee', 'Lore', '2G/3G/4G/5G', '网关'];
                 let data = [];
                 for (let i = 0; i < connectionType.length; i++) {
                     data.push({
                         value: connectionType[i],
                         label: connectionType[i],
-                        checked:false
+                        checked: false
                     });
                 }
                 return data;

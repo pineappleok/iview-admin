@@ -84,7 +84,7 @@
                                 </li>
                             </ul>
                         </Col>
-                        <Col span="2" style="text-align:right;"><Button size="large">下一页</Button></Col>
+                        <Col span="2" style="text-align:right;"><Button size="large" type="primary">下一步</Button></Col>
                     </Row>
                 </div>
                 <div v-else class="main-search">

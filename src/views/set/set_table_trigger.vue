@@ -3,17 +3,15 @@
         <Row class="expand-row">
             <table class="table">
                 <tr v-for="item in row" :key="item.setId">
-                    <td class="expand-value" width="9.090%">{{ item.setId }}</td>
-                    <td class="expand-value" width="9.090%">{{ item.setType }}</td>
-                    <td class="expand-value" width="9.090%">{{ item.setName }}</td>
-                    <td class="expand-value" width="9.090%">{{ item.data }}</td>
-                    <td class="expand-value" width="9.090%">{{ item.dataType }}</td>
-                    <td class="expand-value" width="9.090%">{{ item.readWrite }}</td>
-                    <td class="expand-value" width="9.090%">{{ item.maxMin }}</td>
-                    <td class="expand-value" width="9.090%">{{ item.decimal }}</td>
-                    <td class="expand-value" width="9.090%">{{ item.ifDecimal }}</td>
-                    <td class="expand-value" width="9.090%">{{ item.note }}</td>
-                    <td class="expand-value" width="9.090%">                        
+                    <td class="expand-value" width="11.11%">{{ item.setId }}</td>
+                    <td class="expand-value" width="11.11%">{{ item.tirggerName }}</td>
+                    <td class="expand-value" width="11.11%">{{ item.triggerFunction }}</td>
+                    <td class="expand-value" width="11.11%">{{ item.triggerType }}</td>
+                    <td class="expand-value" width="11.11%">{{ item.triggerResult }}</td>
+                    <td class="expand-value" width="11.11%">{{ item.associate }}</td>
+                    <td class="expand-value" width="11.11%">{{ item.controlType }}</td>
+                    <td class="expand-value" width="11.11%">{{ item.note }}</td>
+                    <td class="expand-value" width="11.11%">                        
                         <a href="javascript:void(0)" @click="view" style="marign-right:5px;">编辑</a>
                         <a href="javascript:void(0)" @click="del" style="marign-right:5px;">删除</a>
                     </td>

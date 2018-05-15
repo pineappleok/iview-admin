@@ -93,7 +93,7 @@
                         <Col span="22">
                             <Row>
                                 <Col :lg="4" :md="8">
-                                    <Select v-model="productType" style="width:200px">
+                                    <Select v-model="productType" style="width:200px" placeholder="请选择项目类型">
                                         <Option v-for="item in productList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                     </Select>
                                 </Col>
@@ -122,7 +122,12 @@
                                         <Row class="mtb15">
                                             <Col class="label" span="5">连接方式</Col>
                                             <Col span="19">       
-                                                <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>  
+                                                <!-- <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>   -->
+                                                <RadioGroup v-model="connectionTypePadio">
+                                                    <Radio v-for="item in connectionList" :label="item.label" :key="item.id">
+                                                        <span>{{item.label}}</span>
+                                                    </Radio>
+                                                </RadioGroup>
                                             </Col>
                                         </Row>
                                     </Modal>
@@ -177,6 +182,7 @@
                 productType: '',
                 productList: this.mockProductListData(),
                 industryList: this.mockIndustryListData(),
+                connectionTypePadio: '',
                 connectionList: this.mockConnectionListData(),
                 childData: {
                     progressActiveIndex: 0,
@@ -227,22 +233,24 @@
         },
         methods: {
             ok () {
-                this.$Message.info('已确认');
+                // 点击后保存产品基本信息，后台生成相应的产品ID等信息  确定后保存产品信息，进入产品创建的第一步【设置功能】页面，进行产品设置
+                this.$Message.info('保存成功');
+                this.$router.push({
+                    name: 'home_set'
+                });
             },
             cancel () {
                 this.$Message.info('已取消');
             },
             isChildChanged (data) {
                 Object.assign(this.childData, data);
-                console.log('isHOmeCHange');
-                console.log(this.childData);
             },
             mockProductListData () {
                 let data = [];
                 for (let i = 0; i < 10; i++) {
                     data.push({
-                        value: '个人产品' + (i + 1),
-                        label: '个人产品' + (i + 1)
+                        value: '项目类型' + (i + 1),
+                        label: '项目类型' + (i + 1)
                     });
                 }
                 return data;

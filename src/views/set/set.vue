@@ -15,7 +15,7 @@
                     @on-cancel="cancel">
                     <Tabs value="name1">
                         <TabPane label="功能点" name="name1">
-                            <span v-for="item in functionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
+                            <span v-for="item in functionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'android-checkbox':'android-checkbox-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
                             <div style="margin-top:20px;">
                                 没有找到合适的功能点，去自定义一个吧。<a href="javascript:void(0)" @click="addSet=false,customFunction=true">自定义功能点</a>
                                 <Modal v-model="customFunction" class="modal"
@@ -23,37 +23,62 @@
                                     @on-ok="ok"
                                     @on-cancel="cancel">                                    
                                     <Row class="mtb15">
-                                        <Col class="label" span="5">产品行业</Col>
+                                        <Col class="label" span="5">功能点名称</Col>
                                         <Col span="19">
-                                            <Select placeholder="请选择产品行业..." size="large">
-                                                <Option v-for="item in industryList" :value="item.value" :key="item.value"></Option>
-                                            </Select>
+                                            <Input v-model="functionNameModal" placeholder="请输入功能点名称..." size="large"></Input>
                                         </Col>
                                     </Row> 
                                     <Row class="mtb15">
-                                        <Col class="label" span="5">产品名称</Col>
+                                        <Col class="label" span="5">数据点名称</Col>
                                         <Col span="19">
-                                            <Input v-model="poductNameModal" placeholder="请输入产品名称..." size="large"></Input>
+                                            <Input v-model="dataNameModal" placeholder="请输入数据点名称..." size="large"></Input>
                                         </Col>
                                     </Row>
                                     <Row class="mtb15">
+                                        <Col class="label" span="5">数据类型</Col>
+                                        <Col span="19"> 
+                                            <!-- <span v-for="item in dataTypeList" class="check_a" :class="item.checked?'checked':''" @click="radioClick()"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span> -->
+                                            <RadioGroup v-model="dataTypeRadio" on-change="consoletest">
+                                                <Radio v-for="item in dataTypeList" :label="item.label" :key="item.id">
+                                                    <span>{{item.label}}</span>
+                                                </Radio>
+                                            </RadioGroup>
+                                        </Col>
+                                    </Row>
+                                    <Row class="mtb15">
+                                        <Col class="label" span="5">读写类型</Col>
+                                        <Col span="19"> 
+                                            <RadioGroup v-model="rwTypeRadio">
+                                                <Radio v-for="item in rwTypeList" :label="item.label" :key="item.id">
+                                                    <span>{{item.label}}</span>
+                                                </Radio>
+                                            </RadioGroup>
+                                        </Col>
+                                    </Row>
+                                    <Row class="mtb15" v-show="dataTypeRadio==='整数'||dataTypeRadio==='浮点数'">
+                                        <Col class="label" span="5">上下限</Col>
+                                        <Col span="19"> 
+                                            <InputNumber :max="10" :step="0.1" v-model="min" placeholder="请输入..."></InputNumber>　至　<InputNumber :min="min" :step="0.1" v-model="max" placeholder="请输入..."></InputNumber>
+                                        </Col>
+                                    </Row>
+                                    <!-- <Row class="mtb15">
                                         <Col class="label" span="5">连接方式</Col>
                                         <Col span="19">       
                                             <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>  
                                         </Col>
-                                    </Row>                                    
+                                    </Row>   -->                                  
                                 </Modal>
                             </div>
                         </TabPane>
                         <TabPane label="功能集" name="name2">
-                            <span v-for="item in setList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
+                            <span v-for="item in setList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'android-checkbox':'android-checkbox-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
                             <div style="margin-top:20px;">
                                 没有找到合适的功能集，去自定义一个吧。<a href="javascript:void(0)" @click="customSet=true">自定义功能集</a>
                                 <Modal v-model="customSet" class="modal"
                                     title="自定义功能集"
                                     @on-ok="ok"
                                     @on-cancel="cancel">                                    
-                                    <Row class="mtb15">
+                                    <!-- <Row class="mtb15">
                                         <Col class="label" span="5">产品行业</Col>
                                         <Col span="19">
                                             <Select placeholder="请选择产品行业..." size="large">
@@ -72,19 +97,19 @@
                                         <Col span="19">       
                                             <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>  
                                         </Col>
-                                    </Row>                                      
+                                    </Row>  -->                                     
                                 </Modal>
                             </div>
                         </TabPane>
                         <TabPane label="触发器" name="name3">
-                            <span v-for="item in triggerList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
+                            <span v-for="item in triggerList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'android-checkbox':'android-checkbox-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
                             <div style="margin-top:20px;">
                                 没有找到合适的触发器，去自定义一个吧。<a href="javascript:void(0)" @click="customTrigger=true">自定义触发器</a>
                                 <Modal v-model="customTrigger" class="modal"
                                     title="自定义触发器"
                                     @on-ok="ok"
                                     @on-cancel="cancel">                                    
-                                    <Row class="mtb15">
+                                    <!-- <Row class="mtb15">
                                         <Col class="label" span="5">产品行业</Col>
                                         <Col span="19">
                                             <Select placeholder="请选择产品行业..." size="large">
@@ -103,7 +128,7 @@
                                         <Col span="19">       
                                             <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>  
                                         </Col>
-                                    </Row>  
+                                    </Row> -->  
                                 </Modal>
                             </div>
                         </TabPane>
@@ -290,7 +315,15 @@ export default {
             triggerList: this.mocktriggerListData(),
             customFunction: false,
             customSet: false,
-            customTrigger: false
+            customTrigger: false,
+            functionNameModal: '',
+            dataNameModal: '',
+            dataTypeRadio: '',
+            dataTypeList: this.mockDataTypeListData(),
+            rwTypeRadio: '',
+            rwTypeList: this.mockRwTypeListData(),
+            min: null,
+            max: null
         };
     },
     props: {
@@ -307,9 +340,12 @@ export default {
         }, 200);
     },
     mounted () {
-        alert(11);
     },
     methods: {
+        consoletest () {
+            alert(1);
+            this.$Message.info(this.dataTypeRadio);
+        },
         ok () {
             this.$Message.info('已确认');
         },
@@ -392,7 +428,7 @@ export default {
             return y + '-' + m + '-' + d + ' ' + hour + ':' + minute;
         },
         mockfunctionListData () {
-            let type = ['高度','方向','速度','温度','电压','蓝牙','WiFi','Zigbee','Lore','2G/3G/4G/5G','网关'];
+            let type = ['高度', '方向', '速度', '温度', '电压', '蓝牙', 'WiFi', 'Zigbee', 'Lore', '2G/3G/4G/5G', '网关'];
             let data = [];
             for (let i = 0; i < type.length; i++) {
                 data.push({
@@ -404,7 +440,7 @@ export default {
             return data;
         },
         mocksetListData () {
-            let type = ['高度','方向','速度','温度','电压','蓝牙','WiFi','Zigbee','Lore','2G/3G/4G/5G','网关'];
+            let type = ['高度', '方向', '速度', '温度', '电压', '蓝牙', 'WiFi', 'Zigbee', 'Lore', '2G/3G/4G/5G', '网关'];
             let data = [];
             for (let i = 0; i < type.length; i++) {
                 data.push({
@@ -416,12 +452,36 @@ export default {
             return data;
         },
         mocktriggerListData () {
-            let type = ['高度','方向','速度','温度','电压','蓝牙','WiFi','Zigbee','Lore','2G/3G/4G/5G','网关'];
+            let type = ['高度', '方向', '速度', '温度', '电压', '蓝牙', 'WiFi', 'Zigbee', 'Lore', '2G/3G/4G/5G', '网关'];
             let data = [];
             for (let i = 0; i < type.length; i++) {
                 data.push({
                     value: type[i],
                     label: type[i],
+                    checked: false
+                });
+            }
+            return data;
+        },
+        mockDataTypeListData () {
+            let connectionType = ['布尔数', '整数', '浮点数', '时间', '块数据', '数据集'];
+            let data = [];
+            for (let i = 0; i < connectionType.length; i++) {
+                data.push({
+                    value: connectionType[i],
+                    label: connectionType[i],
+                    checked: false
+                });
+            }
+            return data;
+        },
+        mockRwTypeListData () {
+            let connectionType = ['可读', '可写'];
+            let data = [];
+            for (let i = 0; i < connectionType.length; i++) {
+                data.push({
+                    value: connectionType[i],
+                    label: connectionType[i],
                     checked: false
                 });
             }
@@ -515,6 +575,10 @@ export default {
             padding-right:6px;
             font-size:20px;
         }
+    }
+    .check_a_icon {
+        vertical-align: middle;
+        color: #ddd;
     }
 }
 </style>

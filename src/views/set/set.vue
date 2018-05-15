@@ -136,7 +136,46 @@
                 </Modal>
                 <Table :columns="columns" :data="tableData" class="table01"></Table>
                 <h3 style="margin:24px 0;">触发器设置<Button icon="plus" style="margin-left:10px;">添加</Button></h3>
-                <Table :columns="columns1" :data="tableData1" class="table02"></Table>
+                <!-- <Table :columns="columns1" :data="tableData1" class="table02"></Table> -->
+                <table class="mytable">
+                    <thead>
+                        <tr>
+                            <th>DPID</th>
+                            <th>触发器名称</th>
+                            <th>触发功能点</th>
+                            <th>触发方式</th>
+                            <th>触发结果</th>
+                            <th>关联功能点</th>
+                            <th>控制方式</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template v-for="(item,i) in mytableData">
+                            <tr>
+                                <td :rowspan="item.control.length+1">{{item.setId}}</td>
+                                <td :rowspan="item.control.length+1">{{item.tirggerName}}</td>
+                                <td :rowspan="item.control.length+1">{{item.triggerFunction}}</td>
+                                <td>{{item.triggerType}}</td>
+                                <td>{{item.triggerResult}}</td>
+                                <td>{{item.associate}}</td>
+                                <td>{{item.controlType}}</td>
+                                <td :rowspan="item.control.length+1">{{item.note}}</td>
+                                <td :rowspan="item.control.length+1">
+                                    <a href="javascript:void(0)" @click="view" style="marign-right:5px;">编辑</a>
+                                    <a href="javascript:void(0)" @click="del" style="marign-right:5px;">删除</a>
+                                </td>
+                            </tr>
+                            <tr v-for="(control,j) in item.control">
+                                <td>{{control.triggerType}}</td>
+                                <td>{{control.triggerResult}}</td>
+                                <td>{{control.associate}}</td>
+                                <td>{{control.controlType}}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -323,7 +362,8 @@ export default {
             rwTypeRadio: '',
             rwTypeList: this.mockRwTypeListData(),
             min: null,
-            max: null
+            max: null,
+            mytableData: this.mockMyTableData()
         };
     },
     props: {
@@ -486,6 +526,31 @@ export default {
                 });
             }
             return data;
+        },
+        mockMyTableData () {
+            let data = [];
+            for (let i = 0; i < 10; i++) {
+                data.push({
+                    setId: i + 1,
+                    tirggerName: '烟雾报警0' + (i + 1),
+                    triggerFunction: '温度',
+                    triggerType: '报警',
+                    triggerResult: '电话',
+                    associate: '湿度',
+                    controlType: '正向',
+                    note: '开发中',
+                    control: []
+                });
+                for (let j = 0; j < 2; j++) {
+                    data[i].control.push({
+                        triggerType: '报警',
+                        triggerResult: '电话',
+                        associate: '湿度',
+                        controlType: '正向'
+                    });
+                }
+            }
+            return data;
         }
     }
 };
@@ -579,6 +644,20 @@ export default {
     .check_a_icon {
         vertical-align: middle;
         color: #ddd;
+    }
+}
+.mytable{
+    width:100%;
+    border-collapse:collapse;
+    th{
+        padding:5px 3px;
+    }
+    th,td{
+        border-top:1px solid #e0e0e0;
+        text-align: center;
+    }
+    td{
+        padding:3px;
     }
 }
 </style>

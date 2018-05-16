@@ -19,6 +19,12 @@
 					<div class="clearfix">
 						<div class="fl">
 							<h4>编辑数据集</h4>
+							<div class="wifibtn">
+								<Button type="primary" shape="circle" icon="wifi" style="background:linear-gradient(to bottom, #5DC459, #84D76D);border-color:tranparent"></Button>
+								<!-- <span><Icon type="wifi"></Icon></span> -->
+								<br />
+								上报数据
+							</div>
 							<div>
 								<!-- <Tree :data="data4" show-checkbox multiple></Tree> -->
 							</div>
@@ -73,18 +79,41 @@ export default {
 .home-debugging-con{
 	font-size:14px;
 	padding:25px 2%;
-	background:#fff;
-	.step-1{
-		padding-bottom:20px;
-		border-bottom:1px solid rgba(23,35,61,0.10);
-		margin-bottom:25px;
-		h4{
-			padding:20px 0;
-			text-align: center;
-			font-size: 16px;
-			color: #14233F;
-		}
-	}
+	background:#fff;	
+  .fl {
+    width: 60%;
+    float: left;
+    height:570px;
+    border:1px solid rgba(23,35,61,0.10);
+    margin-top:20px;
+    padding:15px;
+  }
+  .fr {
+  	position: relative;
+    width: 40%;
+    float: right;
+    height:570px;
+    border:1px solid rgba(23,35,61,0.10);
+    border-left:none;
+    margin-top:20px;
+    padding:15px;
+    .wifibtn{
+    	position: absolute;
+    	right:-5px;
+    	top:50%;
+    	color: rgba(23,35,61,0.25);
+    }
+  }
+  h4{
+  	padding:15px 0;
+    border-bottom:1px solid rgba(23,35,61,0.10);
+    font-size: 14px;
+	color: #17233D;
+  }
+  .clearfix {
+    overflow: auto;
+    _height: 1%;
+  }
 	.img_container{
 		text-align: center;
 		.img{

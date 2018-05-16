@@ -71,7 +71,7 @@ export default {
 	background:#fff;
 	.img_container{
 		width:520px;
-		margin:40px auto;
+		margin:60px auto;
 		text-align: center;
 		img{
 			display:inline-block;

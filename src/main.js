@@ -1,4 +1,4 @@
-import Vue from 'vue';
+﻿import Vue from 'vue';
 import iView from 'iview';
 import {router} from './router/index';
 import {appRouter} from './router/router';
@@ -11,7 +11,7 @@ import util from './libs/util';
 
 Vue.use(VueI18n);
 Vue.use(iView);
-
+//test
 new Vue({
     el: '#app',
     router: router,

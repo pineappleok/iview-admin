@@ -7,6 +7,7 @@
 		      </div>
 		      <top-timeline :cur-step="2" />
 		      <div class="action">
+		        <Button type="ghost" style="margin-right:5px;color:#008CF8">上一步</Button>
 		        <Button type="primary">下一步</Button>
 		      </div>
 			</div>
@@ -15,18 +16,13 @@
 			<left-info :product-info="productInfo" />
 			<div class="content">
 				<div class="home-debugging-con">
-					<h3>虚拟设备调试</h3>
-					<div class="clearfix">
-						<div class="fl">
-							<h4>编辑数据集</h4>
-							<div>
-								<!-- <Tree :data="data4" show-checkbox multiple></Tree> -->
-							</div>
-						</div>
-						<div class="fr">
-							<h4>通讯日志</h4>
-						</div>
+					<h3>MCU开发</h3>
+					<div class="img_container">
+						<img :src="mcuUrl" alt="" />
 					</div>
+		        	<div class="tc">
+		        		<Button type="primary" size="large">MCU功能包下载</Button>
+		        	</div>
 				</div>
 			</div>
 		</div>
@@ -38,7 +34,7 @@ import breadcrumbNav from "../main-components/breadcrumb-nav.vue";
 import topTimeline from "../my-components/top-timeline";
 import leftInfo from "../my-components/left-info";
 export default {
-	name: 'home_virtual',
+	name: 'home_mcu',
 	components: {
     breadcrumbNav,
     "top-timeline": topTimeline,
@@ -52,8 +48,7 @@ export default {
         avator:
           "http://test.www.yuedujiayuan.com/activity-ui/spring-reading/images/act-student.jpg"
       },
-	  step1Url: require("../../images/debugging_step_1.png"),
-	  step2Url: require("../../images/debugging_step_2.jpg")
+	  mcuUrl: require("../../images/mcu.jpg")
 	  };
 	},
 	computed: {
@@ -74,23 +69,17 @@ export default {
 	font-size:14px;
 	padding:25px 2%;
 	background:#fff;
-	.step-1{
-		padding-bottom:20px;
-		border-bottom:1px solid rgba(23,35,61,0.10);
-		margin-bottom:25px;
-		h4{
-			padding:20px 0;
-			text-align: center;
-			font-size: 16px;
-			color: #14233F;
+	.img_container{
+		width:520px;
+		margin:40px auto;
+		text-align: center;
+		img{
+			display:inline-block;
+			width:100%;
 		}
 	}
-	.img_container{
-		text-align: center;
-		.img{
-			display:inline-block;
-			width:70%;
-		}
+	.tc{
+		text-align:center;
 	}
 }
 </style>

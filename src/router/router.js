@@ -66,8 +66,9 @@ export const otherRouter = {
         { path: 'home/edit', title: '编辑产品', name: 'home_edit', component: () => import('@/views/home/edit.vue')},
         { 
             path: 'home/debug', title: '虚拟设备调试', name: 'home_debug', component: () => import('@/views/home/debugging.vue'),
-            children:[
-                {path: 'virtual', title: '1虚拟设备调试', name: 'home_virtual', component: () => import('@/views/home/debugging_virtual.vue')}
+            children: [
+                {path: 'virtual', title: '1虚拟设备调试', name: 'home_virtual', component: () => import('@/views/home/debugging_virtual.vue')},
+                {path: 'mcu', title: 'MCU开发', name: 'home_mcu', component: () => import('@/views/home/debugging_mcu.vue')}
             ]
 
         }

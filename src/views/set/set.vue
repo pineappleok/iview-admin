@@ -653,7 +653,7 @@ export default {
         padding:5px 3px;
     }
     th,td{
-        border-top:1px solid #e0e0e0;
+        border:1px solid #e0e0e0;
         text-align: center;
     }
     td{

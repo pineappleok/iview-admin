@@ -63,7 +63,8 @@ export const otherRouter = {
         { path: 'message', title: '消息中心', name: 'message_index', component: () => import('@/views/message/message.vue') },
         { path: 'home', title:'产品创建', name: 'home_index', component: () => import('@/views/home/newhome.vue')},
         { path: 'home/set', title: '设置功能', name: 'home_set', component: () => import('@/views/set/set.vue')},
-        { path: 'home/edit', title: '编辑产品', name: 'home_edit', component: () => import('@/views/home/edit.vue')}
+        { path: 'home/edit', title: '编辑产品', name: 'home_edit', component: () => import('@/views/home/edit.vue')},
+        { path: 'home/debug', title: '虚拟设备调试', name: 'home_debug', component: () => import('@/views/home/debugging.vue')}
     ]
 };
 

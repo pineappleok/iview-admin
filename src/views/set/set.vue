@@ -67,9 +67,9 @@
                   <Row class="mtb15" v-show="dataTypeRadio==='浮点数'">
                     <Col class="label" span="5">小数位数</Col>
                     <Col span="19">
-                      <!-- <Select v-model="decimalNumSelect" style="width:200px">
+                      <Select v-model="decimalNumSelect" style="width:200px">
                           <Option v-for="item in decimalNum" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                      </Select> -->
+                      </Select>
                     </Col>
                   </Row>
                   <Row class="mtb15" v-show="dataTypeRadio==='浮点数'">
@@ -111,75 +111,77 @@
                     <Input v-model="modalSetName" placeholder="请输入功能集名称..." style="width:260px;margin-right:5px;"></Input><Button class="create" type="success" icon="plus" style="color:#fff;border-color:transparent;">创建功能点</Button>
                     </Col>
                   </Row>
-                  <Row class="mtb15">
-                    <Col class="label" span="5">功能点001</Col>
-                    <Col span="19">
-                    <Input v-model="modalSetName" placeholder="请输入功能点名称..." style="width:260px;margin-right:5px;"></Input><Button type="ghost" shape="circle" icon="edit" @click="!collapse" style="margin-right:5px;border-color:#ccc;color:#ccc;"></Button><Button type="ghost" shape="circle" icon="ios-trash-outline" style="border-color:#ccc;color:#ccc;"></Button>
-                    </Col>
-                  </Row>
-                  <div v-if="collapse">
+                  <div v-for="i in 3">
                     <Row class="mtb15">
-                      <Col class="label" span="5">功能点名称</Col>
+                      <Col class="label" span="5">功能点00{{i}}</Col>
                       <Col span="19">
-                      <Input v-model="functionNameModal" placeholder="请输入功能点名称..." size="large"></Input>
+                      <Input v-model="modalSetName" placeholder="请输入功能点名称..." style="width:260px;margin-right:5px;"></Input><Button type="ghost" shape="circle" icon="edit" @click="collapse=!collapse" style="margin-right:5px;border-color:#ccc;color:#ccc;"></Button><Button type="ghost" shape="circle" icon="ios-trash-outline" style="border-color:#ccc;color:#ccc;"></Button>
                       </Col>
                     </Row>
-                    <Row class="mtb15">
-                      <Col class="label" span="5">数据点名称</Col>
-                      <Col span="19">
-                      <Input v-model="dataNameModal" placeholder="请输入数据点名称..." size="large"></Input>
-                      </Col>
-                    </Row>
-                    <Row class="mtb15">
-                      <Col class="label" span="5">数据类型</Col>
-                      <Col span="19">
-                      <RadioGroup v-model="dataTypeRadio" on-change="consoletest">
-                        <Radio v-for="item in dataTypeList" :label="item.label" :key="item.id">
-                          <span>{{item.label}}</span>
-                        </Radio>
-                      </RadioGroup>
-                      </Col>
-                    </Row>
-                    <Row class="mtb15">
-                      <Col class="label" span="5">读写类型</Col>
-                      <Col span="19">
-                      <RadioGroup v-model="rwTypeRadio">
-                        <Radio v-for="item in rwTypeList" :label="item.label" :key="item.id">
-                          <span>{{item.label}}</span>
-                        </Radio>
-                      </RadioGroup>
-                      </Col>
-                    </Row>
-                    <Row class="mtb15" v-show="dataTypeRadio==='整数'||dataTypeRadio==='浮点数'">
-                      <Col class="label" span="5">上下限</Col>
-                      <Col span="19">
-                      <InputNumber :max="10" :step="0.1" v-model="min" placeholder="请输入..."></InputNumber>　至
-                      <InputNumber :min="min" :step="0.1" v-model="max" placeholder="请输入..."></InputNumber>
-                      </Col>
-                    </Row>
-                    <Row class="mtb15" v-show="dataTypeRadio==='浮点数'">
-                      <Col class="label" span="5">小数位数</Col>
-                      <Col span="19">
-                        <!-- <Select v-model="decimalNumSelect" style="width:200px">
-                            <Option v-for="item in decimalNum" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                        </Select> -->
-                      </Col>
-                    </Row>
-                    <Row class="mtb15" v-show="dataTypeRadio==='浮点数'">
-                      <Col class="label" span="5">小数点传输</Col>
-                      <Col span="19">                     
-                        <RadioGroup v-model="decimalTranfer">
-                            <Radio label="传输"></Radio>
-                            <Radio label="不传输"></Radio>
+                    <div v-if="collapse" class="collapse">
+                      <Row class="mtb15">
+                        <Col class="label" span="5">功能点名称</Col>
+                        <Col span="19">
+                        <Input v-model="functionNameModal" placeholder="请输入功能点名称..." size="large"></Input>
+                        </Col>
+                      </Row>
+                      <Row class="mtb15">
+                        <Col class="label" span="5">数据点名称</Col>
+                        <Col span="19">
+                        <Input v-model="dataNameModal" placeholder="请输入数据点名称..." size="large"></Input>
+                        </Col>
+                      </Row>
+                      <Row class="mtb15">
+                        <Col class="label" span="5">数据类型</Col>
+                        <Col span="19">
+                        <RadioGroup v-model="dataTypeRadio" on-change="consoletest">
+                          <Radio v-for="item in dataTypeList" :label="item.label" :key="item.id">
+                            <span>{{item.label}}</span>
+                          </Radio>
                         </RadioGroup>
-                      </Col>
-                    </Row>
-                    <Row class="mtb15">
-                      <Col class="label" span="5">备注</Col>
-                      <Col span="19">
-                      <Input v-model="functionNameModal" placeholder="请输入备注..." size="large"></Input>
-                      </Col>
-                    </Row>
+                        </Col>
+                      </Row>
+                      <Row class="mtb15">
+                        <Col class="label" span="5">读写类型</Col>
+                        <Col span="19">
+                        <RadioGroup v-model="rwTypeRadio">
+                          <Radio v-for="item in rwTypeList" :label="item.label" :key="item.id">
+                            <span>{{item.label}}</span>
+                          </Radio>
+                        </RadioGroup>
+                        </Col>
+                      </Row>
+                      <Row class="mtb15" v-show="dataTypeRadio==='整数'||dataTypeRadio==='浮点数'">
+                        <Col class="label" span="5">上下限</Col>
+                        <Col span="19">
+                        <InputNumber :max="10" :step="0.1" v-model="min" placeholder="请输入..."></InputNumber>　至
+                        <InputNumber :min="min" :step="0.1" v-model="max" placeholder="请输入..."></InputNumber>
+                        </Col>
+                      </Row>
+                      <Row class="mtb15" v-show="dataTypeRadio==='浮点数'">
+                        <Col class="label" span="5">小数位数</Col>
+                        <Col span="19">
+                          <Select v-model="decimalNumSelect" style="width:200px">
+                              <Option v-for="item in decimalNum" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                          </Select>
+                        </Col>
+                      </Row>
+                      <Row class="mtb15" v-show="dataTypeRadio==='浮点数'">
+                        <Col class="label" span="5">小数点传输</Col>
+                        <Col span="19">                     
+                          <RadioGroup v-model="decimalTranfer">
+                              <Radio label="传输"></Radio>
+                              <Radio label="不传输"></Radio>
+                          </RadioGroup>
+                        </Col>
+                      </Row>
+                      <Row class="mtb15">
+                        <Col class="label" span="5">备注</Col>
+                        <Col span="19">
+                        <Input v-model="functionNameModal" placeholder="请输入备注..." size="large"></Input>
+                        </Col>
+                      </Row>
+                    </div>
                   </div>
                 </Modal>
               </div>
@@ -638,7 +640,7 @@ export default {
     mockDecimalNum () {
       let decimal = ["一位小数","二位小数","三位小数","四位小数"];
       let data = [];
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < decimal.length; i++) {
         data.push({
           value: decimal[i],
           label: decimal[i]
@@ -677,6 +679,9 @@ td.ivu-table-expanded-cell {
     color: rgba(29, 36, 54, 0.8);
     font-weight: bold;
     text-align: center;
+  }
+  .collapse .label{
+    font-weight:normal;
   }
   .check_a {
     display: inline-block;

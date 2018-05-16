@@ -1,8 +1,13 @@
 <template>
   <div class="home-main">
     <div class="main-header">
-      <span class="back">返回</span>
-      <button>保存</button>
+      <div class="breadcrumb">
+        <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
+      </div>
+      <top-timeline :cur-step="1" />
+      <div class="action">
+        <Button type="primary">下一步</Button>
+      </div>
     </div>
     <div class="main-content">
       <div class="content no-left home-edit">

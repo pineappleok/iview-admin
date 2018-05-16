@@ -1,90 +1,86 @@
 <template>
-    <div class="home-main">
-        <div class="main-header">
-            <div class="main-breadcrumb">
-                <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
-            </div>
-            <top-timeline :cur-step="1"/>
-            <Button size="large" type="primary">下一步</Button>
-        </div>
-        <div class="main-content">
-            <div class="sets">
-                <div class="product_info">
-                    <img class="avator-img" :src="avatorPath" />
-                    <h3>冷暖白光灯</h3>
-                    <p class="info">产品ID：20180228</p>
-                    <a href="javascript:void(0)">编辑产品信息</a>
-                </div>
-                <div class="table_container">
-                    <h3 style="margin:24px 0;">功能设置
-                        <Button icon="plus" @click="addSet = true" style="margin-left:10px;">添加</Button>
-                    </h3>
-                    <Modal v-model="addSet" class="modal" title="功能添加" @on-ok="ok" @on-cancel="cancel">
-                        <Tabs value="name1">
-                            <TabPane label="功能点" name="name1">
-                                <span v-for="(item,index) in functionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked" :key="index">
-                                    <Icon :type="item.checked?'android-checkbox':'android-checkbox-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
-                                <div style="margin-top:20px;">
-                                    没有找到合适的功能点，去自定义一个吧。
-                                    <a href="javascript:void(0)" @click="addSet=false,customFunction=true">自定义功能点</a>
-                                    <Modal v-model="customFunction" class="modal" title="自定义功能点" @on-ok="ok" @on-cancel="cancel">
-                                        <Row class="mtb15">
-                                            <Col class="label" span="5">功能点名称</Col>
-                                            <Col span="19">
-                                            <Input v-model="functionNameModal" placeholder="请输入功能点名称..." size="large"></Input>
-                                            </Col>
-                                        </Row>
-                                        <Row class="mtb15">
-                                            <Col class="label" span="5">数据点名称</Col>
-                                            <Col span="19">
-                                            <Input v-model="dataNameModal" placeholder="请输入数据点名称..." size="large"></Input>
-                                            </Col>
-                                        </Row>
-                                        <Row class="mtb15">
-                                            <Col class="label" span="5">数据类型</Col>
-                                            <Col span="19">
-                                            <!-- <span v-for="item in dataTypeList" class="check_a" :class="item.checked?'checked':''" @click="radioClick()"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span> -->
-                                            <RadioGroup v-model="dataTypeRadio" on-change="consoletest">
-                                                <Radio v-for="item in dataTypeList" :label="item.label" :key="item.id">
-                                                    <span>{{item.label}}</span>
-                                                </Radio>
-                                            </RadioGroup>
-                                            </Col>
-                                        </Row>
-                                        <Row class="mtb15">
-                                            <Col class="label" span="5">读写类型</Col>
-                                            <Col span="19">
-                                            <RadioGroup v-model="rwTypeRadio">
-                                                <Radio v-for="item in rwTypeList" :label="item.label" :key="item.id">
-                                                    <span>{{item.label}}</span>
-                                                </Radio>
-                                            </RadioGroup>
-                                            </Col>
-                                        </Row>
-                                        <Row class="mtb15" v-show="dataTypeRadio==='整数'||dataTypeRadio==='浮点数'">
-                                            <Col class="label" span="5">上下限</Col>
-                                            <Col span="19">
-                                            <InputNumber :max="10" :step="0.1" v-model="min" placeholder="请输入..."></InputNumber>　至
-                                            <InputNumber :min="min" :step="0.1" v-model="max" placeholder="请输入..."></InputNumber>
-                                            </Col>
-                                        </Row>
-                                        <!-- <Row class="mtb15">
+  <div class="home-main">
+    <div class="main-header">
+      <div class="breadcrumb">
+        <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
+      </div>
+      <top-timeline :cur-step="1" />
+      <div class="action">
+        <Button type="primary">下一步</Button>
+      </div>
+    </div>
+    <div class="main-content">
+      <left-info :product-info="productInfo" />
+      <div class="content">
+        <h3 style="margin:24px 0;">功能设置
+          <Button icon="plus" @click="addSet = true" style="margin-left:10px;">添加</Button>
+        </h3>
+        <Modal v-model="addSet" class="modal" title="功能添加" @on-ok="ok" @on-cancel="cancel">
+          <Tabs value="name1">
+            <TabPane label="功能点" name="name1">
+              <span v-for="(item,index) in functionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked" :key="index">
+                <Icon :type="item.checked?'android-checkbox':'android-checkbox-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
+              <div style="margin-top:20px;">
+                没有找到合适的功能点，去自定义一个吧。
+                <a href="javascript:void(0)" @click="addSet=false,customFunction=true">自定义功能点</a>
+                <Modal v-model="customFunction" class="modal" title="自定义功能点" @on-ok="ok" @on-cancel="cancel">
+                  <Row class="mtb15">
+                    <Col class="label" span="5">功能点名称</Col>
+                    <Col span="19">
+                    <Input v-model="functionNameModal" placeholder="请输入功能点名称..." size="large"></Input>
+                    </Col>
+                  </Row>
+                  <Row class="mtb15">
+                    <Col class="label" span="5">数据点名称</Col>
+                    <Col span="19">
+                    <Input v-model="dataNameModal" placeholder="请输入数据点名称..." size="large"></Input>
+                    </Col>
+                  </Row>
+                  <Row class="mtb15">
+                    <Col class="label" span="5">数据类型</Col>
+                    <Col span="19">
+                    <!-- <span v-for="item in dataTypeList" class="check_a" :class="item.checked?'checked':''" @click="radioClick()"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span> -->
+                    <RadioGroup v-model="dataTypeRadio" on-change="consoletest">
+                      <Radio v-for="item in dataTypeList" :label="item.label" :key="item.id">
+                        <span>{{item.label}}</span>
+                      </Radio>
+                    </RadioGroup>
+                    </Col>
+                  </Row>
+                  <Row class="mtb15">
+                    <Col class="label" span="5">读写类型</Col>
+                    <Col span="19">
+                    <RadioGroup v-model="rwTypeRadio">
+                      <Radio v-for="item in rwTypeList" :label="item.label" :key="item.id">
+                        <span>{{item.label}}</span>
+                      </Radio>
+                    </RadioGroup>
+                    </Col>
+                  </Row>
+                  <Row class="mtb15" v-show="dataTypeRadio==='整数'||dataTypeRadio==='浮点数'">
+                    <Col class="label" span="5">上下限</Col>
+                    <Col span="19">
+                    <InputNumber :max="10" :step="0.1" v-model="min" placeholder="请输入..."></InputNumber>　至
+                    <InputNumber :min="min" :step="0.1" v-model="max" placeholder="请输入..."></InputNumber>
+                    </Col>
+                  </Row>
+                  <!-- <Row class="mtb15">
                                         <Col class="label" span="5">连接方式</Col>
                                         <Col span="19">       
                                             <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>  
                                         </Col>
                                     </Row>   -->
-                                    </Modal>
-                                </div>
-                            </TabPane>
-                            <TabPane label="功能集" name="name2">
-                                <span v-for="item in setList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked">
-                                    <Icon :type="item.checked?'android-checkbox':'android-checkbox-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
-                                <div style="margin-top:20px;">
-                                    没有找到合适的功能集，去自定义一个吧。
-                                    <a href="javascript:void(0)" @click="customSet=true">自定义功能集</a>
-                                    <Modal v-model="customSet" class="modal" title="自定义功能集" @on-ok="ok" @on-cancel="cancel">
-                                        <!-- <Row class="mtb15">
+                </Modal>
+              </div>
+            </TabPane>
+            <TabPane label="功能集" name="name2">
+              <span v-for="item in setList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked">
+                <Icon :type="item.checked?'android-checkbox':'android-checkbox-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
+              <div style="margin-top:20px;">
+                没有找到合适的功能集，去自定义一个吧。
+                <a href="javascript:void(0)" @click="customSet=true">自定义功能集</a>
+                <Modal v-model="customSet" class="modal" title="自定义功能集" @on-ok="ok" @on-cancel="cancel">
+                  <!-- <Row class="mtb15">
                                         <Col class="label" span="5">产品行业</Col>
                                         <Col span="19">
                                             <Select placeholder="请选择产品行业..." size="large">
@@ -104,17 +100,17 @@
                                             <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>  
                                         </Col>
                                     </Row>  -->
-                                    </Modal>
-                                </div>
-                            </TabPane>
-                            <TabPane label="触发器" name="name3">
-                                <span v-for="item in triggerList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked">
-                                    <Icon :type="item.checked?'android-checkbox':'android-checkbox-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
-                                <div style="margin-top:20px;">
-                                    没有找到合适的触发器，去自定义一个吧。
-                                    <a href="javascript:void(0)" @click="customTrigger=true">自定义触发器</a>
-                                    <Modal v-model="customTrigger" class="modal" title="自定义触发器" @on-ok="ok" @on-cancel="cancel">
-                                        <!-- <Row class="mtb15">
+                </Modal>
+              </div>
+            </TabPane>
+            <TabPane label="触发器" name="name3">
+              <span v-for="item in triggerList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked">
+                <Icon :type="item.checked?'android-checkbox':'android-checkbox-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
+              <div style="margin-top:20px;">
+                没有找到合适的触发器，去自定义一个吧。
+                <a href="javascript:void(0)" @click="customTrigger=true">自定义触发器</a>
+                <Modal v-model="customTrigger" class="modal" title="自定义触发器" @on-ok="ok" @on-cancel="cancel">
+                  <!-- <Row class="mtb15">
                                         <Col class="label" span="5">产品行业</Col>
                                         <Col span="19">
                                             <Select placeholder="请选择产品行业..." size="large">
@@ -134,74 +130,81 @@
                                             <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>  
                                         </Col>
                                     </Row> -->
-                                    </Modal>
-                                </div>
-                            </TabPane>
-                        </Tabs>
-                    </Modal>
-                    <Table :columns="columns" :data="tableData" class="table01"></Table>
-                    <h3 style="margin:24px 0;">触发器设置
-                        <Button icon="plus" style="margin-left:10px;">添加</Button>
-                    </h3>
-                    <!-- <Table :columns="columns1" :data="tableData1" class="table02"></Table> -->
-                    <table class="mytable">
-                        <thead>
-                            <tr>
-                                <th>DPID</th>
-                                <th>触发器名称</th>
-                                <th>触发功能点</th>
-                                <th>触发方式</th>
-                                <th>触发结果</th>
-                                <th>关联功能点</th>
-                                <th>控制方式</th>
-                                <th>备注</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <template v-for="(item,i) in mytableData">
-                                <tr>
-                                    <td :rowspan="item.control.length+1">{{item.setId}}</td>
-                                    <td :rowspan="item.control.length+1">{{item.tirggerName}}</td>
-                                    <td :rowspan="item.control.length+1">{{item.triggerFunction}}</td>
-                                    <td>{{item.triggerType}}</td>
-                                    <td>{{item.triggerResult}}</td>
-                                    <td>{{item.associate}}</td>
-                                    <td>{{item.controlType}}</td>
-                                    <td :rowspan="item.control.length+1">{{item.note}}</td>
-                                    <td :rowspan="item.control.length+1">
-                                        <a href="javascript:void(0)" @click="edit" style="marign-right:5px;">编辑</a>
-                                        <a href="javascript:void(0)" @click="del" style="marign-right:5px;">删除</a>
-                                    </td>
-                                </tr>
-                                <tr v-for="(control,j) in item.control">
-                                    <td>{{control.triggerType}}</td>
-                                    <td>{{control.triggerResult}}</td>
-                                    <td>{{control.associate}}</td>
-                                    <td>{{control.controlType}}</td>
-                                </tr>
-                            </template>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+                </Modal>
+              </div>
+            </TabPane>
+          </Tabs>
+        </Modal>
+        <Table :columns="columns" :data="tableData" class="table01"></Table>
+        <h3 style="margin:24px 0;">触发器设置
+          <Button icon="plus" style="margin-left:10px;">添加</Button>
+        </h3>
+        <!-- <Table :columns="columns1" :data="tableData1" class="table02"></Table> -->
+        <table class="mytable">
+          <thead>
+            <tr>
+              <th>DPID</th>
+              <th>触发器名称</th>
+              <th>触发功能点</th>
+              <th>触发方式</th>
+              <th>触发结果</th>
+              <th>关联功能点</th>
+              <th>控制方式</th>
+              <th>备注</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template v-for="(item,i) in mytableData">
+              <tr>
+                <td :rowspan="item.control.length+1">{{item.setId}}</td>
+                <td :rowspan="item.control.length+1">{{item.tirggerName}}</td>
+                <td :rowspan="item.control.length+1">{{item.triggerFunction}}</td>
+                <td>{{item.triggerType}}</td>
+                <td>{{item.triggerResult}}</td>
+                <td>{{item.associate}}</td>
+                <td>{{item.controlType}}</td>
+                <td :rowspan="item.control.length+1">{{item.note}}</td>
+                <td :rowspan="item.control.length+1">
+                  <a href="javascript:void(0)" @click="edit" style="marign-right:5px;">编辑</a>
+                  <a href="javascript:void(0)" @click="del" style="marign-right:5px;">删除</a>
+                </td>
+              </tr>
+              <tr v-for="(control,j) in item.control">
+                <td>{{control.triggerType}}</td>
+                <td>{{control.triggerResult}}</td>
+                <td>{{control.associate}}</td>
+                <td>{{control.controlType}}</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import expandRow from "./set_table.vue";
 import breadcrumbNav from "../main-components/breadcrumb-nav.vue";
-import topTimeline from "../my-components/top-timeline/top-timeline";
+import topTimeline from "../my-components/top-timeline";
+import leftInfo from "../my-components/left-info";
 export default {
   name: "home_set",
   components: {
     expandRow,
     breadcrumbNav,
-    "top-timeline": topTimeline
+    "top-timeline": topTimeline,
+    "left-info": leftInfo
   },
   data() {
     return {
+      productInfo: {
+        id: 23446,
+        name: "智能冷暖白光灯1(CW)",
+        avator:
+          "http://test.www.yuedujiayuan.com/activity-ui/spring-reading/images/act-student.jpg"
+      },
       columns: [
         {
           type: "expand",
@@ -549,52 +552,16 @@ export default {
   }
 };
 </script>
-<style lang="less">
-.main-header {
+<style lang="less" scoped>
+td.ivu-table-expanded-cell {
+  padding-right: 0;
 }
-.sets {
-  position: relative;
-  margin: 20px 40px 20px 200px;
-  .table {
-    width: 100%;
-  }
-  td.ivu-table-expanded-cell {
-    padding-right: 0;
-  }
-  .product_info {
-    position: absolute;
-    left: -200px;
-    top: -20px;
-    width: 160px;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 56px 22px;
-    background: #fff;
-    img {
-      width: 64px;
-      height: 64px;
-    }
-    h3 {
-      padding: 5px 0;
-      font-size: 14px;
-      color: rgba(23, 35, 61, 0.8);
-      font-weight: bold;
-    }
-    .info {
-      font-size: 12px;
-      font-weight: normal;
-      color: rgba(23, 35, 61, 0.55);
-      line-height: 1;
-    }
-    a {
-      display: inline-block;
-      padding-top: 24px;
-    }
-  }
-  .ivu-btn {
-    border-color: #57a3f3;
-    color: #57a3f3;
-  }
+.ivu-btn {
+  border-color: #57a3f3;
+  color: #57a3f3;
+}
+.table {
+  width: 100%;
 }
 .table01 .ivu-table th {
   width: calc((100% - 50px) / 11);

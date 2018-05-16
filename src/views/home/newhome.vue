@@ -1,116 +1,118 @@
 <template>
-    <div class="home-main">
-        <!-- 头部区 -->
-        <div class="main-header">
-            <Select class="select-type" v-model="productType" placeholder="请选择项目类型" :on-change="selectType()">
-                <Option v-for="item in productTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            <Button class="create" type="primary" icon="plus" @click="ModalCreateProduct = true">创建新产品</Button>
-            <Input class="search" v-model="searchName" icon="ios-search" placeholder="输入产品名称搜索..." style="width: 220px"></Input>
-        </div>
-        <!-- 主内容区 -->
-        <div class="main-content">
-            <Row>
-                <Col span="2">&nbsp;</Col>
-                <Col span="18">
-                <Row>
-                    <ul class="product-ul">
-                        <li v-for="(item,index) in newProductList" :key="index">
-                            <Card>
-                                <Row type="flex">
-                                    <Col span="16" style="padding-left:6px;">
-                                    <Row class-name="made-child-con-middle" type="flex" align="middle">
-                                        <div>
-                                            <p class="name">{{item.productName}}</p>
-                                            <p class="info">状态　{{item.status}}</p>
-                                            <p class="info">创建　{{item.start}}</p>
-                                            <p class="info">更新　{{item.update}}</p>
-                                        </div>
-                                    </Row>
-                                    </Col>
-                                    <Col span="8">
-                                    <Row class-name="made-child-con-middle" type="flex" align="middle">
-                                        <img class="avator-img" :src="avatorPath" />
-                                    </Row>
-                                    </Col>
-                                </Row>
-                                <div class="line-gray" style="margin:10px 0;"></div>
-                                <Row class="margin-top-8">
-                                    <router-link :to="'/home/edit?id='+item.id" style="margin-right:8px;">编辑产品</router-link>
-                                    <a href="javascript:void(0)" style="color: rgba(23,35,61,0.55);" @click="deleteProduct(item.id)">删除</a>
-                                </Row>
-                            </Card>
-                        </li>
-                    </ul>
-                </Row>
-                </Col>
-                <Col span="4">
-                <Row>
-                    <ul class="timeline">
-                        <li>
-                            <Icon type="ios-arrow-thin-down" size="18px" class="timeline_icon"></Icon>
-                            <br />
-                        </li>
-                        <li>
-                            <router-link to="/home/set" tag="span">
-                                <Icon type="android-settings" size="18px" class="timeline_icon"></Icon>
-                                <br />
-                                <span class="timeline_text">功能设置</span>
-                            </router-link>
-                        </li>
-                        <li>
-                            <Icon type="android-phone-portrait" size="18px" class="timeline_icon"></Icon>
-                            <br />
-                            <span class="timeline_text">APP界面设置</span>
-                        </li>
-                        <li>
-                            <Icon type="android-wifi" size="18px" class="timeline_icon"></Icon>
-                            <br />
-                            <span class="timeline_text">虚拟设备调试</span>
-                        </li>
-                        <li>
-                            <Icon type="ios-paperplane-outline" size="18px" class="timeline_icon"></Icon>
-                            <br />
-                            <span class="timeline_text">申请发布</span>
-                        </li>
-                    </ul>
-                </Row>
-                <Row style="margin-top:15px;text-align:center;">
-                    <a href="" style="font-size:14px;font-weight:100%:">
-                        <Icon type="android-arrow-dropright-circle" color="#008CF8" style="margin-right:10px;"></Icon>观看演示视频</a>
-                </Row>
-                </Col>
-            </Row>
-        </div>
-        <!-- 创建产品弹窗 -->
-        <Modal v-model="ModalCreateProduct" class="modal" title="产品创建" @on-ok="ok" @on-cancel="cancel">
-            <Row class="mtb15">
-                <Col class="label" span="5">产品行业</Col>
-                <Col span="19">
-                <Select placeholder="请选择产品行业..." size="large">
-                    <Option v-for="item in industryList" :value="item.value" :key="item.value"></Option>
-                </Select>
-                </Col>
-            </Row>
-            <Row class="mtb15">
-                <Col class="label" span="5">产品名称</Col>
-                <Col span="19">
-                <Input v-model="poductNameModal" placeholder="请输入产品名称..." size="large"></Input>
-                </Col>
-            </Row>
-            <Row class="mtb15">
-                <Col class="label" span="5">连接方式</Col>
-                <Col span="19">
-                <!-- <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>   -->
-                <RadioGroup v-model="connectionTypePadio">
-                    <Radio v-for="item in connectionList" :label="item.label" :key="item.id">
-                        <span>{{item.label}}</span>
-                    </Radio>
-                </RadioGroup>
-                </Col>
-            </Row>
-        </Modal>
+  <div class="home-main">
+    <!-- 头部区 -->
+    <div class="main-header">
+      <Select class="select-type" v-model="productType" placeholder="请选择项目类型" :on-change="selectType()">
+        <Option v-for="item in productTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+      </Select>
+      <Button class="create" type="primary" icon="plus" @click="ModalCreateProduct = true">创建新产品</Button>
+      <Input class="search" v-model="searchName" icon="ios-search" placeholder="输入产品名称搜索..." style="width: 220px"></Input>
     </div>
+    <!-- 主内容区 -->
+    <div class="main-content">
+      <div class="content no-left">
+        <Row>
+          <Col span="2">&nbsp;</Col>
+          <Col span="18">
+          <Row>
+            <ul class="product-ul">
+              <li v-for="(item,index) in newProductList" :key="index">
+                <Card>
+                  <Row type="flex">
+                    <Col span="16" style="padding-left:6px;">
+                    <Row class-name="made-child-con-middle" type="flex" align="middle">
+                      <div>
+                        <p class="name">{{item.productName}}</p>
+                        <p class="info">状态　{{item.status}}</p>
+                        <p class="info">创建　{{item.start}}</p>
+                        <p class="info">更新　{{item.update}}</p>
+                      </div>
+                    </Row>
+                    </Col>
+                    <Col span="8">
+                    <Row class-name="made-child-con-middle" type="flex" align="middle">
+                      <img class="avator-img" :src="avatorPath" />
+                    </Row>
+                    </Col>
+                  </Row>
+                  <div class="line-gray" style="margin:10px 0;"></div>
+                  <Row class="margin-top-8">
+                    <router-link :to="'/home/edit?id='+item.id" style="margin-right:8px;">编辑产品</router-link>
+                    <a href="javascript:void(0)" style="color: rgba(23,35,61,0.55);" @click="deleteProduct(item.id)">删除</a>
+                  </Row>
+                </Card>
+              </li>
+            </ul>
+          </Row>
+          </Col>
+          <Col span="4">
+          <Row>
+            <ul class="timeline">
+              <li>
+                <Icon type="ios-arrow-thin-down" size="18px" class="timeline_icon"></Icon>
+                <br />
+              </li>
+              <li>
+                <router-link to="/home/set" tag="span">
+                  <Icon type="android-settings" size="18px" class="timeline_icon"></Icon>
+                  <br />
+                  <span class="timeline_text">功能设置</span>
+                </router-link>
+              </li>
+              <li>
+                <Icon type="android-phone-portrait" size="18px" class="timeline_icon"></Icon>
+                <br />
+                <span class="timeline_text">APP界面设置</span>
+              </li>
+              <li>
+                <Icon type="android-wifi" size="18px" class="timeline_icon"></Icon>
+                <br />
+                <span class="timeline_text">虚拟设备调试</span>
+              </li>
+              <li>
+                <Icon type="ios-paperplane-outline" size="18px" class="timeline_icon"></Icon>
+                <br />
+                <span class="timeline_text">申请发布</span>
+              </li>
+            </ul>
+          </Row>
+          <Row style="margin-top:15px;text-align:center;">
+            <a href="" style="font-size:14px;font-weight:100%:">
+              <Icon type="android-arrow-dropright-circle" color="#008CF8" style="margin-right:10px;"></Icon>观看演示视频</a>
+          </Row>
+          </Col>
+        </Row>
+      </div>
+    </div>
+    <!-- 创建产品弹窗 -->
+    <Modal v-model="ModalCreateProduct" class="modal" title="产品创建" @on-ok="ok" @on-cancel="cancel">
+      <Row class="mtb15">
+        <Col class="label" span="5">产品行业</Col>
+        <Col span="19">
+        <Select placeholder="请选择产品行业..." size="large">
+          <Option v-for="item in industryList" :value="item.value" :key="item.value"></Option>
+        </Select>
+        </Col>
+      </Row>
+      <Row class="mtb15">
+        <Col class="label" span="5">产品名称</Col>
+        <Col span="19">
+        <Input v-model="poductNameModal" placeholder="请输入产品名称..." size="large"></Input>
+        </Col>
+      </Row>
+      <Row class="mtb15">
+        <Col class="label" span="5">连接方式</Col>
+        <Col span="19">
+        <!-- <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>   -->
+        <RadioGroup v-model="connectionTypePadio">
+          <Radio v-for="item in connectionList" :label="item.label" :key="item.id">
+            <span>{{item.label}}</span>
+          </Radio>
+        </RadioGroup>
+        </Col>
+      </Row>
+    </Modal>
+  </div>
 </template>
 
 <script>
@@ -261,8 +263,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .main-header {
-  padding-top: 15px;
+  padding-top: 16px;
   padding-left: 80px;
+  text-align: left;
   .select-type {
     width: 200px;
   }

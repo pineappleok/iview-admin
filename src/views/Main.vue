@@ -1,56 +1,56 @@
 <template>
-    <div class="main" :class="{'main-hide-text': shrink}">
-        <div class="top-header">
-            <Menu mode="horizontal" active-name="1">
-                <Row>
-                    <Col span="4">
-                    <div class="layout-logo"><img src="../images/logo.png" alt=""></div>
-                    </Col>
-                    <Col span="16" style="text-align:center;">
-                    <div class="layout-nav">
-                        <MenuItem name="1">
-                        <router-link to="/home" tag="span">产品创建</router-link>
-                        </MenuItem>
-                        <MenuItem name="2" to="home/set"> 运维管理
-                        </MenuItem>
-                        <MenuItem name="3"> 运营分析
-                        </MenuItem>
-                        <MenuItem name="4"> 开发文档
-                        </MenuItem>
-                    </div>
-                    </Col>
-                    <Col span="4" style="text-align:right;">
-                    <div class="header-avator-con">
-                        <div class="search">
-                            <Icon type="search" :size="20" style="margin-right:10px;color:#fff;vertical-align:middle;"></Icon>
-                            </Button>
-                        </div>
-                        <message-tip v-model="mesCount"></message-tip>
-                        <div class="user-dropdown-menu-con">
-                            <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
-                                <Avatar :src="avatorPath" style="background: #619fe7;margin-right: 10px;"></Avatar>
-                                <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
-                                    <a href="javascript:void(0)">
-                                        <Icon type="chevron-down" :size="14"></Icon>
-                                    </a>
-                                    <DropdownMenu slot="list">
-                                        <DropdownItem name="ownSpace">个人中心</DropdownItem>
-                                        <DropdownItem name="loginout" divided>退出登录</DropdownItem>
-                                    </DropdownMenu>
-                                </Dropdown>
-                            </Row>
-                        </div>
-                    </div>
-                    </Col>
-                </Row>
-            </Menu>
-        </div>
-        <div class="mid-content">
-            <keep-alive include="old_home">
-                <router-view></router-view>
-            </keep-alive>
-        </div>
+  <div class="main" :class="{'main-hide-text': shrink}">
+    <div class="top-header">
+      <Menu mode="horizontal" active-name="1">
+        <Row>
+          <Col span="4">
+          <div class="layout-logo"><img src="../images/logo.png" alt=""></div>
+          </Col>
+          <Col span="16" style="text-align:center;">
+          <div class="layout-nav">
+            <MenuItem name="1">
+            <router-link to="/home" tag="span">产品创建</router-link>
+            </MenuItem>
+            <MenuItem name="2" to="home/set"> 运维管理
+            </MenuItem>
+            <MenuItem name="3"> 运营分析
+            </MenuItem>
+            <MenuItem name="4"> 开发文档
+            </MenuItem>
+          </div>
+          </Col>
+          <Col span="4" style="text-align:right;">
+          <div class="header-avator-con">
+            <div class="search">
+              <Icon type="search" :size="20" style="margin-right:10px;color:#fff;vertical-align:middle;"></Icon>
+              </Button>
+            </div>
+            <message-tip v-model="mesCount"></message-tip>
+            <div class="user-dropdown-menu-con">
+              <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
+                <Avatar :src="avatorPath" style="background: #619fe7;margin-right: 10px;"></Avatar>
+                <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
+                  <a href="javascript:void(0)">
+                    <Icon type="chevron-down" :size="14"></Icon>
+                  </a>
+                  <DropdownMenu slot="list">
+                    <DropdownItem name="ownSpace">个人中心</DropdownItem>
+                    <DropdownItem name="loginout" divided>退出登录</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </Row>
+            </div>
+          </div>
+          </Col>
+        </Row>
+      </Menu>
     </div>
+    <div class="mid-content">
+      <keep-alive include="old_home">
+        <router-view></router-view>
+      </keep-alive>
+    </div>
+  </div>
 </template>
 <script>
 import shrinkableMenu from "./main-components/shrinkable-menu/shrinkable-menu.vue";
@@ -206,6 +206,9 @@ export default {
   }
 };
 </script>
+<style lang="less">
+@import "../styles/main-common.less";
+</style>
 <style lang="less" scoped>
 .ivu-menu-light {
   height: 64px;
@@ -326,5 +329,4 @@ export default {
     }
   }
 }
-
 </style>

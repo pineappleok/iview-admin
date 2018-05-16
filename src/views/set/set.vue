@@ -163,7 +163,7 @@
                                 <td>{{item.controlType}}</td>
                                 <td :rowspan="item.control.length+1">{{item.note}}</td>
                                 <td :rowspan="item.control.length+1">
-                                    <a href="javascript:void(0)" @click="view" style="marign-right:5px;">编辑</a>
+                                    <a href="javascript:void(0)" @click="edit" style="marign-right:5px;">编辑</a>
                                     <a href="javascript:void(0)" @click="del" style="marign-right:5px;">删除</a>
                                 </td>
                             </tr>
@@ -183,12 +183,10 @@
 
 <script>
 import expandRow from './set_table.vue';
-import expandRow2 from './set_table_trigger.vue';
 export default {
     name: 'home_set',
     components: {
-        expandRow,
-        expandRow2
+        expandRow
     },
     data () {
         return {
@@ -276,78 +274,6 @@ export default {
                 }
             ],
             tableData: this.mockSetsData(),
-            columns1: [
-                {
-                    type: 'expand',
-                    width: 50,
-                    render: (h, params) => {
-                        return h(expandRow2, {
-                            props: {
-                                row: params.row['functionPoint']
-                            }
-                        });
-                    }
-                },
-                {
-                    title: 'DPID',
-                    key: 'setId'
-                },
-                {
-                    title: '触发器名称',
-                    key: 'tirggerName'
-                },
-                {
-                    title: '触发功能点',
-                    key: 'triggerFunction'
-                },
-                {
-                    title: '触发方式',
-                    key: 'triggerType'
-                },
-                {
-                    title: '触发结果',
-                    key: 'triggerResult'
-                },
-                {
-                    title: '关联功能点',
-                    key: 'associate'
-                },
-                {
-                    title: '控制方式',
-                    key: 'controlType'
-                },
-                {
-                    title: '备注',
-                    key: 'note'
-                },
-                {
-                    title: '操作',
-                    key: 'operate',
-                    align: 'center',
-                    render: (h, params) => {
-                        return h('div', [
-                            h('a', {
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.show(params.index);
-                                    }
-                                }
-                            }, '编辑'),
-                            h('a', {
-                                on: {
-                                    click: () => {
-                                        this.remove(params.index);
-                                    }
-                                }
-                            }, '删除')
-                        ]);
-                    }
-                }
-            ],
-            tableData1: this.mockSetsData1(),
             addSet: false,
             functionList: this.mockfunctionListData(),
             setList: this.mocksetListData(),
@@ -386,11 +312,17 @@ export default {
             alert(1);
             this.$Message.info(this.dataTypeRadio);
         },
+        edit () {
+            this.$Message.info('已确认');
+        },
         ok () {
             this.$Message.info('已确认');
         },
         cancel () {
             this.$Message.info('已取消');
+        },
+        del: () => {
+            this.remove()
         },
         mockSetsData () {
             let data = [];

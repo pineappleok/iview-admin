@@ -2,11 +2,10 @@
   <div class="home-main">
     <div class="main-header">
       <div class="breadcrumb">
-        <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
+        <span class="back">返回</span>
       </div>
-      <top-timeline :cur-step="1" />
       <div class="action">
-        <Button type="primary">下一步</Button>
+        <Button type="primary">保存</Button>
       </div>
     </div>
     <div class="main-content">

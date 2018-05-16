@@ -45,105 +45,9 @@
                 </Row>
             </Menu>
         </div>
-        <div v-if="sidebarPage" class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
-            <scroll-bar ref="scrollBar">
-                <shrinkable-menu 
-                    :shrink="shrink"
-                    @on-change="handleSubmenuChange"
-                    :theme="menuTheme" 
-                    :before-push="beforePush"
-                    :open-names="openedSubmenuArr"
-                    :menu-list="menuList">
-                    <div slot="top" class="logo-con">
-                        <img v-show="!shrink"  src="../images/logo.jpg" key="max-logo" />
-                        <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" />
-                    </div>
-                </shrinkable-menu>
-            </scroll-bar>
-        </div>
-        <div class="main-header-con" :style="{paddingLeft: !sidebarPage?'0':(this.shrink?'60px':'200px')}">
-            <div class="main-header">
-                <div class="navicon-con" v-if="sidebarPage">
-                    <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
-                        <Icon type="navicon" size="32"></Icon>
-                    </Button>
-                </div>
-                <div v-if="!childData.isHome" class="header-middle-con" :style="{left: sidebarPage?'60px':'0'}">
-                    <Row>
-                        <Col span="6">
-                            <div class="main-breadcrumb">
-                                <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
-                            </div>
-                        </Col>
-                        <Col span="16">
-                            <ul class="top_timeline">
-                                <li v-for="(item,index) in progress" :class="{active:index<=childData.progressActiveIndex,current:index==childData.progressActiveIndex}">
-                                    <span class="timeline_icon">{{index+1}}</span>
-                                    <br />
-                                    <span class="timeline_text">{{item.text}}</span>
-                                </li>
-                            </ul>
-                        </Col>
-                        <Col span="2" style="text-align:right;"><Button size="large" type="primary">下一步</Button></Col>
-                    </Row>
-                </div>
-                <div v-else class="main-search">
-                    <Row>
-                        <Col span="2">&nbsp;</Col>
-                        <Col span="22">
-                            <Row>
-                                <Col :lg="4" :md="8">
-                                    <Select v-model="productType" style="width:200px" placeholder="请选择项目类型">
-                                        <Option v-for="item in productList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                    </Select>
-                                </Col>
-                                <Col :lg="13":md="2">&nbsp;</Col>
-                                <Col :lg="7" :md="14" style="text-align:right;">  
-                                    <Input v-model="productName" icon="ios-search" placeholder="输入产品名称搜索..." style="width: 220px"></Input>
-                                    <Button type="primary" icon="plus" @click="ModalCreateProduct = true">创建新产品</Button>
-                                    <Modal v-model="ModalCreateProduct" class="modal"
-                                        title="产品创建"
-                                        @on-ok="ok"
-                                        @on-cancel="cancel">
-                                        <Row class="mtb15">
-                                            <Col class="label" span="5">产品行业</Col>
-                                            <Col span="19">
-                                                <Select placeholder="请选择产品行业..." size="large">
-                                                    <Option v-for="item in industryList" :value="item.value" :key="item.value"></Option>
-                                                </Select>
-                                            </Col>
-                                        </Row> 
-                                        <Row class="mtb15">
-                                            <Col class="label" span="5">产品名称</Col>
-                                            <Col span="19">
-                                                <Input v-model="poductNameModal" placeholder="请输入产品名称..." size="large"></Input>
-                                            </Col>
-                                        </Row>
-                                        <Row class="mtb15">
-                                            <Col class="label" span="5">连接方式</Col>
-                                            <Col span="19">       
-                                                <!-- <span v-for="item in connectionList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked"><Icon :type="item.checked?'ios-checkmark':'ios-checkmark-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>   -->
-                                                <RadioGroup v-model="connectionTypePadio">
-                                                    <Radio v-for="item in connectionList" :label="item.label" :key="item.id">
-                                                        <span>{{item.label}}</span>
-                                                    </Radio>
-                                                </RadioGroup>
-                                            </Col>
-                                        </Row>
-                                    </Modal>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </div>
-            </div>
-            <div v-if="tagsShow" class="tags-con">
-                <tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened>
-            </div>
-        </div>
-        <div class="single-page-con" :style="{left: !sidebarPage?'0':(this.shrink?'60px':'200px')}">
+        <div class="single-page-con">
             <div class="single-page">
-                <keep-alive :include="cachePage">
+                <keep-alive include="old_home">
                     <router-view :home="childData" @childChange="isChildChanged"></router-view>
                 </keep-alive>
             </div>
@@ -332,7 +236,9 @@
                 // console.log(isFullScreen);
             },
             scrollBarResize () {
-                this.$refs.scrollBar.resize();
+                if(this.sidebarPage){
+                    this.$refs.scrollBar.resize();
+                }
             }
         },
         watch: {
@@ -347,7 +253,8 @@
             },
             lang () {
                 util.setCurrentPath(this, this.$route.name); // 在切换语言时用于刷新面包屑
-            }/*,
+            }
+            /*,
             openedSubmenuArr () {
                 setTimeout(() => {
                     this.scrollBarResize();

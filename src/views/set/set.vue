@@ -17,52 +17,52 @@
       <!-- 右侧具体内容 -->
       <div class="content">
         <div class="home-set-con">
-        <h3 style="margin:24px 0;">功能设置
-          <Button icon="plus" @click="modelAddSet = true" style="margin-left:10px;">添加</Button>
-        </h3>
-        <Table :columns="functionColumns" :data="tableFunctionList" class="table01"></Table>
-        <h3 style="margin:24px 0;">触发器设置
-          <Button icon="plus" @click="modelAddSet = true" style="margin-left:10px;" >添加</Button>
-        </h3>
-        <table class="mytable">
-          <thead>
-            <tr>
-              <th>DPID</th>
-              <th>触发器名称</th>
-              <th>触发功能点</th>
-              <th>触发方式</th>
-              <th>触发结果</th>
-              <th>关联功能点</th>
-              <th>控制方式</th>
-              <th>备注</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <template v-for="(item,index) in tableTriggerList">
+          <h3 style="margin:24px 0;">功能设置
+            <Button icon="plus" @click="modelAddSet = true" style="margin-left:10px;">添加</Button>
+          </h3>
+          <Table :columns="functionColumns" :data="tableFunctionList" class="table01"></Table>
+          <h3 style="margin:24px 0;">触发器设置
+            <Button icon="plus" @click="modelAddSet = true" style="margin-left:10px;">添加</Button>
+          </h3>
+          <table class="mytable">
+            <thead>
               <tr>
-                <td :rowspan="item.control.length+1">{{item.setId}}</td>
-                <td :rowspan="item.control.length+1">{{item.tirggerName}}</td>
-                <td :rowspan="item.control.length+1">{{item.triggerFunction}}</td>
-                <td>{{item.triggerType}}</td>
-                <td>{{item.triggerResult}}</td>
-                <td>{{item.associate}}</td>
-                <td>{{item.controlType}}</td>
-                <td :rowspan="item.control.length+1">{{item.note}}</td>
-                <td :rowspan="item.control.length+1">
-                  <a href="javascript:void(0)" @click="editTriggerItem(item.id)" style="marign-right:5px;">编辑</a>
-                  <a href="javascript:void(0)" @click="delTriggerItem(item.id, index)" style="marign-right:5px;">删除</a>
-                </td>
+                <th>DPID</th>
+                <th>触发器名称</th>
+                <th>触发功能点</th>
+                <th>触发方式</th>
+                <th>触发结果</th>
+                <th>关联功能点</th>
+                <th>控制方式</th>
+                <th>备注</th>
+                <th>操作</th>
               </tr>
-              <tr v-for="control in item.control">
-                <td>{{control.triggerType}}</td>
-                <td>{{control.triggerResult}}</td>
-                <td>{{control.associate}}</td>
-                <td>{{control.controlType}}</td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <template v-for="(item,index) in tableTriggerList">
+                <tr>
+                  <td :rowspan="item.control.length+1">{{item.setId}}</td>
+                  <td :rowspan="item.control.length+1">{{item.tirggerName}}</td>
+                  <td :rowspan="item.control.length+1">{{item.triggerFunction}}</td>
+                  <td>{{item.triggerType}}</td>
+                  <td>{{item.triggerResult}}</td>
+                  <td>{{item.associate}}</td>
+                  <td>{{item.controlType}}</td>
+                  <td :rowspan="item.control.length+1">{{item.note}}</td>
+                  <td :rowspan="item.control.length+1">
+                    <a href="javascript:void(0)" @click="editTriggerItem(item.id)" style="marign-right:5px;">编辑</a>
+                    <a href="javascript:void(0)" @click="delTriggerItem(item.id, index)" style="marign-right:5px;">删除</a>
+                  </td>
+                </tr>
+                <tr v-for="control in item.control">
+                  <td>{{control.triggerType}}</td>
+                  <td>{{control.triggerResult}}</td>
+                  <td>{{control.associate}}</td>
+                  <td>{{control.controlType}}</td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -249,82 +249,82 @@
         </Col>
       </Row>
       <Row class="mtb15">
-            <Col class="label" span="5">触发功能点</Col>
-            <Col span="19">
-            <Select v-model="customTriggerData.dotValue" style="width:260px">
-              <Option v-for="item in customTriggerData.dotList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            </Col>
+        <Col class="label" span="5">触发功能点</Col>
+        <Col span="19">
+        <Select v-model="customTriggerData.dotValue" style="width:260px">
+          <Option v-for="item in customTriggerData.dotList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        </Col>
       </Row>
       <Row class="mtb15">
-            <Col class="label" span="5">报警触发</Col>
-            <Col span="19">
-              <Button type="primary" icon="plus" :disabled="customTriggerData.alarmList.length>0" @click="addTriggerAlarm">创建</Button>
-            </Col>
+        <Col class="label" span="5">报警触发</Col>
+        <Col span="19">
+        <Button type="primary" icon="plus" :disabled="customTriggerData.alarmList.length>0" @click="addTriggerAlarm">创建</Button>
+        </Col>
       </Row>
-      <template v-for="alarmItem in customTriggerData.alarmList">
+      <div v-for="(alarmItem, alarmIndex) in customTriggerData.alarmList" :key="alarmIndex">
         <Row class="mtb15">
-            <Col class="label" span="5">报警001</Col>
-            <Col span="19">
-              <Icon type="grid"></Icon>按钮全选
-            </Col>
-      </Row>
-      <Row class="mtb15">
-            <Col class="label" span="5">警报方式</Col>
-            <Col span="19">
-              <span v-for="item in alarmItem.typeList" class="check_a" :class="item.checked?'checked':''" @click="item.checked=!item.checked" :key="item.value">
+          <Col class="label" span="5">报警00{{ alarmIndex+1 }}</Col>
+          <Col span="19">
+          <span class="check_a" :class="alarmItem.allChecked?'checked':''" @click="choseAllAlarm(alarmItem)">
+            <Icon :type="alarmItem.allChecked?'android-checkbox':'android-checkbox-outline'" :color="alarmItem.allChecked?'#008CF8':''" class="check_a_icon"></Icon>按钮全选</span>
+          </Col>
+        </Row>
+        <Row class="mtb15">
+          <Col class="label" span="5">警报方式</Col>
+          <Col span="19">
+          <span v-for="(item,index) in alarmItem.typeList" class="check_a" :class="item.checked?'checked':''" @click="alarmChecked(alarmItem,item,index)" :key="item.value">
             <Icon :type="item.checked?'android-checkbox':'android-checkbox-outline'" :color="item.checked?'#008CF8':''" class="check_a_icon"></Icon>{{item.label}}</span>
-            </Col>
-      </Row>
-      <Row class="mtb15" v-if="customTriggerData.alarmList[0].typeList[0].checked">
-            <Col class="label" span="5">手机号码</Col>
-            <Col span="19">
-              <Input v-model="customTriggerData.alarmList[0].phoneNo" placeholder="请输入手机号码" style="width:260px;margin-right:5px;"></Input>
-            </Col>
-      </Row>
-      <Row class="mtb15" v-if="customTriggerData.alarmList[0].typeList[1].checked">
-            <Col class="label" span="5">电话号码</Col>
-            <Col span="19">
-              <Input v-model="customTriggerData.alarmList[0].telNo" placeholder="请输入电话号码" style="width:260px;margin-right:5px;"></Input>
-            </Col>
-      </Row>
-      <Row class="mtb15" v-if="customTriggerData.alarmList[0].typeList[2].checked">
-            <Col class="label" span="5">邮箱</Col>
-            <Col span="19">
-              <Input v-model="customTriggerData.alarmList[0].eMail" placeholder="请输入邮箱地址" style="width:260px;margin-right:5px;"></Input>
-            </Col>
-      </Row>
-      </template>
+          </Col>
+        </Row>
+        <div v-for="item in alarmItem.typeList" :key="item.value">
+          <template v-if="item.checked">
+            <Row class="mtb15">
+              <Col class="label" span="5">{{ item.name }}</Col>
+              <Col span="19">
+              <Input v-model="item.number" :placeholder="item.place" style="width:260px;margin-right:5px;"></Input>
+              </Col>
+            </Row>
+            <Row class="mtb15">
+              <Col class="label" span="5">验证码</Col>
+              <Col span="19">
+              <Input v-model="item.code" placeholder="请输入验证码" style="width:260px;margin-right:5px;"></Input>
+              <Button type="primary" :disabled="item.hasSend" @click="getCode(item)">{{ item.hasSend?'剩余 '+item.time+' s':'发送验证码' }}</Button>
+              </Col>
+            </Row>
+          </template>
+        </div>
+      </div>
       <Row class="mtb15">
-            <Col class="label" span="5">控制触发</Col>
-            <Col span="19">
-              <Button type="primary" icon="plus" @click="addTriggerControl">创建</Button>
-            </Col>
+        <Col class="label" span="5">控制触发</Col>
+        <Col span="19">
+        <Button type="primary" icon="plus" @click="addTriggerControl">创建</Button>
+        </Col>
       </Row>
-      <template v-for="(item,index) in customTriggerData.controlList">
+      <div v-for="(ctrlItem,ctrlIndex) in customTriggerData.controlList" :key="ctrlItem.id">
         <Row class="mtb15">
-            <Col class="label" span="5">控制00+{{ index+1 }}</Col>
-            <Col span="19">
-              <Input v-model="item.name" placeholder="请输入功能点名称" style="width:260px;margin-right:5px;"></Input>
-             <Button type="ghost" shape="circle" icon="ios-trash-outline" @click="customTriggerData.controlList.splice(dotIndex,1)" style="border-color:#ccc;color:#ccc;"></Button>              
-            </Col>
-      </Row>
+          <Col class="label" span="5">控制00+{{ ctrlIndex+1 }}</Col>
+          <Col span="19">
+          <Input v-model="ctrlItem.name" placeholder="请输入功能点名称" style="width:260px;margin-right:5px;"></Input>
+          <Button type="ghost" shape="circle" icon="ios-trash-outline" @click="customTriggerData.controlList.splice(ctrlIndex,1)" style="border-color:#ccc;color:#ccc;"></Button>
+          </Col>
+        </Row>
+        <Row class="mtb15">
+          <Col class="label" span="5">控制方式</Col>
+          <Col span="19">
+          <RadioGroup v-model="ctrlItem.directValue">
+            <Radio class="check_a" v-for="(item,index) in ctrlItem.directList" :label="item.label" :key="item.label">
+              <span>{{item.label}}</span>
+            </Radio>
+          </RadioGroup>
+          </Col>
+        </Row>
+      </div>
       <Row class="mtb15">
-            <Col class="label" span="5">控制方式</Col>
-            <Col span="19">
-            <RadioGroup v-model="customTriggerData.directValue">
-              <Radio class="check_a" v-for="(im,dex) in im.directList" :label="im.label" :key="index">
-                <span>{{item.label}}</span>
-              </Radio>
-            </RadioGroup>
-            </Col>
-      </Row>
-      </template>
-      <Row class="mtb15">
-            <Col class="label" span="5">备注</Col>
-            <Col span="19">
-             <textarea v-modal="customTriggerData.remark"></textarea>
-            </Col>
+        <Col class="label" span="5">备注</Col>
+        <Col span="19">
+        <Input v-model="customTriggerData.remark" type="textarea" :rows="4" placeholder="请输入备注..."></Input>
+        </Col>
       </Row>
     </Modal>
   </div>
@@ -456,9 +456,9 @@ export default {
       modelCustomFunDot: false,
       modelCustomFunGroup: false,
       modelCustomTrigger: false,
-      customTrigger: false,
       customFunDotData: {},
       customFunGroupData: {},
+      customTriggerData: {}
     };
   },
   computed: {
@@ -533,7 +533,7 @@ export default {
       this.tableFunctionList = data;
     },
     // 获取触发器设置表格列表数据
-    getTableTriggerList(){
+    getTableTriggerList() {
       let data = [];
       for (let i = 0; i < 5; i++) {
         data.push({
@@ -543,16 +543,16 @@ export default {
           triggerType: "报警",
           triggerResult: "电话",
           associate: "湿度",
-          controlType: "正向"+i,
+          controlType: "正向" + i,
           note: "开发中",
           control: []
         });
         for (let j = 0; j < 2; j++) {
           data[i].control.push({
             triggerType: "报警",
-            triggerResult: "电话"+j,
+            triggerResult: "电话" + j,
             associate: "湿度",
-            controlType: "正向"+i
+            controlType: "正向" + i
           });
         }
       }
@@ -857,7 +857,7 @@ export default {
             remark: "忘记了"
           }
         ]
-      }
+      };
       this.modelCustomFunGroup = true;
     },
     // 在功能集弹窗里增加一项功能点
@@ -908,65 +908,154 @@ export default {
       this.$Message.info("已保存");
     },
     // 获取原始自定义触发器数据
-    getCustomTriggerData(){
-      this.customTriggerData ={
-        triggerName:'',
-        dotValue:'功能点一',
-        dotList:[
-          {label:'功能点一',value:'功能点一'},
-          {label:'功能点二',value:'功能点二'},
-          {label:'功能点三',value:'功能点三'},
+    getCustomTriggerData() {
+      this.customTriggerData = {
+        triggerName: "",
+        dotValue: "功能点一",
+        dotList: [
+          { label: "功能点一", value: "功能点一" },
+          { label: "功能点二", value: "功能点二" },
+          { label: "功能点三", value: "功能点三" }
         ],
-        alarmList:[ ],
-        directValue:'',
-        controlList:[
-         
-        ],
-        remark:''
-      }
+        alarmList: [],
+        controlList: [],
+        remark: ""
+      };
     },
     // 自定义触发器
-    addTriggerItem(){
+    addTriggerItem() {
       // 重置一下初始数据
       this.getCustomTriggerData();
       this.modelAddSet = false;
       this.modelCustomTrigger = true;
     },
     // 编辑触发器
-    editTriggerItem(id){
-     // 通过id读取到这个触发器的所有信息
-     this.customTriggerData = {
-
-     };
-     this.modelCustomTrigger = true;
+    editTriggerItem(id) {
+      // 通过id读取到这个触发器的所有信息
+      this.customTriggerData = {
+        triggerName: "xxx控制器",
+        dotValue: "功能点三",
+        dotList: [
+          { label: "功能点一", value: "功能点一" },
+          { label: "功能点二", value: "功能点二" },
+          { label: "功能点三", value: "功能点三" }
+        ],
+        alarmList: [
+          {
+            allChecked: true,
+            typeList: [
+              {
+                label: "短信",
+                value: "短信",
+                checked: true,
+                name: "手机号码",
+                place: "请输入手机号码",
+                number: "131234414",
+                hasSend: false,
+                time: 60,
+                code: ""
+              },
+              {
+                label: "电话",
+                value: "电话",
+                checked: true,
+                name: "电话",
+                place: "请输入电话号码",
+                number: "0624234234",
+                hasSend: false,
+                time: 60,
+                code: ""
+              },
+              {
+                label: "邮箱",
+                value: "邮箱",
+                checked: true,
+                name: "邮箱",
+                place: "请输入邮箱",
+                number: "152352@qq.com",
+                hasSend: false,
+                time: 60,
+                code: ""
+              }
+            ]
+          }
+        ],
+        controlList: [
+          {
+            id: 71,
+            name: "触发器名字",
+            directValue: "正向",
+            directList: [
+              { label: "正向", value: "正向", checked: true },
+              { label: "负向", value: "负向", checked: false }
+            ]
+          }
+        ],
+        remark: "没什么"
+      };
+      this.modelCustomTrigger = true;
     },
     // 创建报警触发项
-    addTriggerAlarm(){
-      if(this.customTriggerData.alarmList.length === 0){
-        this.customTriggerData.alarmList.push({
-            phoneNo:'',
-            telNo:'',
-            eMail:'',
-              typeList:[
-                {label:'短信',value:'短信', checked:false},
-                {label:'电话',value:'电话', checked:false},
-                {label:'邮箱',value:'邮箱', checked:false}
-              ]
-        });
-      }
+    addTriggerAlarm() {
+      this.customTriggerData.alarmList = [
+        {
+          allChecked: false,
+          typeList: [
+            {
+              label: "短信",
+              value: "短信",
+              checked: false,
+              name: "手机号码",
+              place: "请输入手机号码",
+              number: "",
+              time: 60,
+              hasSend: false,
+              code: ""
+            },
+            {
+              label: "电话",
+              value: "电话",
+              checked: false,
+              name: "电话",
+              place: "请输入电话号码",
+              number: "",
+              time: 60,
+              hasSend: false,
+              code: ""
+            },
+            {
+              label: "邮箱",
+              value: "邮箱",
+              checked: false,
+              name: "邮箱",
+              place: "请输入邮箱",
+              number: "",
+              time: 60,
+              hasSend: false,
+              code: ""
+            }
+          ]
+        }
+      ];
     },
     // 创建控制触发项
-    addTriggerControl(){
-      this.customTriggerData.controlList.push(
-         {name:'',directList:[{label:'正向',value:'正向', checked:false},{label:'负向',value:'负向',checked:false}]}
-      );
+    addTriggerControl() {
+      this.customTriggerData.controlList.push({
+        id: this.customTriggerData.controlList.length,
+        name: "",
+        directValue: "",
+        directList: [
+          { label: "正向", value: "正向", checked: false },
+          { label: "负向", value: "负向", checked: false }
+        ]
+      });
     },
     // 删除控制触发项
-    delTriggerControl(id, index){
-      this.customTriggerData.controlList.splice(index,1);
+    delTriggerControl(id, index) {
+      this.customTriggerData.controlList.splice(index, 1);
     },
     // 删除触发器表格里一项
-    delTriggerItem(id,index){
+    delTriggerItem(id, index) {
       this.$Modal.confirm({
         title: "删除提示",
         content: "是否删除该触发器？",
@@ -976,11 +1065,50 @@ export default {
         }
       });
     },
+    // 全选报警方式
+    choseAllAlarm(alarmItem) {
+      alarmItem.typeList.forEach(val => {
+        val.checked = alarmItem.allChecked ? false : true;
+      });
+      alarmItem.allChecked = !alarmItem.allChecked;
+    },
+    // 单个选择报警方式
+    alarmChecked(alarmItem, item, index) {
+      if (item.checked) {
+        item.checked = false;
+        alarmItem.allChecked = false;
+      } else {
+        item.checked = true;
+        alarmItem.allChecked = alarmItem.typeList.every(val => {
+          return !!val.checked;
+        });
+      }
+    },
+    // 倒计时函数
+    countDownTime(item) {
+      let fnCount = () => {
+        let count = setTimeout(() => {
+          if (item.time <= 0) {
+            clearTimeout(count);
+            item.hasSend = false;
+            item.time = 60;
+          } else {
+            item.time -= 1;
+            fnCount();
+          }
+        }, 1000);
+      };
+      fnCount();
+    },
+    // 点击发送验证码按钮获取验证码
+    getCode(item) {
+      item.hasSend = true;
+      this.countDownTime(item);
+    },
     // 保存触发器数据
     okCustomTrigger() {
       this.$Message.info("已保存");
     },
-
     // 跳下一步骤页面
     pageToNext() {
       this.$router.push("/home/setapp");
@@ -994,9 +1122,9 @@ export default {
     border-color: #57a3f3;
     color: #57a3f3;
   }
-  .home-set-con{
-    padding:1px 20px 10px;
-    background-color:#fff;
+  .home-set-con {
+    padding: 1px 20px 10px;
+    background-color: #fff;
   }
 }
 .table {
@@ -1057,17 +1185,17 @@ export default {
   border: 1px solid #e0e0e0;
   th {
     padding: 5px 3px;
-    height:40px;
-    background:#f8f8f9;
+    height: 40px;
+    background: #f8f8f9;
   }
   th,
   td {
     text-align: center;
   }
   td {
-    height:35px;
+    height: 35px;
     padding: 3px;
-     border: 1px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
   }
 }
 </style>

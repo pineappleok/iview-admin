@@ -1,19 +1,18 @@
 <template>
-	<div class="home-main">
-		<div class="main-header">
-			<div class="breadcrumb">
-				<breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
-			</div>
-			<top-timeline :cur-step="3" />
-			<div class="action">
-				<Button type="primary" @click="pageToPrev">上一步</Button>
-				<Button type="primary" @click="pageToNext">下一步</Button>
-			</div>
-		</div>
-		<div class="main-content">
-			<left-info :product-info="productInfo" />
-			<div class="content">
-				<div class="home-debugging-con">
+  <div class="home-main">
+    <div class="main-header">
+      <div class="breadcrumb">
+        <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
+      </div>
+      <top-timeline :cur-step="2" />
+      <div class="action">
+        <Button type="primary" @click="pageToNext">下一步</Button>
+      </div>
+    </div>
+    <div class="main-content">
+      <left-info :product-info="productInfo" />
+      <div class="content">
+        <div class="home-debugging-con">
 					<h3>虚拟设备调试流程图</h3>
 					<div class="step-1">
 						<h4>1.用户通过APP控制硬件</h4>
@@ -25,9 +24,9 @@
 					<h3>打开TD-APP扫码启动虚拟设备</h3>
 					<p class="img_container"><img :src="step2Url" alt="" class="img" /></p>
 				</div>
-			</div>
-		</div>
-	</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -35,7 +34,7 @@ import breadcrumbNav from "../main-components/breadcrumb-nav.vue";
 import topTimeline from "../my-components/top-timeline";
 import leftInfo from "../my-components/left-info";
 export default {
-  name: "home_debug",
+  name: "home_edit",
   components: {
     breadcrumbNav,
     "top-timeline": topTimeline,
@@ -61,13 +60,9 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    // 跳上一步骤页面
-    pageToPrev() {
-      this.$router.go(-1);
-    },
     // 跳下一步骤页面
     pageToNext() {
-      this.$router.push("/home/release");
+      this.$router.push("/home/debug");
     }
   }
 };

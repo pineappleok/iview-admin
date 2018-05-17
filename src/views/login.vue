@@ -39,6 +39,27 @@
 
 <script>
 import Cookies from 'js-cookie';
+const bcrypt = require('bcryptjs');
+
+const password = "123";
+
+// Step1: Generate Hash
+// salt is different everytime, and so is hash
+let salt = bcrypt.genSaltSync(10);// 10 is by default
+console.log(salt);//$2a$10$TnJ1bdJ3JIzGZC/jVS.v3e
+let hash = bcrypt.hashSync(password, salt); // salt is inclued in generated hash 
+console.log(hash);//$2a$10$TnJ1bdJ3JIzGZC/jVS.v3eXlr3ns0hDxeRtlia0CPQfLJVaRCWJVS
+
+// Step2: Verify Password
+// when verify the password, get the salt from hash, and hashed again with password
+let saltFromHash = hash.substr(0, 29);
+console.log(saltFromHash);//$2a$10$TnJ1bdJ3JIzGZC/jVS.v3e
+let newHash = bcrypt.hashSync(password, saltFromHash);
+console.log(newHash);//$2a$10$TnJ1bdJ3JIzGZC/jVS.v3eXlr3ns0hDxeRtlia0CPQfLJVaRCWJVS
+console.log(hash === newHash); //true
+
+// back end compare
+console.log(bcrypt.compareSync(password, hash)); //true
 export default {
     data () {
         return {

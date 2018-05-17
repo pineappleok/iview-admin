@@ -5,10 +5,9 @@
 		      <div class="breadcrumb">
 		        <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
 		      </div>
-		      <top-timeline :cur-step="3" />
+		      <top-timeline :cur-step="4" />
 		      <div class="action">
-		        <Button type="ghost" style="margin-right:5px;border-color:#008CF8;color:#008CF8;" @click="pageToPrev">上一步</Button>
-		        <Button type="primary" @click="pageToNext">下一步</Button>
+		        <Button type="primary" @click="pageToPrev">上一步</Button>
 		      </div>
 			</div>
 		</div>
@@ -16,14 +15,9 @@
 			<left-info :product-info="productInfo" />
 			<div class="content">
 				<div class="home-debugging-con">
-					<h3>MCU开发</h3>
-					<div class="img_container">
-						<img :src="mcuUrl" alt="" />
-					</div>
-		        	<div class="tc">
-		        		<Button type="primary" size="large">MCU功能包下载</Button>
-		        	</div>
-				</div>
+                    <Button type="primary" shape="circle" icon="ios-search" style="width:48px;height:48px;background-image: linear-gradient(-133deg, #57C257 0%, #89D970 89%);
+                    box-shadow: 0 4px 8px 0 rgba(90,195,88,0.50);border-color:#fff;"></Button>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -34,7 +28,7 @@ import breadcrumbNav from "../main-components/breadcrumb-nav.vue";
 import topTimeline from "../my-components/top-timeline";
 import leftInfo from "../my-components/left-info";
 export default {
-	name: 'home_mcu',
+	name: 'home_publish',
 	components: {
     breadcrumbNav,
     "top-timeline": topTimeline,
@@ -48,7 +42,8 @@ export default {
         avator:
           "http://test.www.yuedujiayuan.com/activity-ui/spring-reading/images/act-student.jpg"
       },
-	  mcuUrl: require("../../images/mcu.jpg")
+	  step1Url: require("../../images/debugging_step_1.png"),
+	  step2Url: require("../../images/debugging_step_2.jpg")
 	  };
 	},
 	computed: {
@@ -64,10 +59,6 @@ export default {
     // 跳上一步骤页面
     pageToPrev() {
       this.$router.go(-1);
-    },
-    // 跳下一步骤页面
-    pageToNext() {
-      this.$router.push("/home/release");
     }
 	}
 };
@@ -76,18 +67,58 @@ export default {
 .home-debugging-con{
 	font-size:14px;
 	padding:25px 2%;
-	background:#fff;
-	.img_container{
-		width:520px;
-		margin:60px auto;
-		text-align: center;
-		img{
-			display:inline-block;
-			width:100%;
+	background:#fff;	
+  .fl {
+    width: 50%;
+    float: left;
+    height:570px;
+		margin-top:20px;
+		.list p,.btn-container{
+			background: rgba(20,35,63,0.04);
+		}
+  }
+  .fr {
+  	position: relative;
+    width: 50%;
+    float: right;
+    height:570px;
+    margin-top:20px;
+	}
+  h4{
+  	padding:15px 40px;
+    border-bottom:1px solid rgba(23,35,61,0.10);
+    font-size: 14px;
+		color: #17233D;
+	}
+	.list{
+		p{
+			padding:0 40px;
+			border-bottom:1px solid rgba(23,35,61,0.10);
+			line-height: 56px;
+			font-size: 14px;
+			color: rgba(28,36,56,0.80);
 		}
 	}
-	.tc{
-		text-align:center;
+	.btn-container{
+		padding:22px 40px;
+	}
+	.img_container{
+		text-align: center;
+		.img{
+			display:inline-block;
+			width:70%;
+		}
+	}
+	.sub_title{
+		margin-left:25px;
+		display:inline-block;
+		list-style-type:none;
+		li{
+			display:inline-block;
+			margin-right:10px;
+			font-size: 12px;
+			color: rgba(23,35,61,0.55);
+		}
 	}
 }
 </style>

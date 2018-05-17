@@ -91,10 +91,6 @@ export default {
     width: 50%;
     float: right;
   }
-  .clearfix {
-    overflow: auto;
-    _height: 1%;
-  }
   .row,
   .row-pl85 {
     padding: 5px;

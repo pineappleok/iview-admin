@@ -5,10 +5,9 @@
 		      <div class="breadcrumb">
 		        <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
 		      </div>
-		      <top-timeline :cur-step="3" />
+		      <top-timeline :cur-step="4" />
 		      <div class="action">
-						<Button type="ghost" style="margin-right:5px;border-color:#008CF8;color:#008CF8;" @click="pageToPrev">上一步</Button>
-		        <Button type="primary" @click="pageToNext">下一步</Button>
+		        <Button type="primary" @click="pageToPrev">上一步</Button>
 		      </div>
 			</div>
 		</div>
@@ -16,22 +15,36 @@
 			<left-info :product-info="productInfo" />
 			<div class="content">
 				<div class="home-debugging-con">
-					<h3>虚拟设备调试</h3>
+					<h3>发布产品<ul class="sub_title"><li>01：提交申请</li><li>02：审核产品</li><li>03：发布完成</li></ul></h3>
 					<div class="clearfix">
 						<div class="fl">
-							<h4>编辑数据集</h4>
-							<div class="wifibtn">
-								<Button type="primary" shape="circle" icon="wifi" style="background:linear-gradient(to bottom, #5DC459, #84D76D);border-color:tranparent"></Button>
-								<!-- <span><Icon type="wifi"></Icon></span> -->
-								<br />
-								上报数据
+							<h4>个人用户发布</h4>
+							<div class="list">								
+								<p>正式服务器</p>
+								<p>设备总数限制100台</p>
+								<p>API不限正式服务器</p>
+								<p>无合作渠道</p>
+								<p>无法查看运维及运营分析内容</p>
+							</div>
+							<div class="btn-container">
+								<Button type="primary" size="large" style="width:120px;" @click="pageToSuc">个人发布</Button>
 							</div>
 							<div>
 								<!-- <Tree :data="data4" show-checkbox multiple></Tree> -->
 							</div>
 						</div>
 						<div class="fr">
-							<h4>通讯日志</h4>
+							<h4>企业用户发布</h4>
+							<div class="list">
+								<p>正式生产服务器，独立云端运行环境</p>
+								<p>不限制，具体按照购买的套餐服务稳定</p>
+								<p>API不限制调用接口</p>
+								<p>提供其他产品合作渠道</p>
+								<p>享受运营分析和运维分析双向福利</p>
+							</div>
+							<div class="btn-container">
+								<Button type="primary" size="large" style="width:120px;height:40px;">企业发布</Button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -45,7 +58,7 @@ import breadcrumbNav from "../main-components/breadcrumb-nav.vue";
 import topTimeline from "../my-components/top-timeline";
 import leftInfo from "../my-components/left-info";
 export default {
-	name: 'home_virtual',
+	name: 'home_publish',
 	components: {
     breadcrumbNav,
     "top-timeline": topTimeline,
@@ -77,9 +90,9 @@ export default {
     pageToPrev() {
       this.$router.go(-1);
     },
-    // 跳下一步骤页面
-    pageToNext() {
-      this.$router.push("/home/release");
+    // 跳提交成功页面
+    pageToSuc() {
+      this.$router.push("/home/releaseSuc");
     }
 	}
 };
@@ -90,44 +103,55 @@ export default {
 	padding:25px 2%;
 	background:#fff;	
   .fl {
-    width: 60%;
+    width: 50%;
     float: left;
     height:570px;
-    border:1px solid rgba(23,35,61,0.10);
-    margin-top:20px;
-    padding:15px;
+		margin-top:20px;
+		.list p,.btn-container{
+			background: rgba(20,35,63,0.04);
+		}
   }
   .fr {
   	position: relative;
-    width: 40%;
+    width: 50%;
     float: right;
     height:570px;
-    border:1px solid rgba(23,35,61,0.10);
-    border-left:none;
     margin-top:20px;
-    padding:15px;
-    .wifibtn{
-    	position: absolute;
-    	right:-5px;
-    	top:50%;
-    	color: rgba(23,35,61,0.25);
-    }
-  }
+	}
   h4{
-  	padding:15px 0;
+  	padding:15px 40px;
     border-bottom:1px solid rgba(23,35,61,0.10);
     font-size: 14px;
-	color: #17233D;
-  }
-  .clearfix {
-    overflow: auto;
-    _height: 1%;
-  }
+		color: #17233D;
+	}
+	.list{
+		p{
+			padding:0 40px;
+			border-bottom:1px solid rgba(23,35,61,0.10);
+			line-height: 56px;
+			font-size: 14px;
+			color: rgba(28,36,56,0.80);
+		}
+	}
+	.btn-container{
+		padding:22px 40px;
+	}
 	.img_container{
 		text-align: center;
 		.img{
 			display:inline-block;
 			width:70%;
+		}
+	}
+	.sub_title{
+		margin-left:25px;
+		display:inline-block;
+		list-style-type:none;
+		li{
+			display:inline-block;
+			margin-right:10px;
+			font-size: 12px;
+			color: rgba(23,35,61,0.55);
 		}
 	}
 }

@@ -66,8 +66,11 @@ export const otherRouter = {
         { path: 'home/edit', title: '编辑产品', name: 'home_edit', component: () => import('@/views/home/edit.vue')},
         { path: 'home/setapp', title: '设置APP界面', name: 'home_setapp', component: () => import('@/views/home/setapp.vue')},
         { path: 'home/debug', title: '虚拟设备调试', name: 'home_debug', component: () => import('@/views/home/debugging.vue')},
-        { path: 'home/virtual', title: '1虚拟设备调试', name: 'home_virtual', component: () => import('@/views/home/debugging_virtual.vue')},
-        { path: 'home/mcu', title: 'MCU开发', name: 'home_mcu', component: () => import('@/views/home/debugging_mcu.vue')}
+        { path: 'home/virtual', title: '虚拟设备调试', name: 'home_virtual', component: () => import('@/views/home/debugging_virtual.vue')},
+        { path: 'home/mcu', title: 'MCU开发', name: 'home_mcu', component: () => import('@/views/home/debugging_mcu.vue')},
+        { path: 'home/release', title: '发布产品', name: 'home_release', component: () => import('@/views/home/release.vue')},
+        { path: 'home/releaseSuc', title: '发布产品', name: 'home_releaseSuc', component: () => import('@/views/home/release_suc.vue')},
+        { path: 'home/test', title: '测试呀', name: 'home_test', component: () => import('@/views/home/test.vue')}
         
     ]
 };

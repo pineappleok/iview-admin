@@ -68,28 +68,26 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.home-debugging {
+.home-debugging-con {
+  padding: 25px 2%;
+  background: #fff;
   font-size: 14px;
-  .home-debugging-con {
-    padding: 25px 2%;
-    background: #fff;
-    .step-1 {
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(23, 35, 61, 0.1);
-      margin-bottom: 25px;
-      h4 {
-        padding: 20px 0;
-        text-align: center;
-        font-size: 16px;
-        color: #14233f;
-      }
-    }
-    .img_container {
+  .step-1 {
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(23, 35, 61, 0.1);
+    margin-bottom: 25px;
+    h4 {
+      padding: 20px 0;
       text-align: center;
-      .img {
-        display: inline-block;
-        width: 70%;
-      }
+      font-size: 16px;
+      color: #14233f;
+    }
+  }
+  .img_container {
+    text-align: center;
+    .img {
+      display: inline-block;
+      width: 70%;
     }
   }
 }

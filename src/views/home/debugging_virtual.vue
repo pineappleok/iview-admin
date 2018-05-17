@@ -119,10 +119,6 @@ export default {
     font-size: 14px;
 	color: #17233D;
   }
-  .clearfix {
-    overflow: auto;
-    _height: 1%;
-  }
 	.img_container{
 		text-align: center;
 		.img{

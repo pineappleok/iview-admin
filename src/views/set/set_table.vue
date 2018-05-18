@@ -166,7 +166,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .expand-row {
-  margin: 20px 30px;
+  margin: 20px 0px 20px 50px;
   .ivu-table-expanded-cell {
     box-sizing: border-box;
     padding-left: 0;

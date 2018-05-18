@@ -1130,11 +1130,11 @@ export default {
 .table {
   width: 100%;
 }
-.table01 .ivu-table th {
-  width: calc((100% - 50px) / 11);
+.table01 th {
+  width: calc(~"(100% - 50px) / 11");
 }
-.table02 .ivu-table th {
-  width: calc((100% - 50px) / 9);
+.table02 th {
+  width: calc(~"(100% - 50px) / 9");
 }
 .modal {
   .mtb15 {

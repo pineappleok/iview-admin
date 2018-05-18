@@ -56,8 +56,8 @@
         },
         data() {
             return {
-				cur:2,
-                steps: [{step:"提交申请",time:"2016.02.20 12:00:00"},{step:"系统审核",time:"2016.02.20 12:00:00"},{step:"发布成功",time:"2016.02.20 12:00:00"}],
+                cur: 2,
+                steps: [{ step: "提交申请", time: "2016.02.20 12:00:00" }, { step: "系统审核", time: "2016.02.20 12:00:00" }, { step: "发布成功", time: "2016.02.20 12:00:00" }],
                 productInfo: {
                     id: 23446,
                     name: "智能冷暖白光灯1(CW)",
@@ -142,7 +142,7 @@
         }
         .release_timeline {
             display: inline-block;
-            margin: 32px auto;
+            margin: 49px auto;
             list-style-type: none;
             text-align: center;
             overflow: hidden;
@@ -156,32 +156,39 @@
                     content: "";
                     position: absolute;
                     top: 11px;
-                    left: 50%;
+                    left: -50%;
                     width: 100%;
                     height: 0;
-                    border-top: 2px solid rgba(23,35,61,0.35);;
+                    border-top: 2px solid rgba(23, 35, 61, 0.35);
                     z-index: 0;
                 }
-                & .timeline_icon{
+                & .timeline_icon {
                     position: absolute;
-                    top:0px;
-                    left:calc(~"50% - 13px");
-                    width:26px;
-                    height:26px;
-                    border-radius:50%;
-                    background:#fff;
-                    border:1px solid #c0c0c0;
-                    box-sizing:border-box;
-                    color: rgba(23,35,61,0.35);
-                    font-size:24px;
+                    top: 0px;
+                    left: calc(~"50% - 13px");
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 50%;
+                    background: #fff;
+                    border: 1px solid #c0c0c0;
+                    box-sizing: border-box;
+                    color: rgba(23, 35, 61, 0.35);
+                    font-size: 24px;
                     line-height: 22px;
-                    text-align:center;
+                    text-align: center;
+                    z-index: 1;
                 }
-                & .timeline_text{
+                & .timeline_text {
+                    display: inline-block;
+                    padding-top: 16px;
                     font-size: 12px;
                     color: #14233F;
                 }
-                &:last-child:before {
+                & .timeline_time {
+                    font-size: 12px;
+                    color: rgba(23, 35, 61, 0.55);
+                }
+                &:first-child:before {
                     display: none;
                 }
                 &.active,
@@ -189,7 +196,7 @@
                     & .timeline_icon {
                         color: #008cf8;
                     }
-                    &:after {
+                    &:before {
                         border-color: #008cf8;
                     }
                 }

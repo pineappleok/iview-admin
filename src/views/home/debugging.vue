@@ -81,6 +81,9 @@ export default {
     padding-bottom: 20px;
     border-bottom: 1px solid rgba(23, 35, 61, 0.1);
     margin-bottom: 25px;
+    .img_container{
+      margin-top:0;
+    }
     h4 {
       padding: 30px 0;
       text-align: center;
@@ -97,6 +100,7 @@ export default {
     }
   }
   .img_container {
+    margin-top:70px;
     text-align: center;
     .img {
       display: inline-block;

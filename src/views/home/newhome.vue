@@ -60,23 +60,23 @@
               </li>
               <li>
                 <router-link to="/home/setapp" tag="span">
-                <Icon type="android-phone-portrait" size="18px" class="timeline_icon"></Icon>
-                <br />
-                <span class="timeline_text">APP界面设置</span>
+                  <Icon type="android-phone-portrait" size="18px" class="timeline_icon"></Icon>
+                  <br />
+                  <span class="timeline_text">APP界面设置</span>
                 </router-link>
               </li>
               <li>
                 <router-link to="/home/debug" tag="span">
-                <Icon type="android-wifi" size="18px" class="timeline_icon"></Icon>
-                <br />
-                <span class="timeline_text">虚拟设备调试</span>
+                  <Icon type="android-wifi" size="18px" class="timeline_icon"></Icon>
+                  <br />
+                  <span class="timeline_text">虚拟设备调试</span>
                 </router-link>
               </li>
               <li>
                 <router-link to="/home/release" tag="span">
-                <Icon type="ios-paperplane-outline" size="18px" class="timeline_icon"></Icon>
-                <br />
-                <span class="timeline_text">申请发布</span>
+                  <Icon type="ios-paperplane-outline" size="18px" class="timeline_icon"></Icon>
+                  <br />
+                  <span class="timeline_text">申请发布</span>
                 </router-link>
               </li>
             </ul>
@@ -163,6 +163,10 @@ export default {
     avatorPath() {
       return localStorage.avatorImgPath;
     }
+  },
+  beforeCreate() {
+    // 传值给父级main.vue（第二个导航）
+    this.$emit("set-active-nav", "home");
   },
   created() {
     this.getProductList();
@@ -350,31 +354,31 @@ export default {
 .timeline li:last-child .timeline_text:after {
   display: none;
 }
-.mtb15{
-  margin:15px 0;
+.mtb15 {
+  margin: 15px 0;
 }
-.check_a{
+.check_a {
   display: inline-block;
-    height: 34px;
-    line-height: 34px;
-    padding: 0 5px;
-    border-radius: 3px;
-    border: 1px solid #dddee1;
-    margin-right: 6px;
-    margin-bottom: 5px;
-    font-size: 14px;
-    text-align: center;
-    color: rgba(23, 35, 61, 0.8);
-    vertical-align: middle;
-    cursor: pointer;
-    &.checked {
-      border-color: #008cf8;
-      color: #008cf8;
-    }
-    &_icon {
-      padding-right: 6px;
-      font-size: 20px;
-    }
+  height: 34px;
+  line-height: 34px;
+  padding: 0 5px;
+  border-radius: 3px;
+  border: 1px solid #dddee1;
+  margin-right: 6px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  text-align: center;
+  color: rgba(23, 35, 61, 0.8);
+  vertical-align: middle;
+  cursor: pointer;
+  &.checked {
+    border-color: #008cf8;
+    color: #008cf8;
+  }
+  &_icon {
+    padding-right: 6px;
+    font-size: 20px;
+  }
 
   .check_a_icon {
     vertical-align: middle;

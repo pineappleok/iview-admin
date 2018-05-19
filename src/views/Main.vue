@@ -1,23 +1,15 @@
 <template>
   <div class="main" :class="{'main-hide-text': shrink}">
     <div class="top-header">
-      <Menu mode="horizontal" active-name="1">
+      <Menu mode="horizontal" :active-name="activeNav" @on-select="pageToNav">
         <Row>
           <Col span="4">
           <div class="layout-logo"><img src="../images/logo.png" alt=""></div>
           </Col>
           <Col span="16" style="text-align:center;">
-          <div class="layout-nav">
-            <MenuItem name="1">
-            <router-link to="/home" tag="span">产品创建</router-link>
-            </MenuItem>
-            <MenuItem name="2" to="home/set"> 运维管理
-            </MenuItem>
-            <MenuItem name="3"> 运营分析
-            </MenuItem>
-            <MenuItem name="4"> 开发文档
-            </MenuItem>
-          </div>
+          <ul class="layout-nav">
+            <MenuItem :name="item.name" v-for="(item, index) in navList" :key="index">{{ item.text }}</MenuItem>
+          </ul>
           </Col>
           <Col span="4" style="text-align:right;">
           <div class="header-avator-con">
@@ -47,7 +39,7 @@
     </div>
     <div class="mid-content">
       <keep-alive include="old_home">
-        <router-view></router-view>
+        <router-view @set-active-nav="getActiveNav"></router-view>
       </keep-alive>
     </div>
   </div>
@@ -75,6 +67,25 @@ export default {
   },
   data() {
     return {
+      activeNav: "home",
+      navList: [
+        {
+          name: "home",
+          text: "产品创建"
+        },
+        {
+          name: "manage",
+          text: "运维管理"
+        },
+        {
+          name: "analyse",
+          text: "运营分析"
+        },
+        {
+          name: "document",
+          text: "开发文档"
+        }
+      ],
       sidebarPage: false,
       tagsShow: false,
       shrink: true,
@@ -108,6 +119,14 @@ export default {
     }
   },
   methods: {
+    // 接收从子组件传来的当前选中导航
+    getActiveNav(num) {
+      this.activeName = num;
+    },
+    // 导航跳转
+    pageToNav(name) {
+      this.$router.push("/" + name);
+    },
     init() {
       let pathArr = util.setCurrentPath(this, this.$route.name);
       this.$store.commit("updateMenulist");

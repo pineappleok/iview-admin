@@ -56,6 +56,7 @@ export const otherRouter = {
     redirect: '/home',
     component: Main,
     children: [
+        // 第一个栏目***产品创建
         { path: 'oldhome', title: {i18n: 'home'}, name: 'oldhome_index', component: () => import('@/views/home/home.vue') },
         { path: 'ownspace', title: '个人中心', name: 'ownspace_index', component: () => import('@/views/own-space/own-space.vue') },
         { path: 'order/:order_id', title: '订单详情', name: 'order-info', component: () => import('@/views/advanced-router/component/order-info.vue') }, // 用于展示动态路由
@@ -71,8 +72,41 @@ export const otherRouter = {
         { path: 'home/release', title: '发布产品', name: 'home_release', component: () => import('@/views/home/release.vue')},
         { path: 'home/releaseSuc', title: '发布产品', name: 'home_releaseSuc', component: () => import('@/views/home/release_suc.vue')},
         { path: 'home/print', title: '打印预览', name: 'home_print', component: () => import('@/views/home/print.vue')},
-        { path: 'home/test', title: '测试呀', name: 'home_test', component: () => import('@/views/home/test.vue')}
-        
+        { path: 'home/test', title: '测试呀', name: 'home_test', component: () => import('@/views/home/test.vue')},
+        // 第二个栏目***运维管理
+        {
+            path:'/manage',
+            name:'manageRouter',
+            title: '运维管理',
+            redirect: '/manage/products',
+            component: () => import('@/views/manage/manage.vue'),
+            children:[
+                { path: '/manage/products', title: '产品库管理', name: 'manageProducts', component: () => import('@/views/manage/products.vue')},
+                { path: '/manage/sales', title: '产品销售管理', name: 'manageSales', component: () => import('@/views/manage/sales.vue')},
+            ]
+        },
+        // 第三个栏目***运营分析
+        {
+            path: '/analyse',
+            name: 'analyseRouter',
+            title: '运营分析',
+            redirect: '/analyse/activity', 
+            component: () => import('@/views/analyse/analyse.vue'),
+            children:[
+                { path: '/analyse/activity', title: '产品活跃情况', name: 'analyseActivity', component: () => import('@/views/analyse/activity.vue')},
+            ]
+        },
+        // 第四个栏目***开发文档
+        {
+            path: '/document',
+            name: 'documentRouter',
+            title: '开发文档',
+            redirect: '/document/docs', 
+            component: () => import('@/views/document/document.vue'),
+            children:[
+                { path: '/document/docs', title: '产品开发文档', name: 'documentDocs', component: () => import('@/views/document/docs.vue')},
+            ]
+        }
     ]
 };
 

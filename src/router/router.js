@@ -70,6 +70,7 @@ export const otherRouter = {
         { path: 'home/mcu', title: 'MCU开发', name: 'home_mcu', component: () => import('@/views/home/debugging_mcu.vue')},
         { path: 'home/release', title: '发布产品', name: 'home_release', component: () => import('@/views/home/release.vue')},
         { path: 'home/releaseSuc', title: '发布产品', name: 'home_releaseSuc', component: () => import('@/views/home/release_suc.vue')},
+        { path: 'home/print', title: '打印预览', name: 'home_print', component: () => import('@/views/home/print.vue')},
         { path: 'home/test', title: '测试呀', name: 'home_test', component: () => import('@/views/home/test.vue')}
         
     ]

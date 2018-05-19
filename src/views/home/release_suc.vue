@@ -38,7 +38,7 @@
                         </ul>
                         <div>
                             <Button type="primary" style="width:148px;height:40px;margin-right:10px;">查看产品信息</Button>
-                            <Button type="primary" style="width:80px;height:40px;">打印</Button>
+                            <Button type="primary" style="width:80px;height:40px;" @click="pageToPrint">打印</Button>
                         </div>
                     </div>
                 </div>
@@ -85,6 +85,10 @@
             // 跳上一步骤页面
             pageToPrev() {
                 this.$router.go(-1);
+            },
+            // 跳提交打印预览页面
+            pageToPrint() {
+            this.$router.push("/home/print");
             }
         }
     };

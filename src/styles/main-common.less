@@ -42,7 +42,11 @@
             height: 100%;
             overflow: auto;
             &.no-left {
-                margin-left: -40px;
+                margin-left: 0px;
+            }
+            &>div{
+                box-shadow: 0 2px 4px 0 rgba(31,49,89,0.25);
+                border-radius: 2px;
             }
         }
     }
@@ -50,5 +54,22 @@
         padding: 0;
         height: auto;
         border-bottom: none;
+    }
+}
+@media print {
+    .top-header,
+    .main-header-con{
+        display: none;
+    }
+    .mid-content .main-content,
+    .mid-content{
+        top: 0;
+    }
+    .mid-content .main-content .content{
+        overflow: hidden;
+        padding: 0;
+        &>div{
+            box-shadow:none;
+        }
     }
 }

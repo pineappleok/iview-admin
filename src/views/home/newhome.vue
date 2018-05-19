@@ -11,9 +11,8 @@
     <!-- 主内容区 -->
     <div class="main-content">
       <div class="content no-left">
-        <Row>
-          <Col span="2">&nbsp;</Col>
-          <Col span="18">
+        <Row style="padding-left:60px;">
+          <Col span="20">
           <Row>
             <ul class="product-ul">
               <li v-for="(item,index) in newProductList" :key="index">

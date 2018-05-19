@@ -36,6 +36,10 @@
                                 <span class="timeline_time">{{item.time}}</span>
                             </li>
                         </ul>
+                        <div>
+                            <Button type="primary" style="width:148px;height:40px;margin-right:10px;">查看产品信息</Button>
+                            <Button type="primary" style="width:80px;height:40px;">打印</Button>
+                        </div>
                     </div>
                 </div>
             </div>

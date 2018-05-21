@@ -120,269 +120,296 @@
 </template>
 
 <script>
-export default {
-  name: "home_index",
-  components: {},
-  data() {
-    return {
-      productType: "all",
-      productTypeList: [
-        { label: "全部产品", value: "all" },
-        { label: "自定义产品", value: "custom" },
-        { label: "演示产品", value: "show" }
-      ],
-      searchName: "",
-      productList: [],
-      poductNameModal: "",
-      ModalCreateProduct: false,
-      industryList: this.mockIndustryListData(),
-      connectionList: this.mockConnectionListData(),
-      connectionTypePadio: ""
-    };
-  },
-
-  computed: {
-    // 计算属性来设置产品列表（关联了下拉框跟搜索框）
-    newProductList() {
-      const productType = this.productType;
-      const searchName = this.searchName;
-      const productList = this.productList;
-      let newArr = productList;
-      if (productType !== "all") {
-        newArr = productList.filter(val => {
-          return val.productType === productType;
-        });
-      }
-      if (searchName !== "") {
-        newArr = newArr.filter(val => {
-          return val.productName.indexOf(searchName) >= 0;
-        });
-      }
-      return newArr;
-    },
-    avatorPath() {
-      return localStorage.avatorImgPath;
-    }
-  },
-  beforeCreate() {
-    // 传值给父级main.vue（第二个导航）
-    this.$emit("set-active-nav", "home");
-  },
-  created() {
-    this.getProductList();
-  },
-  mounted() {},
-  methods: {
-    ok() {
-      // 点击后保存产品基本信息，后台生成相应的产品ID等信息  确定后保存产品信息，进入产品创建的第一步【设置功能】页面，进行产品设置
-      this.$Message.info("保存成功");
-      this.$router.push({
-        name: "home_set"
-      });
-    },
-    cancel() {
-      this.$Message.info("已取消");
+  import util from '@/libs/util.js';
+  export default {
+    name: "home_index",
+    components: {},
+    data() {
+      return {
+        productType: "all",
+        productTypeList: this.getproductTypeList(),
+        searchName: "",
+        productList: [],
+        poductNameModal: "",
+        ModalCreateProduct: false,
+        industryList: this.mockIndustryListData(),
+        connectionList: this.mockConnectionListData(),
+        connectionTypePadio: ""
+      };
     },
 
-    mockConnectionListData() {
-      let connectionType = [
-        "蓝牙",
-        "WiFi",
-        "Zigbee",
-        "Lore",
-        "2G/3G/4G/5G",
-        "网关"
-      ];
-      let data = [];
-      for (let i = 0; i < connectionType.length; i++) {
-        data.push({
-          value: connectionType[i],
-          label: connectionType[i],
-          checked: false
-        });
-      }
-      return data;
-    },
-    mockIndustryListData() {
-      let data = [];
-      for (let i = 0; i < 10; i++) {
-        data.push({
-          value: "产品行业" + (i + 1),
-          label: "产品行业" + (i + 1)
-        });
-      }
-      return data;
-    },
-    formatDate(date) {
-      const y = date.getFullYear();
-      let m = date.getMonth() + 1;
-      m = m < 10 ? "0" + m : m;
-      let d = date.getDate();
-      d = d < 10 ? "0" + d : d;
-      let hour = date.getHours();
-      hour = hour < 10 ? "0" + hour : hour;
-      let minute = date.getMinutes();
-      minute = minute < 10 ? "0" + minute : minute;
-      return y + "-" + m + "-" + d + " " + hour + ":" + minute;
-    },
-    // 模拟接口拿到所有产品列表
-    getProductList() {
-      let data = [];
-      for (let i = 0; i < 10; i++) {
-        data.push({
-          id: i,
-          productType: i % 2 === 0 ? "custom" : "show",
-          productName: "智能冷暖白光灯" + (i + 1) + "(CW)",
-          status: "开发中",
-          start: this.formatDate(new Date()),
-          update: this.formatDate(new Date()),
-          imgSrc: "../images/logo.png"
-        });
-      }
-      this.productList = data;
-    },
-    // 下拉框选不同类型产品
-    selectType() {
-      console.log(1);
-
-      console.log(this.productType);
-    },
-    // 删除一个产品
-    deleteProduct(id) {
-      this.$Modal.confirm({
-        title: "删除提示",
-        content: "确定要删除这个产品吗？",
-        onOk: res => {
-          // 这里要调接口，删除这个产品（通过id删除）
-          //XXXXXX
-          // 然后可以重新读一遍产品列表接口，也可以直接模拟干掉数组
-          let index = 0;
-          this.productList.forEach((val, dex) => {
-            if (val.id === id) {
-              index = dex;
-            }
+    computed: {
+      // 计算属性来设置产品列表（关联了下拉框跟搜索框）
+      newProductList() {
+        const productType = this.productType;
+        const searchName = this.searchName;
+        const productList = this.productList;
+        let newArr = productList;
+        if (productType !== "all") {
+          newArr = productList.filter(val => {
+            return val.productType === productType;
           });
-          this.productList.splice(index, 1);
         }
-      });
+        if (searchName !== "") {
+          newArr = newArr.filter(val => {
+            return val.productName.indexOf(searchName) >= 0;
+          });
+        }
+        return newArr;
+      },
+      avatorPath() {
+        return localStorage.avatorImgPath;
+      }
+    },
+    beforeCreate() {
+      // 传值给父级main.vue（第二个导航）
+      this.$emit("set-active-nav", "home");
+    },
+    created() {
+      this.getProductList();
+    },
+    mounted() { },
+    methods: {
+      ok() {
+        // 点击后保存产品基本信息，后台生成相应的产品ID等信息  确定后保存产品信息，进入产品创建的第一步【设置功能】页面，进行产品设置
+        this.$Message.info("保存成功");
+        this.$router.push({
+          name: "home_set"
+        });
+      },
+      cancel() {
+        this.$Message.info("已取消");
+      },
+
+      mockConnectionListData() {
+        let connectionType = [
+          "蓝牙",
+          "WiFi",
+          "Zigbee",
+          "Lore",
+          "2G/3G/4G/5G",
+          "网关"
+        ];
+        let data = [];
+        for (let i = 0; i < connectionType.length; i++) {
+          data.push({
+            value: connectionType[i],
+            label: connectionType[i],
+            checked: false
+          });
+        }
+        return data;
+      },
+      mockIndustryListData() {
+        let data = [];
+        for (let i = 0; i < 10; i++) {
+          data.push({
+            value: "产品行业" + (i + 1),
+            label: "产品行业" + (i + 1)
+          });
+        }
+        return data;
+      },
+      formatDate(date) {
+        const y = date.getFullYear();
+        let m = date.getMonth() + 1;
+        m = m < 10 ? "0" + m : m;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let hour = date.getHours();
+        hour = hour < 10 ? "0" + hour : hour;
+        let minute = date.getMinutes();
+        minute = minute < 10 ? "0" + minute : minute;
+        return y + "-" + m + "-" + d + " " + hour + ":" + minute;
+      },
+      // 模拟接口拿到所有产品列表
+      getProductList() {
+        let data = [];
+        for (let i = 0; i < 10; i++) {
+          data.push({
+            id: i,
+            productType: i % 2 === 0 ? "custom" : "show",
+            productName: "智能冷暖白光灯" + (i + 1) + "(CW)",
+            status: "开发中",
+            start: this.formatDate(new Date()),
+            update: this.formatDate(new Date()),
+            imgSrc: "../images/logo.png"
+          });
+        }
+        this.productList = data;
+      },
+      // 下拉框选不同类型产品
+      selectType() {
+        console.log(1);
+
+        console.log(this.productType);
+      },
+      getproductTypeList() {
+        console.log('postpostpost');
+        util.ajax.post('/product/type/alltrade', {
+        })
+          .then(function (response) {
+            console.log(response);
+            return [
+              { label: "全部产品", value: "all" },
+              { label: "自定义产品", value: "custom" },
+              { label: "演示产品", value: "show" }
+            ]
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+      },
+      // 删除一个产品
+      deleteProduct(id) {
+        this.$Modal.confirm({
+          title: "删除提示",
+          content: "确定要删除这个产品吗？",
+          onOk: res => {
+            // 这里要调接口，删除这个产品（通过id删除）
+            //XXXXXX
+            // 然后可以重新读一遍产品列表接口，也可以直接模拟干掉数组
+            let index = 0;
+            this.productList.forEach((val, dex) => {
+              if (val.id === id) {
+                index = dex;
+              }
+            });
+            this.productList.splice(index, 1);
+          }
+        });
+      }
     }
-  }
-};
+  };
 </script>
 <style lang="less" scoped>
-.main-header {
-  padding-top: 16px;
-  padding-left: 80px;
-  text-align: left;
-  .select-type {
-    width: 200px;
-  }
-  .search,
-  .create {
-    float: right;
-  }
-  .create {
-    margin-left: 20px;
-  }
-}
-.product-ul {
-  list-style-type: none;
-  margin-left: -19px;
-}
-.product-ul li {
-  float: left;
-  width: 317px;
-  height: 192px;
-  margin: 10px;
-}
-.product-ul .ivu-card-bordered {
-  width: 100%;
-  height: 100%;
-}
-.product-ul .name {
-  margin-bottom: 10px;
-  font-weight: bold;
-  font-size: 16px;
-  color: #17233d;
-  line-height: 26px;
-}
-.product-ul .info {
-  font-size: 12px;
-  color: rgba(23, 35, 61, 0.7);
-  line-height: 2;
-}
-.timeline {
-  width: 100px;
-  margin: 24px auto 0;
-  list-style-type: none;
-  text-align: center;
-  cursor: pointer;
-}
-.timeline_icon {
-  width: 27px;
-  height: 27px;
-  background: #fff;
-  border: 1px solid rgba(23, 35, 61, 0.15);
-  border-radius: 50%;
-  line-height: 27px;
-}
-.timeline li:first-child .timeline_icon {
-  position: relative;
-  margin-bottom: 18px;
-}
-.timeline_text {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 18px;
-  font-size: 14px;
-  color: rgba(23, 35, 61, 0.75);
-  letter-spacing: 0;
-  text-align: center;
-  line-height: 22px;
-}
-.timeline_text:after,
-.timeline li:first-child .timeline_icon:after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  width: 0px;
-  height: 18px;
-  border-left: 1px solid rgba(23, 35, 61, 0.1);
-  z-index: 0;
-}
-.timeline li:last-child .timeline_text:after {
-  display: none;
-}
-.mtb15 {
-  margin: 15px 0;
-}
-.check_a {
-  display: inline-block;
-  height: 34px;
-  line-height: 34px;
-  padding: 0 5px;
-  border-radius: 3px;
-  border: 1px solid #dddee1;
-  margin-right: 6px;
-  margin-bottom: 5px;
-  font-size: 14px;
-  text-align: center;
-  color: rgba(23, 35, 61, 0.8);
-  vertical-align: middle;
-  cursor: pointer;
-  &.checked {
-    border-color: #008cf8;
-    color: #008cf8;
-  }
-  &_icon {
-    padding-right: 6px;
-    font-size: 20px;
+  .main-header {
+    padding-top: 16px;
+    padding-left: 80px;
+    text-align: left;
+    .select-type {
+      width: 200px;
+    }
+    .search,
+    .create {
+      float: right;
+    }
+    .create {
+      margin-left: 20px;
+    }
   }
 
-  .check_a_icon {
-    vertical-align: middle;
-    color: #ddd;
+  .product-ul {
+    list-style-type: none;
+    margin-left: -19px;
   }
-}
+
+  .product-ul li {
+    float: left;
+    width: 317px;
+    height: 192px;
+    margin: 10px;
+  }
+
+  .product-ul .ivu-card-bordered {
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-ul .name {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #17233d;
+    line-height: 26px;
+  }
+
+  .product-ul .info {
+    font-size: 12px;
+    color: rgba(23, 35, 61, 0.7);
+    line-height: 2;
+  }
+
+  .timeline {
+    width: 100px;
+    margin: 24px auto 0;
+    list-style-type: none;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .timeline_icon {
+    width: 27px;
+    height: 27px;
+    background: #fff;
+    border: 1px solid rgba(23, 35, 61, 0.15);
+    border-radius: 50%;
+    line-height: 27px;
+  }
+
+  .timeline li:first-child .timeline_icon {
+    position: relative;
+    margin-bottom: 18px;
+  }
+
+  .timeline_text {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 18px;
+    font-size: 14px;
+    color: rgba(23, 35, 61, 0.75);
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 22px;
+  }
+
+  .timeline_text:after,
+  .timeline li:first-child .timeline_icon:after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0px;
+    height: 18px;
+    border-left: 1px solid rgba(23, 35, 61, 0.1);
+    z-index: 0;
+  }
+
+  .timeline li:last-child .timeline_text:after {
+    display: none;
+  }
+
+  .mtb15 {
+    margin: 15px 0;
+  }
+
+  .check_a {
+    display: inline-block;
+    height: 34px;
+    line-height: 34px;
+    padding: 0 5px;
+    border-radius: 3px;
+    border: 1px solid #dddee1;
+    margin-right: 6px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    text-align: center;
+    color: rgba(23, 35, 61, 0.8);
+    vertical-align: middle;
+    cursor: pointer;
+    &.checked {
+      border-color: #008cf8;
+      color: #008cf8;
+    }
+    &_icon {
+      padding-right: 6px;
+      font-size: 20px;
+    }
+
+    .check_a_icon {
+      vertical-align: middle;
+      color: #ddd;
+    }
+  }
 </style>

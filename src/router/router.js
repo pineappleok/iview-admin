@@ -83,6 +83,9 @@ export const otherRouter = {
             children:[
                 { path: '/manage/products', title: '产品库管理', name: 'manageProducts', component: () => import('@/views/manage/products.vue')},
                 { path: '/manage/sales', title: '产品销售管理', name: 'manageSales', component: () => import('@/views/manage/sales.vue')},
+                { path: '/manage/appMaintain', title: 'APP维护', name: 'appMaintain', component: () => import('@/views/manage/appMaintain.vue')},
+                
+
             ]
         },
         // 第三个栏目***运营分析

@@ -23,7 +23,8 @@
           { name: "products", text: "产品库管理", icon: "ios-paper" },
           { name: "sales", text: "产品销售管理", icon: "ios-people" },
           { name: "appMaintain", text: "APP维护" },
-          { name: "appManage", text: "APP管理" }
+          { name: "troubleList", text: "产品反馈和售后" },
+          { name: "appManage", text: "APP管理" },
         ]
       };
     },

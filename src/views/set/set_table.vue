@@ -112,7 +112,9 @@ export default {
         decimalValue: "",
         decimalList: [
           { label: "一位小数", value: "一位小数" },
-          { label: "二位小数", value: "二位小数" }
+          { label: "二位小数", value: "二位小数" },
+          { label: "三位小数", value: "三位小数" },
+          { label: "四位小数", value: "四位小数" }
         ],
         transValue: "",
         transList: [

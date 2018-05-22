@@ -12,7 +12,7 @@
                         <div id="appVersion"></div>
                     </div>
                     <div class="fr">
-                        <ul>
+                        <ul class="appVersionLegend">
                             <li v-for="item in versions">
                                 <b class="icon" :style="{background:item.color}"></b>版本号{{item.version}}
                                 <i class="percent">{{item.percent}}</i>
@@ -25,16 +25,18 @@
                 <h3>用户画像</h3>
                 <div class="charts clearfix">
                     <div class="fl posR">
+                        <h4>性别分布</h4>
                         <div id="sexDistribution"></div>
-                        <ul>
+                        <ul class="sexDistributionLegend">
                             <li v-for="item in sexDistributionData">
-                                    <Icon :type="item.name=='男性'?'man':'woman'" :color="item.color" size="40px" class="maleIcon"></Icon>
-                                    <p class="sex">{{item.name}}</p>
-                                    <p class="percent">{{(item.value*100/(sexDistributionData[0].value+sexDistributionData[1].value)).toFixed(2)}}%</p>
+                                <Icon :type="item.name=='男性'?'man':'woman'" :color="item.color" class="genderIcon"></Icon>
+                                <p class="gender">{{item.name}}</p>
+                                <p class="percent">{{(item.value*100/(sexDistributionData[0].value+sexDistributionData[1].value)).toFixed(2)}}%</p>
                             </li>
                         </ul>
                     </div>
                     <div class="fr">
+                        <h4>年龄分布</h4>
                         <div id="ageDistribution"></div>
                     </div>
                 </div>
@@ -51,8 +53,10 @@
             return {
                 versions: this.mockVersions(),
                 appVersion: null,
-                sexDistributionData:this.mocksexDistribution(),
-                sexDistribution:null
+                sexDistributionData: this.mocksexDistribution(),
+                sexDistribution: null,
+                ageDistributionData: this.mockageDistribution(),
+                ageDistribution: null
             };
         },
         beforeCreate() {
@@ -65,12 +69,12 @@
             //基于准备好的dom，初始化echarts实例
             this.appVersion = echarts.init(document.getElementById('appVersion'));
             this.sexDistribution = echarts.init(document.getElementById('sexDistribution'));
-            
+            this.ageDistribution = echarts.init(document.getElementById('ageDistribution'));
             let appVersionData = [];
             for (var i in this.versions) {
                 appVersionData[i] = {
                     value: this.versions[i].num,
-                    name:this.versions[i].version
+                    name: this.versions[i].version
                 }
             };
             this.appVersion.setOption({
@@ -96,7 +100,7 @@
                         type: 'pie',
                         radius: ['60%', '70%'],
                         avoidLabelOverlap: false,
-                        data:appVersionData,
+                        data: appVersionData,
                         label: {
                             normal: {
                                 show: false,
@@ -141,7 +145,7 @@
                         type: 'pie',
                         radius: ['60%', '70%'],
                         avoidLabelOverlap: false,
-                        data:_this.sexDistributionData,
+                        data: _this.sexDistributionData,
                         label: {
                             normal: {
                                 show: false,
@@ -160,6 +164,66 @@
                                 show: false
                             }
                         },
+                    }
+                ]
+            });
+            let ageDistributionName = [], ageDistributionVal = [];
+            for (var i in this.ageDistributionData) {
+                ageDistributionName.push(this.ageDistributionData[i].name);
+                ageDistributionVal.push(this.ageDistributionData[i].value);
+            };
+            this.ageDistribution.setOption({
+                color: ['#2D8CF0'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    },
+                    formatter: '{b}:{c}%'
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: ageDistributionName,
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: "#aaa"
+                            }
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        axisLine: {
+                            lineStyle: {
+                                color: "transparent"
+                            }
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: '直接访问',
+                        type: 'bar',
+                        barWidth: '60%',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}%'
+                            }
+                        },
+                        data: ageDistributionVal
                     }
                 ]
             });
@@ -182,14 +246,27 @@
                 return data;
             },
             mocksexDistribution() {
-                let data=[],
-                    sex=['男性','女性'],
-                    colors= ['#2D8CF0', '#2DE2C5'];
-                for(let i=0;i<2;i++){
+                let data = [],
+                    sex = ['男性', '女性'],
+                    colors = ['#2D8CF0', '#2DE2C5'];
+                for (let i = 0; i < 2; i++) {
                     data.push({
-                        value:(Math.random()).toFixed(4)*10000,
-                        name:sex[i],
-                        color:colors[i]
+                        value: (Math.random()).toFixed(4) * 10000,
+                        name: sex[i],
+                        color: colors[i]
+                    });
+                }
+                return data;
+            },
+            mockageDistribution() {
+                let data = [],
+                    age = ['<19岁', '19-25岁', '26-35岁', '36-45岁', '46-55岁', '>55岁'],
+                    colors = ['#2D8CF0'];
+                for (let i = 0; i < age.length; i++) {
+                    data.push({
+                        value: (Math.random()).toFixed(2) * 100,
+                        name: age[i],
+                        color: colors[0]
                     });
                 }
                 return data;
@@ -210,23 +287,41 @@
                 font-size: 16px;
                 color: #17233D;
             }
-            #appVersion,#sexDistribution {
+            h4 {
+                padding: 20px 24px;
+                font-size: 14px;
+                color: rgba(28, 36, 56, 0.80);
+                font-weight: normal;
+            }
+            #appVersion,
+            #sexDistribution {
                 margin-top: 10px;
                 width: 80%;
+                height: 224px;
+            }
+            #ageDistribution {
+                margin-top: 10px;
+                width: 100%;
                 height: 224px;
             }
             .fl {
                 float: left;
                 width: 50%;
+                box-sizing: border-box;
             }
             .fr {
                 width: 50%;
                 float: right;
+                box-sizing: border-box;
             }
-            .posR{
+            .posR {
                 position: relative;
             }
-            ul {
+            .charts>.fr {
+                width: 49%;
+                border-left: 1px solid rgba(23, 35, 61, 0.10);
+            }
+            .appVersionLegend {
                 padding: 10px 27px 22px;
                 list-style-type: none;
                 li {
@@ -248,6 +343,32 @@
                         font-style: normal;
                         font-size: 14px;
                         color: rgba(28, 36, 56, 0.56);
+                    }
+                }
+            }
+            .sexDistributionLegend {
+                position: absolute;
+                width: 20%;
+                left: calc(~'70% - 45px');
+                top: 110px;
+                list-style-type: none;
+                li {
+                    position: relative;
+                    padding-left: 28px;
+                    margin: 14px 0;
+                    .genderIcon {
+                        position: absolute;
+                        top: 5px;
+                        left: 0;
+                        font-size: 44px;
+                    }
+                    .gender {
+                        font-size: 14px;
+                        color: #495060;
+                    }
+                    .percent {
+                        font-size: 20px;
+                        color: #495060;
                     }
                 }
             }

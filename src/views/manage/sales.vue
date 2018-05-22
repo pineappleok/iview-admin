@@ -26,6 +26,10 @@ export default {
     // 传值给父级菜单
     this.$emit("set-manage-menu", "sales");
   },
+  created(){
+    console.log(this.api.getBanner);
+    console.log(this.axios);
+  },
   methods: {}
 };
 </script>

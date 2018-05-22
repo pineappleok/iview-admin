@@ -8,9 +8,16 @@ import '@/locale';
 import 'iview/dist/styles/iview.css';
 import VueI18n from 'vue-i18n';
 import util from './libs/util';
+import ajaxApi from './libs/ajax-api'; // 加载接口api，方便统一管理
+import ajaxAxios from './libs/ajax-axios'; // 简单封装下axios（其实不封装也可以的）
+
+Vue.prototype.api = ajaxApi; // 把ajaxApi这个模块绑在Vue的原型上，然后全局环境里 this.api 就能拿到里面的数据了
+Vue.prototype.axios = ajaxAxios; // 同理，挂载vue原型上
 
 Vue.use(VueI18n);
 Vue.use(iView);
+
+
 //test
 new Vue({
     el: '#app',

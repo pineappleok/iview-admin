@@ -121,7 +121,7 @@ export default {
   methods: {
     // 接收从子组件传来的当前选中导航
     getActiveNav(num) {
-      this.activeName = num;
+      this.activeNav = num;
     },
     // 导航跳转
     pageToNav(name) {

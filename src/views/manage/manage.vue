@@ -22,7 +22,8 @@
         menuList: [
           { name: "products", text: "产品库管理", icon: "ios-paper" },
           { name: "sales", text: "产品销售管理", icon: "ios-people" },
-          { name: "appMaintain", text: "APP维护" }
+          { name: "appMaintain", text: "APP维护" },
+          { name: "appManage", text: "APP管理" }
         ]
       };
     },

@@ -84,7 +84,7 @@ export const otherRouter = {
                 { path: '/manage/products', title: '产品库管理', name: 'manageProducts', component: () => import('@/views/manage/products.vue')},
                 { path: '/manage/sales', title: '产品销售管理', name: 'manageSales', component: () => import('@/views/manage/sales.vue')},
                 { path: '/manage/appMaintain', title: 'APP维护', name: 'appMaintain', component: () => import('@/views/manage/appMaintain.vue')},
-                
+                { path: '/manage/appManage', title: 'APP管理', name: 'appManage', component: () => import('@/views/manage/appManage.vue')},
 
             ]
         },

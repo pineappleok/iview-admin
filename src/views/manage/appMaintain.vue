@@ -61,7 +61,7 @@
         },
         beforeCreate() {
             // 传值给父级main.vue（第二个导航）
-            this.$emit("set-manage-menu", "products");
+            this.$emit("set-manage-menu", "appMaintain");
         },
         mounted() {
             console.log(this.versions);
@@ -264,7 +264,7 @@
                     colors = ['#2D8CF0'];
                 for (let i = 0; i < age.length; i++) {
                     data.push({
-                        value: (Math.random()).toFixed(2) * 100,
+                        value: parseInt(Math.random().toFixed(2) * 100),
                         name: age[i],
                         color: colors[0]
                     });

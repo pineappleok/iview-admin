@@ -313,10 +313,6 @@ export default {
   }
 }
 .modal {
-  .mtb15 {
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
   .label {
     line-height: 34px;
     font-size: 14px;

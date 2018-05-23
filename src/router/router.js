@@ -87,6 +87,7 @@ export const otherRouter = {
                 { path: '/manage/appManage', title: 'APP管理', name: 'appManage', component: () => import('@/views/manage/appManage.vue')},
                 { path: '/manage/troubleList', title: '产品反馈和售后', name: 'troubleList', component: () => import('@/views/manage/troubleList.vue')},
                 { path: '/manage/appUser', title: 'APP用户管理', name: 'appUser', component: () => import('@/views/manage/appUser.vue')},
+                { path: '/manage/msg', title: 'APP消息推送', name: 'msg', component: () => import('@/views/manage/msg.vue')},
                 
             ]
         },

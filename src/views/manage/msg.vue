@@ -1,22 +1,23 @@
 <!-- 运维管理-产品库管理 -->
 <template>
-    <div class="manage-right appUser">
+    <div class="manage-right push">
         <div class="top-bar clearfix">
-            APP用户管理
+            APP消息推送
             <div class="fr">
-                <Select v-model="productModel" style="width:160px" placeholder="产品类型">
-                    <Option v-for="item in productModelList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Select v-model="pushType" style="width:160px" placeholder="推送类型">
+                    <Option v-for="item in pushTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
-                <Input class="search" v-model="searchId" icon="ios-search" placeholder="用户帐号..." style="width: 160px"></Input>
-                <Select v-model="productCondition" style="width:160px" placeholder="产品版本">
+                <Select v-model="auditCondition" style="width:160px" placeholder="审核状态">
                     <Option v-for="item in productConditionList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
+                <DatePicker type="daterange" placement="bottom-end" placeholder="选择日期范围" style="width: 240px"></DatePicker>
+                <Button class="create" type="primary" icon="plus" @click="ModalCreateProduct = true">新增推送</Button>
             </div>
         </div>
         <div class="manage-content">
             <div class="content">
-                <h3>用户列表
-                    <Button type="ghost" class="ghost-blue fr">密码复位</Button>
+                <h3>消息列表
+                    <Button type="ghost" class="ghost-blue fr">撤销审核</Button>
                 </h3>
                 <table class="mytable">
                     <thead>
@@ -24,30 +25,36 @@
                             <tr>
                                 <th width="5%">
                                     <!-- <Checkbox v-model="tableData.allChecked" @on-change="checkAll(tableData)"></Checkbox> -->
-                                    <input type="checkbox" v-model="tableData.allChecked" @change="checkAll()" />
+                                    <input type="checkbox" v-model="tableData.allChecked" @change="checkAll(tableData)" />
                                 </th>
-                                <th width="12.5%">序号</th>
-                                <th width="12.5%">用户账号</th>
-                                <th width="17%">地区</th>
-                                <th width="12.5%">手机品牌</th>
-                                <th width="12.5%">APP版本</th>
-                                <th width="20%">注册时间</th>
-                                <th width="8%">绑定产品数量</th>
+                                <th width="5%">序号</th>
+                                <th width="10%">推送类型</th>
+                                <th width="15%">编辑时间</th>
+                                <th width="15%">推送时间</th>
+                                <th width="10%">题目</th>
+                                <th width="10%">内容</th>
+                                <th width="7%">审核状态</th>
+                                <th width="8%">审核备注</th>
+                                <th width="8%">接受APP设备</th>
+                                <th width="7%">操作人员</th>
                             </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(item,index) in tableData.rows" :key="index">
                             <td>
                                 <!-- <Checkbox v-model="item.checked" @on-change="check(tableData,item,index)"></Checkbox> -->
-                                <input type="checkbox" v-model="item.checked" @change="check()" />
+                                <input type="checkbox" v-model="item.checked" @change="check(tableData,item,index)" />
                             </td>
                             <td>{{item.no}}</td>
-                            <td>{{item.account}}</td>
-                            <td>{{item.city}}</td>
-                            <td>{{item.mobile}}</td>
-                            <td>{{item.version}}</td>
-                            <td>{{item.regisetrTime}}</td>
-                            <td>{{item.num}}</td>
+                            <td>{{item.msgType}}</td>
+                            <td>{{item.editTime}}</td>
+                            <td>{{item.pushTime}}</td>
+                            <td>{{item.msgTitle}}</td>
+                            <td>{{item.msgCon}}</td>
+                            <td>{{item.auditProgress}}</td>
+                            <td>{{item.auditNote}}</td>
+                            <td>{{item.appId}}</td>
+                            <td>{{item.operator}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -60,25 +67,29 @@
 <script>
     import echarts from 'echarts'
     export default {
-        name: "appUser",
+        name: "msg",
         data() {
             return {
                 tableData: {},
-                productModel: "",
-                productModelList: {},
+                pushTypeList: [
+                    { label: "系统消息", value: "all" },
+                    { label: "升级消息", value: "custom" },
+                    { label: "活动消息", value: "show" }],
+                productModelList: [
+                    { label: "系统消息", value: "all" },
+                    { label: "升级消息", value: "custom" },
+                    { label: "活动消息", value: "show" }],
                 searchId: "",
-                productCondition: "",
+                auditCondition: "",
                 productConditionList: {}
             };
         },
         beforeCreate() {
             // 传值给父级main.vue（第二个导航）
-            this.$emit("set-manage-menu", "appUser");
+            this.$emit("set-manage-menu", "msg");
         },
         mounted() {
             this.mockTableData();
-            this.mockproductModelListData();
-            this.mockproductConditionListData();
         },
         methods: {
             mockTableData() {
@@ -87,14 +98,16 @@
                 data.rows = [];
                 for (let i = 0; i < 10; i++) {
                     data.rows.push({
-                        checked: false,
                         no: "00" + (i + 1),
-                        account: parseInt(Math.random().toFixed(10) * 10000000000),
-                        city: "深圳",
-                        mobile: "18677888787 ",
-                        version: "2.0.0 ",
-                        regisetrTime: "2018.02.23 12:00:00 ",
-                        num: parseInt(Math.random() * 100)
+                        msgType: "升级消息",
+                        editTime: "2018.5.10",
+                        pushTime: "2018.5.12 ",
+                        msgTitle: "母亲节",
+                        msgCon: "母亲节内容 ",
+                        auditProgress: '审核中',
+                        auditNote: "全部版本",
+                        appId: "15603018537",
+                        operator: "汉尼拔"
                     });
                 }
                 this.tableData = data;
@@ -123,30 +136,30 @@
                 }
                 this.productConditionList = data;
             },
-            check() {
-                console.log(this.tableData.allChecked);
-                let vm = this;
-                let selectedData = vm.tableData.filter(val => {
-                    return val.checked == true;
-                });
-                if (selectedData.length == vm.tableData.length) {
-                    vm.tableData.allChecked = true;
+            check(tableData, item, index) {
+                console.log('1heihouer');
+                if (item.checked) {
+                    item.checked = false;
+                    tableData.allChecked = false;
                 } else {
-                    vm.tableData.allChecked = false;
+                    item.checked = true;
+                    tableData.allChecked = tableData.rows.every(val => {
+                        return !!val.checked;
+                    })
                 }
             },
-            checkAll() {
-                console.log(this.tableData.allChecked);
-                let vm = this;
-                vm.tableData.rows.forEach(val => {
-                    val.checked = vm.tableData.allChecked;
+            checkAll(tableData) {
+                console.log('heihouer');
+                tableData.rows.forEach(val => {
+                    val.checked = tableData.allChecked ? false : true;
                 });
+                tableData.allChecked = !tableData.allChecked;
             }
         }
     };
 </script>
 <style lang="less" scoped>
-    .appUser {
+    .push {
         .fr {
             float: right;
         }

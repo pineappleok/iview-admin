@@ -1,6 +1,6 @@
 <!-- 运维管理-产品库管理 -->
 <template>
-    <div class="manage-right push">
+    <div class="manage-right msg">
         <div class="top-bar clearfix">
             APP消息推送
             <div class="fr">
@@ -214,7 +214,7 @@
     };
 </script>
 <style lang="less" scoped>
-    .push {
+    .msg {
         .fr {
             float: right;
         }

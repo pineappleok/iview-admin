@@ -8,10 +8,45 @@
                     <Option v-for="item in pushTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
                 <Select v-model="auditCondition" style="width:160px" placeholder="审核状态">
-                    <Option v-for="item in productConditionList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    <Option v-for="item in auditConditionList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
                 <DatePicker type="daterange" placement="bottom-end" placeholder="选择日期范围" style="width: 240px"></DatePicker>
-                <Button class="create" type="primary" icon="plus" @click="ModalCreateProduct = true">新增推送</Button>
+                <Button class="create" type="primary" icon="plus" @click="modalAddPush = true">新增推送</Button>
+                <Modal v-model="modalAddPush" title="新增推送" @on-ok="handleSubmit('formValidate')">
+                    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" label-position="left" :label-width="76">
+                        <FormItem label="消息题目" prop="title">
+                            <Input v-model="formValidate.title" placeholder="请消息题目"></Input>
+                        </FormItem>
+                        <FormItem label="推送类型" prop="pushType">
+                            <Select v-model="formValidate.pushType" placeholder="请选择">
+                                <Option v-for="item in pushTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>                            
+                            </Select>
+                        </FormItem>
+                        <FormItem label="推送版本" prop="version">
+                            <RadioGroup v-model="formValidate.version">
+                                <Radio label="全部版本">全部版本</Radio>
+                                <Radio label="female">除去最新</Radio>
+                            </RadioGroup>
+                        </FormItem>
+                        <FormItem label="推送时间">
+                            <Row>
+                                <Col span="12">
+                                <FormItem prop="date">
+                                    <DatePicker type="date" placeholder="Select date" v-model="formValidate.date"></DatePicker>
+                                </FormItem>
+                                </Col>
+                                <Col span="12">
+                                <FormItem prop="time">
+                                    <TimePicker type="time" placeholder="Select time" v-model="formValidate.time"></TimePicker>
+                                </FormItem>
+                                </Col>
+                            </Row>
+                        </FormItem>
+                        <FormItem label="消息内容" prop="desc">
+                            <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 5,maxRows: 8}" placeholder="请输入消息内容…"></Input>
+                        </FormItem>
+                    </Form>
+                </Modal>
             </div>
         </div>
         <div class="manage-content">
@@ -23,17 +58,17 @@
                     <thead>
                         <tr>
                             <tr>
-                                <th width="5%">
-                                    <!-- <Checkbox v-model="tableData.allChecked" @on-change="checkAll(tableData)"></Checkbox> -->
-                                    <input type="checkbox" v-model="tableData.allChecked" @change="checkAll(tableData)" />
+                                <th width="3%">
+                                    <Checkbox v-model="tableData.allChecked" @on-change="checkAll(tableData)"></Checkbox>
+                                    <!-- <input type="checkbox" v-model="tableData.allChecked" @change="checkAll(tableData)" /> -->
                                 </th>
                                 <th width="5%">序号</th>
                                 <th width="10%">推送类型</th>
-                                <th width="15%">编辑时间</th>
-                                <th width="15%">推送时间</th>
+                                <th width="12%">编辑时间</th>
+                                <th width="12%">推送时间</th>
                                 <th width="10%">题目</th>
-                                <th width="10%">内容</th>
-                                <th width="7%">审核状态</th>
+                                <th width="12%">内容</th>
+                                <th width="13%">审核状态</th>
                                 <th width="8%">审核备注</th>
                                 <th width="8%">接受APP设备</th>
                                 <th width="7%">操作人员</th>
@@ -42,16 +77,17 @@
                     <tbody>
                         <tr v-for="(item,index) in tableData.rows" :key="index">
                             <td>
-                                <!-- <Checkbox v-model="item.checked" @on-change="check(tableData,item,index)"></Checkbox> -->
-                                <input type="checkbox" v-model="item.checked" @change="check(tableData,item,index)" />
+                                <Checkbox v-model="item.checked" @on-change="check(tableData,item,index)"></Checkbox>
+                                <!-- <input type="checkbox" v-model="item.checked" @change="check(tableData,item,index)" /> -->
                             </td>
                             <td>{{item.no}}</td>
-                            <td>{{item.msgType}}</td>
+                            <td>{{item.pushType.label}}</td>
                             <td>{{item.editTime}}</td>
                             <td>{{item.pushTime}}</td>
                             <td>{{item.msgTitle}}</td>
                             <td>{{item.msgCon}}</td>
-                            <td>{{item.auditProgress}}</td>
+                            <td>
+                                <i :class="dotClass(item.auditProgress.label)"></i>{{item.auditProgress.label}}</td>
                             <td>{{item.auditNote}}</td>
                             <td>{{item.appId}}</td>
                             <td>{{item.operator}}</td>
@@ -70,18 +106,53 @@
         name: "msg",
         data() {
             return {
-                tableData: {},
+                tableData: {
+                    allChecked: false,
+                    rows: []
+                },
+                pushType: '',
                 pushTypeList: [
-                    { label: "系统消息", value: "all" },
-                    { label: "升级消息", value: "custom" },
-                    { label: "活动消息", value: "show" }],
-                productModelList: [
-                    { label: "系统消息", value: "all" },
-                    { label: "升级消息", value: "custom" },
-                    { label: "活动消息", value: "show" }],
-                searchId: "",
+                    { label: "系统消息", value: "systemMsg" },
+                    { label: "升级消息", value: "upgradeMsg" },
+                    { label: "活动消息", value: "eventMsg" }
+                ],
                 auditCondition: "",
-                productConditionList: {}
+                auditConditionList: [
+                    { label: "审核中", value: "aduiting" },
+                    { label: "审核未通过", value: "aduitFaild" },
+                    { label: "审核成功", value: "aduitSuc" },
+                    { label: "审核撤销", value: "aduitRevoke" }
+                ],
+                modalAddPush:false,
+                formValidate: {
+                    title: '',
+                    pushType: '',
+                    version: '',
+                    date: '',
+                    time: '',
+                    desc: ''
+                },
+                ruleValidate: {
+                    title: [
+                        { required: true, message: '消息题目不能为空', trigger: 'blur' }
+                    ],
+                    pushType: [
+                        { required: true, message: '请选择推送类型', trigger: 'change' }
+                    ],
+                    version: [
+                        { required: true, message: '请选择推送版本', trigger: 'change' }
+                    ],
+                    date: [
+                        { required: true, type: 'date', message: 'Please select the date', trigger: 'change' }
+                    ],
+                    time: [
+                        { required: true, type: 'string', message: 'Please select time', trigger: 'change' }
+                    ],
+                    desc: [
+                        { required: true, message: '请输入消息内容…', trigger: 'blur' },
+                        { type: 'string', min: 10, message: '消息内容不能少于10个字', trigger: 'blur' }
+                    ]
+                }
             };
         },
         beforeCreate() {
@@ -93,68 +164,52 @@
         },
         methods: {
             mockTableData() {
-                let data = [];
-                data.allChecked = false;
-                data.rows = [];
                 for (let i = 0; i < 10; i++) {
-                    data.rows.push({
+                    this.tableData.rows.push({
                         no: "00" + (i + 1),
-                        msgType: "升级消息",
+                        pushType: this.pushTypeList[Math.floor(Math.random() * 3)],
                         editTime: "2018.5.10",
                         pushTime: "2018.5.12 ",
                         msgTitle: "母亲节",
                         msgCon: "母亲节内容 ",
-                        auditProgress: '审核中',
+                        auditProgress: this.auditConditionList[Math.floor(Math.random() * 3)],
                         auditNote: "全部版本",
                         appId: "15603018537",
                         operator: "汉尼拔"
                     });
                 }
-                this.tableData = data;
             },
             changePage() {
                 // 这里直接更改了模拟的数据，真实使用场景应该从服务端获取数据
                 this.mockTableData();
             },
-            mockproductModelListData() {
-                let data = [];
-                for (let i = 0; i < 10; i++) {
-                    data.push({
-                        label: "产品型号" + (i + 1),
-                        value: "产品型号" + (i + 1)
-                    });
-                }
-                this.productModelList = data;
-            },
-            mockproductConditionListData() {
-                let data = [];
-                for (let i = 0; i < 10; i++) {
-                    data.push({
-                        label: "产品状态" + (i + 1),
-                        value: "产品状态" + (i + 1)
-                    });
-                }
-                this.productConditionList = data;
-            },
             check(tableData, item, index) {
-                console.log('1heihouer');
-                if (item.checked) {
-                    item.checked = false;
-                    tableData.allChecked = false;
-                } else {
-                    item.checked = true;
-                    tableData.allChecked = tableData.rows.every(val => {
-                        return !!val.checked;
-                    })
-                }
+                let isAllChecked = tableData.rows.every(val => {
+                    return !!val.checked;
+                });
+                tableData.allChecked = isAllChecked;
             },
             checkAll(tableData) {
-                console.log('heihouer');
-                tableData.rows.forEach(val => {
-                    val.checked = tableData.allChecked ? false : true;
+                tableData.rows.forEach(element => {
+                    element.checked = tableData.allChecked;
                 });
-                tableData.allChecked = !tableData.allChecked;
-            }
+            },
+            dotClass(label) {
+                function checkAdult(string) {
+                    return string == label;
+                }
+                var strings = ["审核中", "审核成功", "审核未通过", "审核撤销"];
+                return 'dot dot' + strings.findIndex(checkAdult);
+            },
+            handleSubmit(name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$Message.success('Success!');
+                    } else {
+                        this.$Message.error('Fail!');
+                    }
+                })
+            },
         }
     };
 </script>
@@ -201,6 +256,26 @@
                     &:first-child,
                     &:last-child {
                         text-align: center;
+                    }
+                    .dot {
+                        display: inline-block;
+                        width: 10px;
+                        height: 10px;
+                        border-radius: 50%;
+                        margin-right: 5px;
+                        vertical-align: middle;
+                        &0 {
+                            background: #008CF8;
+                        }
+                        &1 {
+                            background: #38BA4C;
+                        }
+                        &2 {
+                            background: rgba(23, 35, 61, 0.25);
+                        }
+                        &3 {
+                            background: #ed3f14;
+                        }
                     }
                 }
             }

@@ -137,7 +137,6 @@
             this.getFeedBack();
         },
         mounted() {
-            console.log(this.versions);
             var _this = this;
             //基于准备好的dom，初始化echarts实例
             this.appVersion = echarts.init(document.getElementById('appVersion'));
@@ -337,12 +336,6 @@
             background: #ffffff;
             box-shadow: 0 2px 4px 0 rgba(31, 49, 89, 0.25);
             border-radius: 2px;
-            .feedbackSelect {
-                float: right;
-                .selected {
-                    color: #2d8cf0;
-                }
-            }
             .mytable {
                 width: 100%;
                 th {
@@ -350,7 +343,7 @@
                     background: rgba(20, 35, 63, 0.04);
                     font-size: 12px;
                     color: #17233d;
-                    text-align:left;
+                    text-align: left;
                     &:first-child,
                     &:last-child {
                         text-align: center;
@@ -380,6 +373,13 @@
                 font-weight: normal;
                 font-size: 16px;
                 color: #17233d;
+                .feedbackSelect {
+                    float: right;
+                    margin-top: -4px;
+                    .selected {
+                        color: #2d8cf0;
+                    }
+                }
             }
             h4 {
                 padding: 20px 24px;
@@ -432,10 +432,11 @@
             }
         }
     }
-        .modal {
-            .label {
-                padding-left: 10px;
-                color: #17233D;
-            }
+
+    .modal {
+        .label {
+            padding-left: 10px;
+            color: #17233D;
         }
+    }
 </style>

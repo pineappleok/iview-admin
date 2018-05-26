@@ -18,9 +18,9 @@
         <div class="manage-content">
             <div class="content">
                 <h3>档案列表
-                    <Button type="ghost" class="ghost-blue fr">复位</Button>
-                    <Button type="ghost" class="ghost-blue fr">关机</Button>
-                    <Button type="ghost" class="ghost-blue fr">升级</Button>
+                    <Button type="ghost" class="ghost-blue fr" @click="resetConfirm">复位</Button>
+                    <Button type="ghost" class="ghost-blue fr" @click="shutdownConfirm">关机</Button>
+                    <Button type="ghost" class="ghost-blue fr" @click="upgradeConfirm">升级</Button>
                 </h3>
                 <table class="mytable">
                     <thead>
@@ -211,6 +211,42 @@
                         this.$Message.error('Fail!');
                     }
                 })
+            },
+            upgradeConfirm () {
+                this.$Modal.confirm({
+                    title: '升级',
+                    content: '<p>是否确认将选中的产品将进行批量升级？</p>',
+                    onOk: () => {
+                        this.$Message.info('所选产品将请求app进行升级，请稍等');
+                    },
+                    onCancel: () => {
+                        this.$Message.info('已取消升级');
+                    }
+                });
+            },
+            shutdownConfirm () {
+                this.$Modal.confirm({
+                    title: '关机',
+                    content: '<p>是否确认将选中的产品进行批量关机？</p>',
+                    onOk: () => {
+                        this.$Message.info('所选产品将请求app进行关机，请稍等');
+                    },
+                    onCancel: () => {
+                        this.$Message.info('已取消关机');
+                    }
+                });
+            },
+            resetConfirm () {
+                this.$Modal.confirm({
+                    title: '复位',
+                    content: '<p>是否确认将选中的产品进行批量复位？</p>',
+                    onOk: () => {
+                        this.$Message.info('所选产品将请求app进行复位，请稍等');
+                    },
+                    onCancel: () => {
+                        this.$Message.info('已取消复位');
+                    }
+                });
             },
         }
     };

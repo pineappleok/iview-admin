@@ -20,8 +20,9 @@
       return {
         menuName: "products",
         menuList: [
-          { name: "products", text: "产品库管理", icon: "ios-paper" },
-          { name: "sales", text: "产品销售管理", icon: "ios-people" },
+          // { name: "products", text: "产品库管理", icon: "ios-paper" },
+          { name: "products", text: "产品库管理"},
+          { name: "sales", text: "产品销售管理"},
           { name: "productFile", text: "产品档案管理" },
           { name: "msg", text: "APP消息推送" },
           { name: "appUser", text: "APP用户管理" },

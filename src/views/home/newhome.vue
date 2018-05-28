@@ -22,23 +22,23 @@
                     <Col span="16" style="padding-left:6px;">
                     <Row class-name="made-child-con-middle" type="flex" align="middle">
                       <div>
-                        <p class="name">{{item.productName}}</p>
+                        <p class="name">{{item.productTypeName}}</p>
                         <p class="info">状态　{{item.status}}</p>
-                        <p class="info">创建　{{item.start}}</p>
-                        <p class="info">更新　{{item.update}}</p>
+                        <p class="info">创建　{{item.createdate}}</p>
+                        <p class="info">更新　{{item.changedate}}</p>
                       </div>
                     </Row>
                     </Col>
                     <Col span="8">
                     <Row class-name="made-child-con-middle" type="flex" align="middle">
-                      <img class="avator-img" :src="avatorPath" />
+                      <img class="avator-img" :src="item.src" />
                     </Row>
                     </Col>
                   </Row>
                   <div class="line-gray" style="margin:10px 0;"></div>
                   <Row class="margin-top-8">
-                    <router-link :to="'/home/edit?id='+item.id" style="margin-right:8px;">编辑产品</router-link>
-                    <a href="javascript:void(0)" style="color: rgba(23,35,61,0.55);" @click="deleteProduct(item.id)">删除</a>
+                    <router-link :to="'/home/edit?id='+item.productTypeID" style="margin-right:8px;">编辑产品</router-link>
+                    <a href="javascript:void(0)" style="color: rgba(23,35,61,0.55);" @click="deleteProduct(item.productTypeID)">删除</a>
                   </Row>
                 </Card>
               </li>
@@ -127,6 +127,7 @@
     components: {},
     data() {
       return {
+        url: require("../../images/product.png"),
         productType: "all",
         productTypeList: [
           { label: "全部产品", value: "all", selected: true },
@@ -157,7 +158,7 @@
         }
         if (searchName !== "") {
           newArr = newArr.filter(val => {
-            return val.productName.indexOf(searchName) >= 0;
+            return val.productTypeName.indexOf(searchName) >= 0;
           });
         }
         return newArr;
@@ -235,23 +236,24 @@
       },
       // 模拟接口拿到所有产品列表
       getProductList() {
-        let data = [], id = '1';
-        this.axios.get(this.api.productList + id, { params: {} }).then(res => {
+        let data = [], developerID = '1';
+        this.axios.get(this.api.productList + developerID, { params: {} }).then(res => {
           const resData = res.data;
           console.log(resData);
-        });
-        for (let i = 0; i < 10; i++) {
           data.push({
-            id: i,
-            productType: i % 2 === 0 ? "custom" : "show",
-            productName: "智能冷暖白光灯" + (i + 1) + "(CW)",
+            productTypeID: parseInt(Math.random() * 1000),
+            productType: "custom",
+            productTypeName: "智能冷暖白光灯" + "(CW)",
             status: "开发中",
-            start: this.formatDate(new Date()),
-            update: this.formatDate(new Date()),
-            imgSrc: "../images/logo.png"
+            createdate: this.formatDate(new Date()),
+            changedate: this.formatDate(new Date()),
+            src: this.url
           });
-        }
-        this.productList = data;
+          for (let i = 0; i < resData.length; i++) {
+            Object.assign(data[0], resData);
+          }
+          this.productList = resData;
+        });
       },
       // 下拉框选不同类型产品
       selectType(item) {
@@ -280,7 +282,7 @@
           });
       },
       // 删除一个产品
-      deleteProduct(id) {
+      deleteProduct(productTypeID) {
         this.$Modal.confirm({
           title: "删除提示",
           content: "确定要删除这个产品吗？",
@@ -290,7 +292,7 @@
             // 然后可以重新读一遍产品列表接口，也可以直接模拟干掉数组
             let index = 0;
             this.productList.forEach((val, dex) => {
-              if (val.id === id) {
+              if (val.productTypeID === productTypeID) {
                 index = dex;
               }
             });

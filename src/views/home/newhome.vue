@@ -96,7 +96,7 @@
         <Col class="label" span="5">产品行业</Col>
         <Col span="19">
         <Select placeholder="请选择产品行业..." size="large">
-          <Option v-for="item in industryList" :value="item.value" :key="item.value"></Option>
+          <Option v-for="item in industryList" :value="item.tradeID" :key="item.tradeID">{{item.name}}</Option>
         </Select>
         </Col>
       </Row>
@@ -110,8 +110,8 @@
         <Col class="label" span="5">连接方式</Col>
         <Col span="19">
         <RadioGroup v-model="connectionTypePadio">
-          <Radio class="check_a" v-for="item in connectionList" :label="item.label" :key="item.productTypeID">
-            <span>{{item.label}}</span>
+          <Radio class="check_a" v-for="item in connectionList" :label="item.connectID" :key="item.connectID">
+            <span>{{item.name}}</span>
           </Radio>
         </RadioGroup>
         </Col>
@@ -138,8 +138,8 @@
         productList: [],
         poductNameModal: "",
         ModalCreateProduct: false,
-        industryList: this.mockIndustryListData(),
-        connectionList: this.mockConnectionListData(),
+        industryList: [],
+        connectionList: [],
         connectionTypePadio: ""
       };
     },
@@ -173,6 +173,8 @@
     },
     created() {
       this.getProductList();
+      this.getIndustryListData();
+      this.getConnectionListData();
     },
     mounted() { },
     methods: {
@@ -187,34 +189,19 @@
         this.$Message.info("已取消");
       },
 
-      mockConnectionListData() {
-        let connectionType = [
-          "蓝牙",
-          "WiFi",
-          "Zigbee",
-          "Lore",
-          "2G/3G/4G/5G",
-          "网关"
-        ];
-        let data = [];
-        for (let i = 0; i < connectionType.length; i++) {
-          data.push({
-            value: connectionType[i],
-            label: connectionType[i],
-            checked: false
-          });
-        }
-        return data;
+      getConnectionListData() {
+        this.axios.get(this.api.connectionList, { params: {} }).then(res => {
+          const resData = res.data;
+          console.log(resData);
+          this.connectionList = resData;
+        });
       },
-      mockIndustryListData() {
-        let data = [];
-        for (let i = 0; i < 10; i++) {
-          data.push({
-            value: "产品行业" + (i + 1),
-            label: "产品行业" + (i + 1)
-          });
-        }
-        return data;
+      getIndustryListData() {
+        this.axios.get(this.api.industryList, { params: {} }).then(res => {
+          const resData = res.data;
+          console.log(resData);
+          this.industryList = resData;
+        });
       },
       formatDate(date) {
         const y = date.getFullYear();
@@ -234,13 +221,13 @@
         this.axios.get(this.api.productList + developerID, { params: {} }).then(res => {
           const resData = res.data.data;
           console.log(resData);
-          data={
+          data = {
             productType: "custom",
             status: "开发中",
             src: this.url
           };
           for (let i = 0; i < resData.length; i++) {
-            Object.assign(resData[i],data);
+            Object.assign(resData[i], data);
           }
           console.log(resData);
           this.productList = resData;
@@ -332,32 +319,28 @@
   .product-ul {
     list-style-type: none;
     margin-left: -19px;
-  }
-
-  .product-ul li {
-    float: left;
-    width: 317px;
-    height: 192px;
-    margin: 10px;
-  }
-
-  .product-ul .ivu-card-bordered {
-    width: 100%;
-    height: 100%;
-  }
-
-  .product-ul .name {
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 16px;
-    color: #17233d;
-    line-height: 26px;
-  }
-
-  .product-ul .info {
-    font-size: 12px;
-    color: rgba(23, 35, 61, 0.7);
-    line-height: 2;
+    li {
+      float: left;
+      width: 317px;
+      height: 192px;
+      margin: 10px;
+    }
+    .ivu-card-bordered {
+      width: 100%;
+      height: 100%;
+    }
+    .name {
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #17233d;
+      line-height: 26px;
+    }
+    .info {
+      font-size: 12px;
+      color: rgba(23, 35, 61, 0.7);
+      line-height: 2;
+    }
   }
 
   .rightNav {
@@ -373,47 +356,42 @@
     list-style-type: none;
     text-align: center;
     cursor: pointer;
-  }
-
-  .timeline_icon {
-    width: 27px;
-    height: 27px;
-    background: #fff;
-    border: 1px solid rgba(23, 35, 61, 0.15);
-    border-radius: 50%;
-    line-height: 27px;
-  }
-
-  .timeline li:first-child .timeline_icon {
-    position: relative;
-    margin-bottom: 18px;
-  }
-
-  .timeline_text {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 18px;
-    font-size: 14px;
-    color: rgba(23, 35, 61, 0.75);
-    letter-spacing: 0;
-    text-align: center;
-    line-height: 22px;
-  }
-
-  .timeline_text:after,
-  .timeline li:first-child .timeline_icon:after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    width: 0px;
-    height: 18px;
-    border-left: 1px solid rgba(23, 35, 61, 0.1);
-    z-index: 0;
-  }
-
-  .timeline li:last-child .timeline_text:after {
-    display: none;
+    &_icon {
+      width: 27px;
+      height: 27px;
+      background: #fff;
+      border: 1px solid rgba(23, 35, 61, 0.15);
+      border-radius: 50%;
+      line-height: 27px;
+    }
+    li:first-child .timeline_icon {
+      position: relative;
+      margin-bottom: 18px;
+    }
+    &_text {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 18px;
+      font-size: 14px;
+      color: rgba(23, 35, 61, 0.75);
+      letter-spacing: 0;
+      text-align: center;
+      line-height: 22px;
+    }
+    &_text:after,
+    li:first-child .timeline_icon:after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      width: 0px;
+      height: 18px;
+      border-left: 1px solid rgba(23, 35, 61, 0.1);
+      z-index: 0;
+    }
+    li:last-child .timeline_text:after {
+      display: none;
+    }
   }
 
   .check_a {
@@ -437,11 +415,12 @@
     &_icon {
       padding-right: 6px;
       font-size: 20px;
-    }
-
-    .check_a_icon {
       vertical-align: middle;
       color: #ddd;
     }
+  }
+  .label{
+    height: 36px;
+    line-height: 36px;
   }
 </style>

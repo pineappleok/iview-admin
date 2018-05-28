@@ -232,19 +232,15 @@
       getProductList() {
         let data = [], developerID = '1';
         this.axios.get(this.api.productList + developerID, { params: {} }).then(res => {
-          const resData = res.data;
+          const resData = res.data.data;
           console.log(resData);
-          data.push({
-            productTypeID: parseInt(Math.random() * 1000),
+          data={
             productType: "custom",
-            productTypeName: "智能冷暖白光灯" + "(CW)",
             status: "开发中",
-            createdate: this.formatDate(new Date()),
-            changedate: this.formatDate(new Date()),
             src: this.url
-          });
+          };
           for (let i = 0; i < resData.length; i++) {
-            Object.assign(resData[i],data[0]);
+            Object.assign(resData[i],data);
           }
           console.log(resData);
           this.productList = resData;

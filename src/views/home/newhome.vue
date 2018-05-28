@@ -95,7 +95,7 @@
       <Row class="mtb15">
         <Col class="label" span="5">产品行业</Col>
         <Col span="19">
-        <Select placeholder="请选择产品行业..." size="large">
+        <Select placeholder="请选择产品行业..." size="large" v-model="tradeID">
           <Option v-for="item in industryList" :value="item.tradeID" :key="item.tradeID">{{item.name}}</Option>
         </Select>
         </Col>
@@ -103,13 +103,13 @@
       <Row class="mtb15">
         <Col class="label" span="5">产品名称</Col>
         <Col span="19">
-        <Input v-model="poductNameModal" placeholder="请输入产品名称..." size="large"></Input>
+        <Input v-model="productTypeName" placeholder="请输入产品名称..." size="large"></Input>
         </Col>
       </Row>
       <Row class="mtb15">
         <Col class="label" span="5">连接方式</Col>
         <Col span="19">
-        <RadioGroup v-model="connectionTypePadio">
+        <RadioGroup v-model="connectID">
           <Radio class="check_a" v-for="item in connectionList" :label="item.connectID" :key="item.connectID">
             <span>{{item.name}}</span>
           </Radio>
@@ -136,11 +136,12 @@
         ],
         searchName: "",
         productList: [],
-        poductNameModal: "",
+        productTypeName: "",
         ModalCreateProduct: false,
         industryList: [],
         connectionList: [],
-        connectionTypePadio: ""
+        connectID: "",
+        tradeID: ""
       };
     },
 
@@ -179,10 +180,24 @@
     mounted() { },
     methods: {
       ok() {
-        // 点击后保存产品基本信息，后台生成相应的产品ID等信息  确定后保存产品信息，进入产品创建的第一步【设置功能】页面，进行产品设置
-        this.$Message.info("保存成功");
-        this.$router.push({
-          name: "home_set"
+        let _this = this;
+        // 点击后保存产品基本信息，后台生成相应的产品ID等信息  确定后保存产品信息，进入产品创建的第一步【设置功能】页面，进行产品设置        
+        this.axios.post(this.api.addProductType, {
+          params: {
+            developerID: '1',
+            productTypeName: _this.productTypeName,
+            tradeID: _this.tradeID,
+            connectID: _this.connectID
+          }
+        }).then(res => {
+          const resData = res.data;
+          console.log(resData);
+          this.$Message.info("保存成功");
+          this.$router.push({
+            name: "home_set"
+          });
+        }, res => {
+          this.$Message.info("出错啦！");
         });
       },
       cancel() {
@@ -419,7 +434,8 @@
       color: #ddd;
     }
   }
-  .label{
+
+  .label {
     height: 36px;
     line-height: 36px;
   }

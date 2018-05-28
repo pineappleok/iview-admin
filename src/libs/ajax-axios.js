@@ -4,7 +4,7 @@ import qs from 'qs';
 
 // 设置初始参数 ****************
 const http = axios.create({
-  baseURL: 'https://testws.yuedujiayuan.com/api/mp',  // 这里是放接口的统一前缀
+  baseURL: 'http://218.17.107.163:9400',  // 这里是放接口的统一前缀
   timeout: 10000 // 请求多少秒后还请求不到的话，就放弃
 });
 

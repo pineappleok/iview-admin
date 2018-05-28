@@ -2,9 +2,10 @@
   <div class="home-main">
     <!-- 头部区 -->
     <div class="main-header">
-      <Select class="select-type" v-model="productType" placeholder="请选择项目类型" :on-change="selectType()">
-        <Option v-for="item in productTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-      </Select>
+      <ul class="ul_select clearfix">
+        <li v-if="index>=1" v-for="(item,index) in productTypeList" :value="item.value" :key="item.value" :class="item.selected?'selected':''"
+          @click="selectType(item)">{{ item.label }}</li>
+      </ul>
       <Button class="create" type="primary" icon="plus" @click="ModalCreateProduct = true">创建新产品</Button>
       <Input class="search" v-model="searchName" icon="ios-search" placeholder="输入产品名称搜索..." style="width: 220px"></Input>
     </div>
@@ -128,9 +129,9 @@
       return {
         productType: "all",
         productTypeList: [
-          { label: "全部产品", value: "all" },
-          { label: "自定义产品", value: "custom" },
-          { label: "演示产品", value: "show" }
+          { label: "全部产品", value: "all", selected: true },
+          { label: "个人产品", value: "custom", selected: false },
+          { label: "演示产品", value: "show", selected: false }
         ],
         searchName: "",
         productList: [],
@@ -228,7 +229,11 @@
       },
       // 模拟接口拿到所有产品列表
       getProductList() {
-        let data = [];
+        let data = [], id = '1';
+        this.axios.get(this.api.productList + id, { params: {} }).then(res => {
+          const resData = res.data;
+          console.log(resData);
+        });
         for (let i = 0; i < 10; i++) {
           data.push({
             id: i,
@@ -243,10 +248,14 @@
         this.productList = data;
       },
       // 下拉框选不同类型产品
-      selectType() {
-        console.log(1);
-
-        console.log(this.productType);
+      selectType(item) {
+        this.productTypeList.forEach(
+          val => {
+            val.selected = false;
+          }
+        );
+        item.selected = true;
+        this.productType = item.value;
       },
       getproductTypeList() {
         console.log('postpostpost');
@@ -255,15 +264,14 @@
           .then(function (response) {
             console.log(response);
             return [
-              { label: "全部产品", value: "all" },
-              { label: "自定义产品", value: "custom" },
-              { label: "演示产品", value: "show" }
+              { label: "全部产品", value: "all", selected: true },
+              { label: "自定义产品", value: "custom", selected: false },
+              { label: "演示产品", value: "show", selected: false }
             ]
           })
           .catch(function (error) {
             console.log(error);
           });
-
       },
       // 删除一个产品
       deleteProduct(id) {
@@ -301,6 +309,24 @@
     }
     .create {
       margin-left: 20px;
+    }
+    .ul_select {
+      display: inline-block;
+      list-style-type: none;
+      li {
+        float: left;
+        width: 64px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid transparent;
+        margin-right: 30px;
+        font-size: 16px;
+        color: rgba(23, 35, 61, 0.80);
+        cursor: pointer;
+        &.selected {
+          border-color: #008CF8;
+          color: #008CF8;
+        }
+      }
     }
   }
 

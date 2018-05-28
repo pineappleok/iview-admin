@@ -8,6 +8,7 @@ import '@/locale';
 import 'iview/dist/styles/iview.css';
 import VueI18n from 'vue-i18n';
 import util from './libs/util';
+import methods from './libs/methods';
 import ajaxApi from './libs/ajax-api'; // 加载接口api，方便统一管理
 import ajaxAxios from './libs/ajax-axios'; // 简单封装下axios（其实不封装也可以的）
 
@@ -16,6 +17,7 @@ Vue.prototype.axios = ajaxAxios; // 同理，挂载vue原型上
 
 Vue.use(VueI18n);
 Vue.use(iView);
+Vue.use(methods);
 
 
 //test

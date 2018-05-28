@@ -173,7 +173,13 @@
     created() {
       this.getProductList();
     },
-    mounted() { },
+    mounted() {
+      // 在js里面直接这么用。
+      // 在vue的{{}}里，不用加this，直接这么用<div>{{ dateFormat(new Date(), 'YYYY-MM-DD') }}</div>
+      console.log(this.dateFormat(new Date()));
+      console.log(this.dateFormat(new Date(), 'YYYY-MM-DD hh:mm'));
+      console.log(this.dateFormat(new Date(), 'YYYY-MM mm:ss'));
+    },
     methods: {
       ok() {
         // 点击后保存产品基本信息，后台生成相应的产品ID等信息  确定后保存产品信息，进入产品创建的第一步【设置功能】页面，进行产品设置

@@ -7,6 +7,7 @@ const ajaxUrl = {
     industryList:'/product/type/alltrade',//首页中产品创建弹窗中-获取产品所有行业
     connectionList:'/product/type/allconnect',//获取产品所有连接方式
     addProductType:'/product/type/edit',//首页添加产品类型以及编辑产品类型
+    deleteProductType:'/product/type/delete/'//首页删除-根据产品类型id删除产品类型和对应的功能集和功能点
 }
 // 返回模块
 export default ajaxUrl;

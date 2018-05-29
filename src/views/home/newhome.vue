@@ -24,8 +24,8 @@
                       <div>
                         <p class="name">{{item.productTypeName}}</p>
                         <p class="info">状态　{{item.status}}</p>
-                        <p class="info">创建　{{item.createdate}}</p>
-                        <p class="info">更新　{{item.changedate}}</p>
+                        <p class="info">创建　{{dateFormat(item.createdate,'YYYY-MM-DD hh:mm')}}</p>
+                        <p class="info">更新　{{dateFormat(item.changedate,'YYYY-MM-DD hh:mm')}}</p>
                       </div>
                     </Row>
                     </Col>
@@ -91,7 +91,7 @@
       </div>
     </div>
     <!-- 创建产品弹窗 -->
-    <Modal v-model="ModalCreateProduct" class="modal" title="产品创建" @on-ok="ok" @on-cancel="cancel">
+    <Modal v-model="ModalCreateProduct" class="modal" title="产品创建" @on-ok="ok" @on-cancel="cancel" :loading="loading">
       <Row class="mtb15">
         <Col class="label" span="5">产品行业</Col>
         <Col span="19">
@@ -141,7 +141,8 @@
         industryList: [],
         connectionList: [],
         connectID: "",
-        tradeID: ""
+        tradeID: "",
+        loading: true
       };
     },
 
@@ -179,26 +180,40 @@
     },
     mounted() { },
     methods: {
+      changeLoading() {
+        this.loading = false;
+        this.$nextTick(() => {
+          this.loading = true;
+        });
+      },
       ok() {
-        let _this = this;
-        // 点击后保存产品基本信息，后台生成相应的产品ID等信息  确定后保存产品信息，进入产品创建的第一步【设置功能】页面，进行产品设置        
-        this.axios.post(this.api.addProductType, {
-          params: {
+        if (this.productTypeName && this.tradeID && this.connectID) {
+          let _this = this;
+          // 点击后保存产品基本信息，后台生成相应的产品ID等信息  确定后保存产品信息，进入产品创建的第一步【设置功能】页面，进行产品设置        
+          this.axios.post(this.api.addProductType, {
             developerID: '1',
             productTypeName: _this.productTypeName,
             tradeID: _this.tradeID,
             connectID: _this.connectID
-          }
-        }).then(res => {
-          const resData = res.data;
-          console.log(resData);
-          this.$Message.info("保存成功");
-          this.$router.push({
-            name: "home_set"
+          }).then(res => {
+            console.log(res);
+            if (res.data.result == '1') {
+              const resData = res.data;
+              console.log(resData);
+              this.$Message.info("保存成功");
+              this.changeLoading();
+              this.ModalCreateProduct = false;
+              this.$router.push({
+                name: "home_set"
+              });
+            } else {
+              this.$Message.info('test');
+            }
           });
-        }, res => {
-          this.$Message.info("出错啦！");
-        });
+        } else {
+          this.$Message.info("请完整填写所有选项！");
+          return this.changeLoading();
+        }
       },
       cancel() {
         this.$Message.info("已取消");
@@ -258,22 +273,6 @@
         item.selected = true;
         this.productType = item.value;
       },
-      getproductTypeList() {
-        console.log('postpostpost');
-        util.ajax.post('/product/type/alltrade', {
-        })
-          .then(function (response) {
-            console.log(response);
-            return [
-              { label: "全部产品", value: "all", selected: true },
-              { label: "自定义产品", value: "custom", selected: false },
-              { label: "演示产品", value: "show", selected: false }
-            ]
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      },
       // 删除一个产品
       deleteProduct(productTypeID) {
         this.$Modal.confirm({
@@ -283,13 +282,15 @@
             // 这里要调接口，删除这个产品（通过id删除）
             //XXXXXX
             // 然后可以重新读一遍产品列表接口，也可以直接模拟干掉数组
-            let index = 0;
-            this.productList.forEach((val, dex) => {
-              if (val.productTypeID === productTypeID) {
-                index = dex;
+            console.log(this,productTypeID);
+            let _this=this,id=productTypeID;
+            this.axios.get(_this.api.deleteProductType + id, { params: {} }).then(res => {
+              const resData = res.data;
+              console.log(resData);
+              if(resData.result=="1"){
+                _this.getProductList();
               }
             });
-            this.productList.splice(index, 1);
           }
         });
       }
